@@ -22,8 +22,11 @@
           return "ERRO: Insira um AUTOR VALIDO!";
           break;
         case 2:
-          return "ERRO: Insira uma EDITORA VALIDO!";
-          break;  
+          return "ERRO: Insira uma EDITORA VALIDA!";
+          break; 
+        case 3:
+          return "ERRO: Insira um LIVRO VALIDO!";
+          break;   
         default:
           return "ERRO NÃO CATALOGADO!";   
       }
