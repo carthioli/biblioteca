@@ -1,5 +1,6 @@
-function cancelar(){
+function emprestar(){
    
-    alert("mcod");
+    var linha = document.getElementsByName("livro");
+
   
 }

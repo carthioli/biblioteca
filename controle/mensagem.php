@@ -11,7 +11,13 @@
           break;
         case 3:
           return "LIVRO CADASTRADO COM SUCESSO!";
-          break;    
+          break; 
+        case 4:
+          return "ALUNO CADASTRADO COM SUCESSO!";
+          break;   
+        case 5:
+          return "EMPRESTIMO DO LIVRO COM SUCESSO!";
+          break;      
       }
 
     }
@@ -26,9 +32,21 @@
           break; 
         case 3:
           return "ERRO: Insira um LIVRO VALIDO!";
+          break;  
+        case 4:
+          return "ERRO: Insira um ALUNO VALIDO!";
           break;   
+        case 5:
+          return "ERRO: Emprestimo não realizado!";
+          break;     
         default:
           return "ERRO NÃO CATALOGADO!";   
       }
-
+    }
+    function mensagensErroCampo( $erro ){
+      switch( $erro ){
+        case 4:
+          return "Campo obrigatório*";
+          break;
+      }
     }

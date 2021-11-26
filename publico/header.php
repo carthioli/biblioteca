@@ -14,7 +14,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="../javascript/script.js"></script>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/estilo.css">
+    <style>
+
+    </style>
     
 
  
@@ -23,14 +26,18 @@
 <body>
     <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <a class="navbar-brand" href="../index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</a>
+            <a class="navbar-brand" href="index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto float-right">
+                    <li>
+                        <div class="ml-1 mt-2 mr-1 text-center">
+                        <a class="a text-decoration-none text-body mt-1" type="submit" name="emprestar" href="index.php"><button class="button border-0 mt-2">Inicio</button></a>
+                        </div>
+                    </li>
                     <form class="mt-3" method="POST" action="categoria.php">
                     <li class="nav-item active dropdown">
                         <a class="nav-link dropdown-toggle" id="categoria" role="button" data-toggle="dropdown" href="#">Categoria</a>
@@ -45,15 +52,15 @@
                     <li class="nav-item active dropdown p-0 mt-0">
                         <a class="nav-link dropdown-toggle" id="cadastrar" role="button" data-toggle="dropdown" href="#">Cadastrar</a>
                         <div class="dropdown-menu rounded" aria-labelledby="cadastrar">
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="cadastraAluno.php">ALUNO</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="cadastraAutor.php">AUTOR</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="cadastraEditora.php">EDITORA</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAluno.php">ALUNO</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAutor.php">AUTOR</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraEditora.php">EDITORA</a></button>
                             <button class="a" ><a class="a dropdown-item p-4" href="../admin/cadastraLivro.php">LIVRO</a></button>
                         </div>
                     </li>
                     <li >
                         <div class="ml-1 mt-2 mr-1 text-center">
-                            <a class="text-decoration-none text-body" type="submit" name="emprestar" href="../publico/cadastraEmprestimo.php"><button class="btn">Emprestar<br/>Livro</button></a><br>
+                            <a class="text-decoration-none text-body" type="submit" name="emprestar" href="cadastraEmprestimo.php"><button class="btn">Emprestar<br/>Livro</button></a><br>
                         </div>
                     </li>
                     <li>
@@ -66,24 +73,3 @@
             </div>
         </nav>
     </header>
-
-  <div class="container d-flex justify-content-center mt-4">
-          <p class="text-success">
-            <?php
-                  if ( isset( $_SESSION['valida'] ) ){
-                    session_destroy();
-                    $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
-                    echo "{$mensagem_confirma}";
-                  }
-            ?>
-          </p>
-          <p class="text-danger">
-            <?php
-                  if ( isset( $_SESSION['erro'] ) ){
-                    session_destroy();
-                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                    echo "{$mensagem_confirma}";
-                  }
-            ?>
-          </p>          
-      </div>

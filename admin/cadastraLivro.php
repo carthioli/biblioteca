@@ -5,6 +5,7 @@
     include "header.php";
     include "..\\controle\\mostra\\mostraAutor.php";
     include "..\\controle\\mostra\\mostraEditora.php";
+  
 ?>
 
   <title>Cadastra Livro</title>
@@ -24,8 +25,8 @@
             <input type="text" class="form-control-dark mb-1" name="titulo">
             <div class="mt-1 d-flex flex-column">
             <label class="mb-0">AUTOR:</label>  
-            <select name="id_autor" class="p-1">
-              <option></option>
+              <select name="id_autor" class="p-1">
+                  <option></option>
                 <?php foreach ( $autores as $autor){    
                 ?>
                   <option value="<?php echo $autor['id'];?>"><?php echo $autor['nome'];?></option>
