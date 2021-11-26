@@ -14,10 +14,7 @@
              is_numeric( $_POST['telefone'] ) ) {
 
              
-              if( empty( $_POST['cpf'] ) ){
-                $_SESSION['erroCampo'] = 1;
-              }
-
+           
             $inserir = "INSERT INTO aluno(nome, sobrenome, cpf, telefone) VALUES ('{$_POST['nome']}', '{$_POST['sobrenome']}', '{$_POST['cpf']}', '{$_POST['telefone']}')";
             $inseriu = pg_query( $link, $inserir );  
             

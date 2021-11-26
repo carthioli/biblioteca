@@ -18,15 +18,17 @@
       <div class="container col-3  border p-3 rounded">
         <form method="POST" action="..\controle\insere\insereAutor.php">
           <div class="d-flex flex-column">
-            <label class="esquerda">NOME:</label>
-            <input type="text" class="form-control-dark" name="nome">
-            <label class="esquerda">SOBRENOME:</label>
+            <label class="mb-0">NOME:</label>
+            <input type="text " class="form-control-dark" name="nome">
+            <label class="mb-0 mt-2">SOBRENOME:</label>
             <input type="text" class="form-control-dark" name="sobrenome">
-            <label>CPF:</label>
+            <label class="mb-0 mt-2">CPF:</label>
             <input type="text" class="form-control-dark mb-3" name="cpf">
-            
-            </div>  
-            <input type="submit" name="salvar" value="SALVAR">      
+          </div>
+          <div class="text-center">  
+            <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
+            <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraAutor.php" ></a>
+          </div>     
           </div>
         </form>
   </main>

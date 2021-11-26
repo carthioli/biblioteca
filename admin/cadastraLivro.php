@@ -6,6 +6,7 @@
     include "..\\controle\\mostra\\mostraAutor.php";
     include "..\\controle\\mostra\\mostraEditora.php";
   
+  
 ?>
 
   <title>Cadastra Livro</title>
@@ -41,9 +42,12 @@
                 <?php }?>
             </select>
           </div>  
-      </div>
-            <input type="submit" name="salvar" value="SALVAR" class="mt-2 ">         
-       </form>
+        </div>
+        <div class="text-center">  
+          <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
+          <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraLivro.php" ></a>
+        </div>          
+        </form>
   </main>
   <footer>
 

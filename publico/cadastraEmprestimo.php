@@ -96,9 +96,10 @@
         </div>
 
         </form>
-        <button onclick="emprestar()" class="btn btn-danger text-body float-right" data-toggle="modal" data-target="#usuario">EMPRESTAR</button>
-
-       
+        <div class="text-center">  
+          <button onclick="emprestar()" class="btn btn-danger text-body " data-toggle="modal" data-target="#usuario">EMPRESTAR</button>
+      
+        </div>          
       </div>
     </main>
 <footer>

@@ -9,7 +9,24 @@
 </head>
 <body>
   <header>
-
+            <p class="text-danger text-center">
+            <?php
+                  if ( isset( $_SESSION['valida'] ) ){   
+                    session_destroy();
+                    $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
+                    echo "{$mensagem_confirma}";
+                  }
+            ?>
+            </p> 
+            <p class="text-danger text-center">
+            <?php
+                  if ( isset( $_SESSION['erro'] ) ){   
+                    session_destroy();
+                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
+                    echo "{$mensagem_confirma}";
+                  }
+            ?>
+            </p> 
       <div class="container col-6 text-center">
         <h4>CADASTRAR ALUNO</h4>
       </div>
@@ -52,9 +69,10 @@
             <input type="text" class="form-control-dark mb-2" name="telefone">
             
             </div> 
-            <div class="text-center"> 
-            <input type="submit" name="salvar" value="SALVAR">    
-            </div>  
+            <div class="text-center">  
+              <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
+              <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraAluno.php" ></a>
+            </div>   
           </div>
         </form>
   </main>

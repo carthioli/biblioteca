@@ -16,7 +16,7 @@
           return "ALUNO CADASTRADO COM SUCESSO!";
           break;   
         case 5:
-          return "EMPRESTIMO DO LIVRO COM SUCESSO!";
+          return "EMPRESTIMO DO LIVRO REALIZADO COM SUCESSO!";
           break;      
       }
 

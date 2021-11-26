@@ -23,7 +23,10 @@
             <label class="esquerda">TELEFONE:</label>
             <input type="text" class="form-control-dark" name="telefone"> 
           </div>  
-            <input type="submit" name="salvar" value="SALVAR" class="mt-2">      
+          <div class="text-center">  
+            <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
+            <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraEditora.php" ></a>
+          </div>        
         </div>
        </form>
   </main>
