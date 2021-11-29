@@ -1,24 +1,12 @@
 <?php
 
-    function insereEmprestimoLivro( $a ){
-     
-      try {
-        //$link = pg_connect("host=localhost port=2408 dbname=eleicao user=postgres password=24082015");
-        $link = pg_connect("host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-        return $link;
-      } 
-      catch (Exception $e) 
-      {
-        echo $e->getMessage();
-      }
-      catch (Erro $e)
-      {
-        echo $e->getMessage();
-      }
+    function insereEmprestimoLivro($id_livro, $ultimoEmprestimo, $dias_devolucao){
+      
+      $link = include "conexao.php";
 
-      $inserir = "INSERT INTO reserva(id_aluno) VALUES ('1')";
-      $inseriu = pg_query( $link, $inserir );  
-
+      $inserir = "INSERT INTO emprestimo_livro(id_livro, id_emprestimo, dias_emprestimo) 
+                            VALUES ('{$_POST['id_livro']}', '{$ultimoEmprestimo}', '{$_POST['dias_devolucao']}')";
+      $inseriu = pg_query( $link, $inserir ); 
     }
 
 ?>

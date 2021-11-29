@@ -58,7 +58,7 @@
                 <td class="text-center"><?php echo $livro['id'];?></td>
                 <td><?php echo $livro['titulo'];?></td>
                 <td><?php echo $livro['autor'];?></td>
-                <td><?php echo $livro['editora'];?></td>    
+                <td><?php echo $livro['editora'];?></td>   
               </tr>
 
               <?php endforeach; ?>
@@ -85,8 +85,15 @@
                 ?>
                   <option value="<?php echo $aluno['id'];?>"><?php echo $aluno['nome'];?></option>
                 <?php endforeach; ?>
-              </select>
-
+               </select>
+               <select  name="dias_devolucao" class="mt-2 p-1 w-75">
+                 <option selected disabled>SELECIONE UMA DATA...</option>
+                 <option>3</option>
+                 <option>5</option>
+                 <option>7</option>
+                 <option>14</option>
+                 <option>21</option>
+               </select>     
               </div>
               <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">FINALIZAR</button>

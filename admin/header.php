@@ -44,15 +44,6 @@
                         </div>
                     </li>
                     </form>
-                    <li class="nav-item active dropdown p-0 mt-0">
-                        <a class="nav-link dropdown-toggle" id="cadastrar" role="button" data-toggle="dropdown" >Cadastrar</a>
-                        <div class="dropdown-menu rounded" aria-labelledby="cadastrar">
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAluno.php">ALUNO</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAutor.php">AUTOR</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraEditora.php">EDITORA</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4" href="../admin/cadastraLivro.php">LIVRO</a></button>
-                        </div>
-                    </li>
                     <li >
                         <div class="ml-1 mt-2 mr-1 text-center">
                             <a class="text-decoration-none text-body" type="submit" name="emprestar" href="../publico/cadastraEmprestimo.php"><button class="button border-0 mt-2">Emprestar<br/>Livro</button></a><br>
@@ -62,8 +53,17 @@
                         <div class="mt-2 mr-2 text-center">
                             <a class="text-decoration-none text-body" type="submit" name="reservar" href="cadastraReserva.php"><button class="button border-0 mt-2">Reservar<br/>Livro</button></a>
                         </div>
+                    </li> 
+                    <li class="nav-item active dropleft p-0 mt-0">
+                        <a class="nav-link dropdown-toggle" id="Admin" role="button" data-toggle="dropdown" >Admin</a>
+                        <div class="dropdown-menu rounded" aria-labelledby="Admin">
+                            <h6 class="text-center border-bottom mt-0">CADASTRAR</h6>
+                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAluno.php">ALUNO</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAutor.php">AUTOR</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraEditora.php">EDITORA</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4" href="../admin/cadastraLivro.php">LIVRO</a></button>
+                        </div>
                     </li>
-
                 </ul>
             </div>
         </nav>

@@ -7,6 +7,8 @@
                       JOIN autor AS a ON a.id = l.id_autor
                       JOIN editora as e ON e.id = l.id_editora");
 
+    
+
     $livros = [];
 
     while ( $resultado = pg_fetch_assoc( $query ) ){

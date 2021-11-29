@@ -13,7 +13,7 @@
   
     while ( $resultado = pg_fetch_assoc( $query ) ){
     $emprestimos[] = [
-        'id'   => $resultado['id_aluno']
+        'id'   => $resultado['id']
     ];
     }
     foreach ( $emprestimos as $emprestimo){
