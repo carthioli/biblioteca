@@ -30,7 +30,7 @@
                 <ul class="navbar-nav mr-auto float-right">
                     <li>
                         <div class="ml-1 mt-2 mr-1 text-center">
-                        <a class="text-decoration-none text-body mt-1" type="submit" name="emprestar" href="../index.php"><button class="button border-0 mt-2">Inicio</button></a>
+                        <a class="text-decoration-none text-body mt-1" type="submit" name="emprestar" href="index.html"><button class="button border-0 mt-2">Inicio</button></a>
                         </div>
                     </li>
                    <!-- <form class="mt-3" method="POST" action="categoria.php">
@@ -60,6 +60,7 @@
                             <h5 class="text-center text-danger">CADASTRAR</h5>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom border-top" href="../admin/cadastraAluno.php">ALUNO</a></button>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAutor.php">AUTOR</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraLogin.php">LOGIN</a></button>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraEditora.php">EDITORA</a></button>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraLivro.php">LIVRO</a></button>
                             <h5 class="text-center text-danger">VIZUALIZAR</h5>
