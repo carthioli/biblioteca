@@ -36,7 +36,13 @@
       <div class="container col-3  border p-3 rounded">
         <form method="POST" action="..\controle\insere\insereAluno.php">
           <div class="d-flex flex-column">
-            
+          <select name="id_aluno" class="p-1 w-75">
+                  <option selected disabled>SELECIONE UM ALUNO...</option>
+                  <?php foreach ( $alunos as $aluno ) :    
+                ?>
+                  <option value="<?php echo $aluno['id'];?>"><?php echo $aluno['nome'];?></option>
+                <?php endforeach; ?>
+               </select>  
           
             <label class="mb-0 float-left">NOME:</label>
             <p class="text-danger float-left">

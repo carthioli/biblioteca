@@ -33,7 +33,7 @@
                         <a class="text-decoration-none text-body mt-1" type="submit" name="emprestar" href="../index.php"><button class="button border-0 mt-2">Inicio</button></a>
                         </div>
                     </li>
-                   <!-- <form class="mt-3" method="POST" action="categoria.php">
+                    <form class="mt-3" method="POST" action="categoria.php">
                     <li class="nav-item active dropdown">
                         <a class="nav-link dropdown-toggle text-dan" id="categoria" role="button" data-toggle="dropdown" >Categoria</a>
                         <div class="dropdown-menu rounded" aria-labelledby="categoria">
@@ -43,7 +43,7 @@
                             <button class="a" type="submit" name="ficcao"><a class="a dropdown-item p-4">FICÇÃO</a></button>
                         </div>
                     </li>
-                    </form>-->
+                    </form>
                     <li >
                         <div class="ml-1 mt-2 mr-1 text-center">
                             <a class="text-decoration-none text-body" type="submit" name="emprestar" href="cadastraEmprestimo.php"><button class="button border-0 mt-2">Emprestar<br/>Livro</button></a><br>
@@ -63,7 +63,7 @@
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraEditora.php">EDITORA</a></button>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraLivro.php">LIVRO</a></button>
                             <h5 class="text-center text-danger">VIZUALIZAR</h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="cadastraEmprestimo.php">EMPRESTIMOS</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="../admin/cadastraLivro.php">EMPRESTIMOS</a></button>
                         </div>
                     </li>
                 </ul>

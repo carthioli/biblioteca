@@ -15,24 +15,7 @@
 </head>
 <body>
   <header>
-            <p class="text-success text-center">
-            <?php
-                  if ( isset( $_SESSION['valida'] ) ){   
-                    session_destroy();
-                    $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
-                    echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
-            <p class="text-danger text-center">
-            <?php
-                  if ( isset( $_SESSION['erro'] ) ){   
-                    session_destroy();
-                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                    echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
+
       <div class="container col-6 text-center">
         <h4>CADASTRAR LIVRO</h4>
       </div>
@@ -68,7 +51,7 @@
         </div>          
         </form>
   </main>
-        <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+  <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
             <thead>
               <tr>
                 <th></th>
@@ -80,7 +63,7 @@
               </tr>  
             </thead>
             <tbody>
-        
+        <form method="POST" action="..\controle\insere\insereEmprestimo.php">
               <tr>
 
               <?php foreach ( $livros as $livro):    
@@ -91,11 +74,11 @@
                 <td><?php echo $livro['titulo'];?></td>
                 <td><?php echo $livro['autor'];?></td>
                 <td><?php echo $livro['editora'];?></td> 
-        
-                <td class="d-flex justify-content-center border-bottom-0">
+        </form>
+                <td class="d-flex justify-content-center border-top-0">
                   <form method="GET" action="../controle/remove/removeLivro.php">
                     <input type="hidden" name="id_excluir" value="<?php echo $livro['id'];?>"/>
-                    <input class="float-left" name="excluir" onclick="excluir()" type="image" src="..//img/excluir.png" width="20px">
+                    <input class="float-left" name="excluir" onclick="salvar()" type="image" src="..//img/excluir.png" width="20px">
                   </form>
                 </td>   
               </tr>
