@@ -5,7 +5,7 @@
     include "header.php";
     include "..\\config.php";
     include "..\\controle\\mensagem.php";
-    include CONTROLE . "mostra\\mostraReserva.php";
+    include CONTROLE . "mostra\\mostraLivros.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
     
 ?>
@@ -45,20 +45,22 @@
                 <th class="text-center">TITULO</th>
                 <th class="text-center">AUTOR</th>
                 <th class="text-center">EDITORA</th>
+                <th class="text-center">DISPONÍVEL EM</th>
               </tr>  
             </thead>
             <tbody>
         <form method="POST" action="..\controle\insere\insereReserva.php">
               <tr>
 
-              <?php foreach ( $emprestados as $emprestado ):    
+              <?php foreach ( $livros as $livro):    
               ?>
 
-                <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $emprestado['id'];?>"></td>
-                <td class="text-center"><?php echo $emprestado['id'];?></td>
-                <td><?php echo $emprestado['titulo'];?></td>
-                <td><?php echo $emprestado['autor'];?></td>
-                <td class="text-center"><?php echo $emprestado['editora'];?></td>   
+                <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $livro['id'];?>"></td>
+                <td class="text-center"><?php echo $livro['id'];?></td>
+                <td><?php echo $livro['titulo'];?></td>
+                <td><?php echo $livro['autor'];?></td>
+                <td><?php echo $livro['editora'];?></td>
+                <td></td>   
               </tr>
 
               <?php endforeach; ?>
@@ -85,7 +87,7 @@
                 ?>
                   <option value="<?php echo $aluno['id'];?>"><?php echo $aluno['nome'];?></option>
                 <?php endforeach; ?>
-               </select>   
+               </select>
               </div>
               <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">FINALIZAR</button>
@@ -97,6 +99,7 @@
         </form>
         <div class="text-center">  
           <button onclick="emprestar()" class="btn btn-danger text-body " data-toggle="modal" data-target="#usuario">RESERVAR</button>
+         
       
         </div>          
       </div>
