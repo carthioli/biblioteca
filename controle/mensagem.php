@@ -18,7 +18,7 @@
         case 5:
           return "EMPRESTIMO DO LIVRO REALIZADO COM SUCESSO!";
           break;  
-        case 5:
+        case 6:
           return "RESERVA DO LIVRO REALIZADA COM SUCESSO!";
           break;      
       }
@@ -42,9 +42,15 @@
         case 5:
           return "ERRO: Emprestimo não realizado!";
           break;   
-        case 5:
+        case 6:
           return "ERRO: Reserva não realizada!";
-          break;       
+          break;
+        case 8:
+          return "ERRO: Preencha os campos!";
+          break;
+        case 9:
+          return "Login ou senha Invalido*";
+          break;           
         default:
           return "ERRO NÃO CATALOGADO!";   
       }

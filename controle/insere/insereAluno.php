@@ -36,6 +36,7 @@
         }
         catch( Error $e )
         {
-          echo $e->getMessage();
+          echo $e->getMessage(); 
         }
+        
 ?>

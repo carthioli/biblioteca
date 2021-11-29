@@ -18,7 +18,7 @@
             
             if( pg_affected_rows( $inseriu ) ){
               $ultimoEmprestimo = mostraEmprestimo();
-              insereEmprestimoLivro($_POST['id_livro'], $ultimoEmprestimo, $_POST['dias_devolucao'] );
+                                  insereEmprestimoLivro($_POST['id_livro'], $ultimoEmprestimo, $_POST['dias_devolucao'] );
                  
                 
               header('location: ..\\..\\publico\\cadastraEmprestimo.php');

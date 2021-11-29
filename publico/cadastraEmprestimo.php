@@ -5,7 +5,7 @@
     include "header.php";
     include "..\\config.php";
     include "..\\controle\\mensagem.php";
-    include CONTROLE . "mostra\\mostraReserva.php";
+    include CONTROLE . "mostra\\mostraLivros.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
     
 ?>
@@ -51,14 +51,14 @@
         <form method="POST" action="..\controle\insere\insereEmprestimo.php">
               <tr>
 
-              <?php foreach ( $emprestados as $emprestado ):    
+              <?php foreach ( $livros as $livro):    
               ?>
 
-                <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $emprestado['id'];?>"></td>
-                <td class="text-center"><?php echo $emprestado['id'];?></td>
-                <td><?php echo $emprestado['titulo'];?></td>
-                <td><?php echo $emprestado['autor'];?></td>
-                <td class="text-center"><?php echo $emprestado['editora'];?></td>   
+                <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $livro['id'];?>"></td>
+                <td class="text-center"><?php echo $livro['id'];?></td>
+                <td><?php echo $livro['titulo'];?></td>
+                <td><?php echo $livro['autor'];?></td>
+                <td><?php echo $livro['editora'];?></td>   
               </tr>
 
               <?php endforeach; ?>
@@ -77,15 +77,13 @@
               </div>
               <div class="modal-body text-center">
 
-                
-               
                 <select name="id_aluno" class="p-1 w-75">
                   <option selected disabled>SELECIONE UM ALUNO...</option>
                   <?php foreach ( $alunos as $aluno ) :    
                 ?>
                   <option value="<?php echo $aluno['id'];?>"><?php echo $aluno['nome'];?></option>
                 <?php endforeach; ?>
-               </select>  
+               </select>
                <select  name="dias_devolucao" class="mt-2 p-1 w-75">
                  <option selected disabled>SELECIONE UMA DATA...</option>
                  <option>3</option>
@@ -93,7 +91,7 @@
                  <option>7</option>
                  <option>14</option>
                  <option>21</option>
-               </select>      
+               </select>     
               </div>
               <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">FINALIZAR</button>
