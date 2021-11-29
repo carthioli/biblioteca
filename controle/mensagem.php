@@ -17,12 +17,9 @@
           break;   
         case 5:
           return "EMPRESTIMO DO LIVRO REALIZADO COM SUCESSO!";
-<<<<<<< HEAD
-          break;  
+          break;
         case 6:
           return "RESERVA DO LIVRO REALIZADA COM SUCESSO!";
-=======
->>>>>>> parent of a43e06e (Finalizado emprestimo e reserva)
           break;      
       }
 
@@ -44,7 +41,6 @@
           break;   
         case 5:
           return "ERRO: Emprestimo não realizado!";
-<<<<<<< HEAD
           break;   
         case 6:
           return "ERRO: Reserva não realizada!";
@@ -55,9 +51,6 @@
         case 9:
           return "Login ou senha Invalido*";
           break;           
-=======
-          break;     
->>>>>>> parent of a43e06e (Finalizado emprestimo e reserva)
         default:
           return "ERRO NÃO CATALOGADO!";   
       }
