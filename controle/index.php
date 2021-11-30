@@ -1,4 +1,6 @@
 <?php
+        include "..\publico\\telas\\topo.php";
+
         session_start();
         if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 1 ){
             
@@ -7,27 +9,7 @@
         }
 
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">   
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>        
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../javascript/script.js"></script>
-    <link rel="stylesheet" href="../css/estilo.css">
-
-
-    
-</head>
+<title>Biblioteca Digital</title>
 <body>
     <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -62,7 +44,7 @@
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-0 mt-0">
-                        <a class="nav-link dropdown-toggle" id="vizualizar" role="button" data-toggle="dropdown" >Vizualizar</a>
+                        <a class="nav-link dropdown-toggle" id="vizualizar" role="button" data-toggle="dropdown" >Visualizar</a>
                         <div class="dropdown-menu rounded" aria-labelledby="vizualizar">
                             <h5 class="text-center text-danger">VIZUALIZAR</h5>
                             <button class="a" ><a class="a dropdown-item p-4 border-top" href="mostra/cadastraEmprestimo.php">EMPRESTIMOS</a></button>

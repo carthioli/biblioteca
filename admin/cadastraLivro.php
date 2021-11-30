@@ -15,24 +15,26 @@
 </head>
 <body>
   <header>
-            <p class="text-success text-center">
-            <?php
-                  if ( isset( $_SESSION['valida'] ) ){   
-                    session_destroy();
+      <p class="text-success text-center">
+        <?php
+              if ( isset( $_SESSION['valida'] ) ){  
                     $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
+                    unset($_SESSION['erro']);
+                    unset($_SESSION['valida']);
                     echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
-            <p class="text-danger text-center">
-            <?php
-                  if ( isset( $_SESSION['erro'] ) ){   
-                    session_destroy();
-                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                    echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
+              }
+        ?>
+      </p> 
+      <p class="text-danger text-center">
+        <?php
+              if ( isset( $_SESSION['erro'] ) ){ 
+                    $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+                    unset($_SESSION['valida']); 
+                    unset($_SESSION['erro']);        
+                    echo "{$mensagem_erro}";
+              }
+        ?>
+      </p>
       <div class="container col-6 text-center">
         <h4>CADASTRAR LIVRO</h4>
       </div>
@@ -42,19 +44,19 @@
         <form method="POST" action="..\controle\insere\insereLivro.php">
           <div class="d-flex flex-column">
             <label class="mb-0">TITULO:</label>
-            <input type="text" class="form-control-dark mb-1" name="titulo">
+            <input type="text" class="form-control-dark mb-1" id="titulo" name="titulo">
             <div class="mt-1 d-flex flex-column">
             <label class="mb-0">AUTOR:</label>  
-              <select name="id_autor" class="p-1">
-                  <option></option>
+              <select id="id_autor" name="id_autor" class="p-1">
+                  <option selected disabled>SELECIONE UM AUTOR...</option>
                 <?php foreach ( $autores as $autor){    
                 ?>
                   <option value="<?php echo $autor['id'];?>"><?php echo $autor['nome'];?></option>
                 <?php }?>
               </select>
               <label class="mb-0">EDITORA:</label> 
-              <select name="id_editora" class="p-1">
-              <option></option>
+              <select id="id_editora" name="id_editora" class="p-1">
+              <option selected disabled>SELECIONE UMA EDITORA...</option>
                 <?php foreach ( $editoras as $editora){    
                 ?>
                   <option value="<?php echo $editora['id'];?>"><?php echo $editora['nome'];?></option>
@@ -64,10 +66,12 @@
         </div>
         <div class="text-center">  
           <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-          <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraLivro.php" ></a>
+          <input type="button" onclick="cancelarLivro()" value="CANCELAR" class="mt-2"><a href="cadastraLivro.php" ></a>
         </div>          
         </form>
   </main>
+
+ 
         <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
             <thead>
               <tr>

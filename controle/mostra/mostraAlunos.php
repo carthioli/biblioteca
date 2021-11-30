@@ -2,7 +2,7 @@
 
     $link = include "..\\controle\\insere\\conexao.php";
 
-    $query = pg_query("SELECT id, nome, sobrenome, cpf 
+    $query = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
                        FROM aluno
                       ");
 
@@ -12,8 +12,10 @@
     $alunos[] = [
         'id'   => $resultado['id'],
         'nome' => $resultado['nome'],
+        'sobrenome' => $resultado['sobrenome'],
         'cpf' => $resultado['cpf'],
-        'sobrenome' => $resultado['sobrenome']
+        'telefone' => $resultado['telefone']
+
     ];
     }
       

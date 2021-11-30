@@ -15,7 +15,7 @@ session_start();
                        !empty( $_POST['senha'] ) &&
                         !empty($_POST['confirma_senha']) ) {
           
-              if ( $_POST['senha'] == $_POST['confirma_senha'] ) {
+            if ( $_POST['senha'] == $_POST['confirma_senha'] ) {
 
               $inserir = "INSERT INTO login(nivel, id_usuario, nome, senha) VALUES ('{$_POST['nivel']}', '{$_POST['id_usuario']}', '{$_POST['usuario']}', '{$_POST['senha']}')";
               $inseriu = pg_query( $link, $inserir );   

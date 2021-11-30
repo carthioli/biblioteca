@@ -7,30 +7,32 @@
     include "header.php";
 ?>
 
-  <title>Cadastra Aluno</title>
+  <title>Cadastra Login</title>
 </head>
 <body>
   <header>
-            <p class="text-success text-center">
-            <?php
-                  if ( isset( $_SESSION['valida'] ) ){   
-                    session_destroy();
+      <p class="text-success text-center">
+        <?php
+              if ( isset( $_SESSION['valida'] ) ){  
                     $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
+                    unset($_SESSION['erro']);
+                    unset($_SESSION['valida']);
                     echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
-            <p class="text-danger text-center">
-            <?php
-                  if ( isset( $_SESSION['erro'] ) ){   
-                    session_destroy();
-                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                    echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
+              }
+        ?>
+      </p> 
+      <p class="text-danger text-center">
+        <?php
+              if ( isset( $_SESSION['erro'] ) ){ 
+                    $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+                    unset($_SESSION['valida']); 
+                    unset($_SESSION['erro']);        
+                    echo "{$mensagem_erro}";
+              }
+        ?>
+      </p> 
       <div class="container col-6 text-center">
-        <h4>CADASTRAR USUÁRIO</h4>
+        <h4>CADASTRAR LOGIN</h4>
       </div>
   </header>
   <main>
@@ -38,7 +40,7 @@
         <form method="POST" action="..\controle\insere\insereLogin.php">
           <div class="d-flex flex-column">
             <label>NOME:</label>
-            <select name="id_usuario" class="p-1 ">
+            <select id="id_usuario" name="id_usuario" class="p-1" >
                <option selected disabled>SELECIONE UM ALUNO...</option>
                <?php foreach ( $alunos as $aluno ) :    
              ?>
@@ -46,13 +48,13 @@
              <?php endforeach; ?>
             </select>  
             <label class="mt-3 mb-0">NÍVEL:</label>
-            <select  name="nivel" class="mt-2 p-1">
-              <option selected disabled>SELECIONE UMA NÍVEL...</option>
+            <select id="nivel" name="nivel" class="mt-2 p-1">
+              <option selected disabled>SELECIONE UM NÍVEL...</option>
               <option>1</option>
               <option>2</option>
             </select>  
             <label class="mt-3 mb-2">USUARIO:</label> 
-            <input type="text" class="form-control-dark mb-1 " name="usuario">    
+            <input type="text" class="form-control-dark mb-1" id="usuario" name="usuario">    
             <p class="text-danger text-center">
             <?php
                   if ( isset( $_SESSION['erroCampo'] ) ){   
@@ -63,13 +65,13 @@
             ?>
             </p>     
             <label class="mt-3 mb-2">SENHA:</label>
-            <input type="password" class="form-control-dark mb-2" name="senha"> 
+            <input type="password" class="form-control-dark mb-2" id="senha" name="senha"> 
             <label class="mt-3 mb-2">CONFIRMAR SENHA:</label>
-            <input type="password" class="form-control-dark mb-2" name="confirma_senha">     
+            <input type="password" class="form-control-dark mb-2" id="confirma_senha" name="confirma_senha">     
             </div> 
             <div class="text-center">  
               <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-              <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraAluno.php" ></a>
+              <input type="button" onclick="cancelarLogin()" value="CANCELAR" class="mt-2"><a href="cadastraAluno.php" ></a>
             </div>   
           </div>
         </form>        

@@ -10,24 +10,26 @@
 </head>
 <body>
   <header>
-            <p class="text-success text-center">
-            <?php
-                  if ( isset( $_SESSION['valida'] ) ){   
-                    session_destroy();
+      <p class="text-success text-center">
+        <?php
+              if ( isset( $_SESSION['valida'] ) ){  
                     $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
+                    unset($_SESSION['erro']);
+                    unset($_SESSION['valida']);
                     echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
-            <p class="text-danger text-center">
-            <?php
-                  if ( isset( $_SESSION['erro'] ) ){   
-                    session_destroy();
-                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                    echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
+              }
+        ?>
+      </p> 
+      <p class="text-danger text-center">
+        <?php
+              if ( isset( $_SESSION['erro'] ) ){ 
+                    $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+                    unset($_SESSION['valida']); 
+                    unset($_SESSION['erro']);        
+                    echo "{$mensagem_erro}";
+              }
+        ?>
+      </p> 
       <div class="container col-6 text-center">
         <h4>CADASTRAR AUTOR</h4>
       </div>
@@ -37,15 +39,15 @@
         <form method="POST" action="..\controle\insere\insereAutor.php">
           <div class="d-flex flex-column">
             <label class="mb-0">NOME:</label>
-            <input type="text " class="form-control-dark" name="nome">
+            <input type="text " class="form-control-dark" id="nome" name="nome">
             <label class="mb-0 mt-2">SOBRENOME:</label>
-            <input type="text" class="form-control-dark" name="sobrenome">
+            <input type="text" class="form-control-dark" id="sobrenome" name="sobrenome">
             <label class="mb-0 mt-2">CPF:</label>
-            <input type="text" class="form-control-dark mb-3" name="cpf">
+            <input type="text" class="form-control-dark mb-3" id="cpf" name="cpf">
           </div>
           <div class="text-center">  
             <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-            <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraAutor.php" ></a>
+            <input type="button" onclick="cancelarAutor()" value="CANCELAR" class="mt-2"><a href="cadastraAutor.php" ></a>
           </div>     
           </div>
         </form>
@@ -56,7 +58,9 @@
                 <th></th>
                 <th class="text-center">ID</th>
                 <th class="text-center">NOME</th>
-                <th class="text-center">AÇÕES</th>
+                <th class="text-center">SOBRENOME</th>
+                <th class="text-center">CPF</th>
+                <th class="text-center col-1">AÇÕES</th>
               </tr>  
             </thead>
             <tbody>
@@ -69,7 +73,8 @@
                 <td class="text-center"><input type="checkbox" name="id_autor" value="<?php echo $autor['id'];?>"></td>
                 <td class="text-center"><?php echo $autor['id'];?></td>
                 <td><?php echo $autor['nome'];?></td>
-        
+                <td><?php echo $autor['sobrenome'];?></td>
+                <td class="col-2"><?php echo $autor['cpf'];?></td>        
                 <td class="d-flex justify-content-center border-bottom-0">
                   <form method="GET" action="../controle/remove/removeLivro.php">
                     <input type="hidden" name="id_excluir" value="<?php echo $livro['id'];?>"/>

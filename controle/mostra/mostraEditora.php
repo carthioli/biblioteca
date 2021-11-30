@@ -2,7 +2,7 @@
 
     $link = include "..\\controle\\insere\\conexao.php";
 
-    $query = pg_query("SELECT id, nome 
+    $query = pg_query("SELECT id, nome, telefone 
                        FROM editora
                       ");
 
@@ -11,7 +11,8 @@
     while ( $resultado = pg_fetch_assoc( $query ) ){
     $editoras[] = [
         'id'   => $resultado['id'],
-        'nome' => $resultado['nome']
+        'nome' => $resultado['nome'],
+        'telefone' => $resultado['telefone']
     ];
     }
       

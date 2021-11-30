@@ -20,14 +20,14 @@
                  
                 
               header('location: ..\\..\\publico\\cadastraReserva.php');
-              $_SESSION['valida'] = 6;
+              $_SESSION['valida'] = 5;
             }
             else{
               return false;
             }    
         }else{
           header('location: ..\\..\\publico\\cadastraReserva.php');
-          $_SESSION['erro'] = 6;
+          $_SESSION['erro'] = 5;
         }
         }
         catch( Exception $e )

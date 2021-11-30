@@ -5,7 +5,7 @@
     include "header.php";
     include "..\\config.php";
     include "..\\controle\\mensagem.php";
-    include CONTROLE . "mostra\\mostraReserva.php";
+    include CONTROLE . "mostra\\mostraEmprestimo.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
     
 ?>
@@ -21,22 +21,25 @@
           <p class="text-success">
             <?php
                   if ( isset( $_SESSION['valida'] ) ){  
-                    session_destroy(); 
-                    $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
-                    echo "{$mensagem_confirma}";
+                       $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
+                       unset($_SESSION['erro']);
+                       unset($_SESSION['valida']);
+                       echo "{$mensagem_confirma}";
                   }
             ?>
           </p> 
           <p class="text-danger">
             <?php
-                  if ( isset( $_SESSION['erro'] ) ){  
-                    session_destroy(); 
-                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                    echo "{$mensagem_confirma}";
+                  if ( isset( $_SESSION['erro'] ) ){ 
+                       $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+                       unset($_SESSION['valida']);
+                       unset($_SESSION['erro']);
+                       echo "{$mensagem_erro}";
                   }
             ?>
           </p> 
         </div>
+        <h4>EMPRESTIMOS DE LIVROS</h4>         
         <table class="table table-striped table-bordered border" id="tabela_livro">
             <thead>
               <tr>
@@ -50,62 +53,55 @@
             <tbody>
         <form method="POST" action="..\controle\insere\insereEmprestimo.php">
               <tr>
-
-              <?php foreach ( $emprestados as $emprestado ):    
-              ?>
-
-                <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $emprestado['id'];?>"></td>
-                <td class="text-center"><?php echo $emprestado['id'];?></td>
-                <td><?php echo $emprestado['titulo'];?></td>
-                <td><?php echo $emprestado['autor'];?></td>
-                <td class="text-center"><?php echo $emprestado['editora'];?></td>   
-              </tr>
-
-              <?php endforeach; ?>
-
-            </tbody>
-        </table>
-
-        <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">INFORME O ALUNO</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body text-center">
-
-                
-               
-                <select name="id_aluno" class="p-1 w-75">
-                  <option selected disabled>SELECIONE UM ALUNO...</option>
-                  <?php foreach ( $alunos as $aluno ) :    
+                <?php foreach ( $emprestados as $emprestado ):    
                 ?>
-                  <option value="<?php echo $aluno['id'];?>"><?php echo $aluno['nome'];?></option>
+                  <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $emprestado['id'];?>"></td>
+                  <td class="text-center"><?php echo $emprestado['id'];?></td>
+                  <td><?php echo $emprestado['titulo'];?></td>
+                  <td><?php echo $emprestado['autor'];?></td>
+                  <td class="text-center"><?php echo $emprestado['editora'];?></td>   
+              </tr>
                 <?php endforeach; ?>
-               </select>  
-               <select  name="dias_devolucao" class="mt-2 p-1 w-75">
-                 <option selected disabled>SELECIONE UMA DATA...</option>
-                 <option>3</option>
-                 <option>5</option>
-                 <option>7</option>
-                 <option>14</option>
-                 <option>21</option>
-               </select>      
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">FINALIZAR</button>
+            </tbody>
+          </table>
+          <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">INFORME O ALUNO</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-center">
+
+                  
+                
+                  <select name="id_aluno" class="p-1 w-75">
+                    <option selected disabled>SELECIONE UM ALUNO...</option>
+                    <?php foreach ( $alunos as $aluno ) :    
+                  ?>
+                    <option value="<?php echo $aluno['id'];?>"><?php echo $aluno['nome'];?></option>
+                  <?php endforeach; ?>
+                </select>  
+                <select  name="dias_devolucao" class="mt-2 p-1 w-75">
+                  <option selected disabled>SELECIONE UMA DATA...</option>
+                  <option>3</option>
+                  <option>5</option>
+                  <option>7</option>
+                  <option>14</option>
+                  <option>21</option>
+                </select>      
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">FINALIZAR</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
         </form>
         <div class="text-center">  
-          <button onclick="emprestar()" class="btn btn-danger text-body " data-toggle="modal" data-target="#usuario">EMPRESTAR</button>
-      
+          <button onclick="emprestar()" class="btn btn-danger text-body " data-toggle="modal" data-target="#usuario">EMPRESTAR</button>            
         </div>          
       </div>
     </main>

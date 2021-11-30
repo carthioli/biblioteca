@@ -10,24 +10,26 @@
 </head>
 <body>
   <header>
-            <p class="text-success text-center">
-            <?php
-                  if ( isset( $_SESSION['valida'] ) ){   
-                    session_destroy();
+      <p class="text-success text-center">
+        <?php
+              if ( isset( $_SESSION['valida'] ) ){  
                     $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
+                    unset($_SESSION['erro']);
+                    unset($_SESSION['valida']);
                     echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
-            <p class="text-danger text-center">
-            <?php
-                  if ( isset( $_SESSION['erro'] ) ){   
-                    session_destroy();
-                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                    echo "{$mensagem_confirma}";
-                  }
-            ?>
-            </p> 
+              }
+        ?>
+      </p> 
+      <p class="text-danger text-center">
+        <?php
+              if ( isset( $_SESSION['erro'] ) ){ 
+                    $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+                    unset($_SESSION['valida']); 
+                    unset($_SESSION['erro']);        
+                    echo "{$mensagem_erro}";
+              }
+        ?>
+      </p> 
       <div class="container col-6 text-center">
         <h4>CADASTRAR EDITORA</h4>
       </div>
@@ -36,10 +38,10 @@
       <div class="container col-3  border p-3 rounded">
         <form method="POST" action="..\controle\insere\insereEditora.php">
           <div class="d-flex flex-column">
-            <label class="esquerda">NOME:</label>
-            <input type="text" class="form-control-dark" name="nome">
-            <label class="esquerda">TELEFONE:</label>
-            <input type="text" class="form-control-dark" name="telefone"> 
+            <label>NOME:</label>
+            <input type="text" class="form-control-dark" id="nome" name="nome">
+            <label>TELEFONE:</label>
+            <input type="text" class="form-control-dark" id="telefone" name="telefone"> 
           </div>  
           <div class="text-center">  
             <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
@@ -54,7 +56,8 @@
                 <th></th>
                 <th class="text-center">ID</th>
                 <th class="text-center">NOME</th>
-                <th class="text-center">AÇÕES</th>
+                <th class="text-center">TELEFONE</th>
+                <th class="text-center col-2">AÇÕES</th>
               </tr>  
             </thead>
             <tbody>
@@ -67,7 +70,7 @@
                 <td class="text-center"><input type="checkbox" name="id_editora" value="<?php echo $editora['id'];?>"></td>
                 <td class="text-center"><?php echo $editora['id'];?></td>
                 <td><?php echo $editora['nome'];?></td>
-        
+                <td class="col-2 text-center"><?php echo $editora['telefone'];?></td>
                 <td class="d-flex justify-content-center border-bottom-0">
                   <form method="GET" action="../controle/remove/removeLivro.php">
                     <input type="hidden" name="id_excluir" value="<?php echo $livro['id'];?>"/>

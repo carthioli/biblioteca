@@ -9,18 +9,22 @@
       $usuario = $_POST['usuario'];
       $senha   = $_POST['senha'];
 
-      $sql = ("SELECT id, id_usuario, nivel, nome, senha
-              FROM login 
-              WHERE nome = ('".$usuario."') AND (senha = '".$senha."')");
+      $sql = ("SELECT l.id, l.id_usuario, l.nivel, l.nome, l.senha, a.nome as nome_aluno, a.sobrenome
+              FROM login AS l
+              JOIN aluno AS a ON a.id = l.id_usuario
+              WHERE l.nome = ('".$usuario."') AND (l.senha = '".$senha."')");
 
       $query = pg_query( $sql );
+
+      
 
       if (pg_num_rows($query) != 1) {
         header('location: ..\\..\\login.php');
         $_SESSION['erro'] = 7;
     
       } else {
-        $resultado = pg_fetch_assoc($query);
+        $resultado  = pg_fetch_assoc($query);
+        
 
         if (!isset($_SESSION)) session_start();
 
@@ -32,9 +36,10 @@
 
               header('location: ..\\index.php');
         exit;
-          }else{
+          }else {
             $_SESSION['usuarioId'] = $resultado['id'];
-            $_SESSION['usuarioNome'] = $resultado['nome'];
+            $_SESSION['usuarioNome'] = $resultado['nome_aluno'];
+            $_SESSION['usuarioSobrenome'] = $resultado['sobrenome'];
             $_SESSION['usuarioNivel'] = $resultado['nivel'];
 
             header('location: ..\\..\\publico\\index.php');

@@ -9,7 +9,7 @@
     include CONTROLE . "mostra\\mostraAlunos.php";
     
 ?>
-  <title>Emprestimo</title>
+  <title>Reserva</title>
 </head>
 <body>
     <header>
@@ -21,22 +21,25 @@
           <p class="text-success">
             <?php
                   if ( isset( $_SESSION['valida'] ) ){  
-                    session_destroy(); 
-                    $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
-                    echo "{$mensagem_confirma}";
+                       $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
+                       unset($_SESSION['erro']);
+                       unset($_SESSION['valida']);
+                       echo "{$mensagem_confirma}";
                   }
             ?>
           </p> 
           <p class="text-danger">
             <?php
-                  if ( isset( $_SESSION['erro'] ) ){  
-                    session_destroy(); 
-                    $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                    echo "{$mensagem_confirma}";
+                  if ( isset( $_SESSION['erro'] ) ){ 
+                       $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+                       unset($_SESSION['valida']);
+                       unset($_SESSION['erro']);
+                       echo "{$mensagem_erro}";
                   }
             ?>
           </p> 
         </div>
+        <h4>RESERVAS DE LIVROS</h4>
         <table class="table table-striped table-bordered border" id="tabela_livro">
             <thead>
               <tr>
@@ -60,7 +63,11 @@
                 <td><?php echo $livro['titulo'];?></td>
                 <td><?php echo $livro['autor'];?></td>
                 <td><?php echo $livro['editora'];?></td>
-                <td><?php echo $livro['data_emprestimo'];?></td>   
+                <td class="text-center"><?php
+                          $data = date("d/m/Y", strtotime( $livro['data_emprestimo'] ) );
+                          echo $data;
+                    ?>
+                </td>   
               </tr>
 
               <?php endforeach; ?>

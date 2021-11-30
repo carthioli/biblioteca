@@ -22,7 +22,7 @@
           return "RESERVA DO LIVRO REALIZADA COM SUCESSO!";
           break; 
         case 6:
-          return "USUÁRIO CADASTRADO COM SUCESSO!";
+          return "LOGIN CADASTRADO COM SUCESSO!";
           break;          
       }
 
@@ -49,7 +49,7 @@
           return "Reserva não realizada*";
           break;  
         case 6:
-          return "Usuário não cadastado*";
+          return "Login não cadastado*";
           break;
         case 7:
           return "Usuário ou senha inválida*";
