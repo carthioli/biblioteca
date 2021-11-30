@@ -7,9 +7,9 @@
     $usuario = $_POST['usuario'];
     $senha   = $_POST['senha'];
 
-    $sql = ("SELECT id, id_usuario, nome, nivel, senha
+    $sql = ("SELECT id, id_usuario, usuario, nivel, senha
                        FROM login 
-                       WHERE (nome = '".$usuario."') AND (senha = '".$senha."')");
+                       WHERE usuario = ('".$usuario."') AND (senha = '".$senha."')");
 
     $query = pg_query( $sql );
 

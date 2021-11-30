@@ -6,8 +6,8 @@ $link = include "..\\controle\\insere\\conexao.php";
                          FROM livro 
                          JOIN autor on autor.id = livro.id_autor
                          JOIN editora on editora.id = livro.id_editora
-                         WHERE livro.id not in (SELECT id_livro FROM emprestimo_livro) 
-
+                         WHERE livro.id not in (SELECT id_livro FROM emprestimo_livro)
+                         ORDER BY 1 asc
                         ");
       
       $emprestados = [];
