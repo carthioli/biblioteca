@@ -3,6 +3,7 @@
     session_start();
     include "..\\controle\\mensagem.php";
     include "..\\controle\\mostra\\mostraAlunos.php";
+    include "..\\controle\\mostra\\mostraLogin.php";
     include "header.php";
 ?>
 
@@ -65,7 +66,41 @@
           </div>
         </form>        
   </main>
+  <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+            <thead>
+              <tr>
+                <th></th>
+                <th class="text-center">ID</th>
+                <th class="text-center">NÍVEL</th>
+                <th class="text-center">ID USUARIO</th>
+                <th class="text-center">USUARIO</th>
+                <th class="text-center">AÇÕES</th>
+              </tr>  
+            </thead>
+            <tbody>
         
+              <tr>
+
+              <?php foreach ( $logins as $login):    
+              ?>
+
+                <td class="text-center"><input type="checkbox" name="id_login" value="<?php echo $login['id'];?>"></td>
+                <td class="text-center"><?php echo $login['id'];?></td>
+                <td><?php echo $login['nivel'];?></td>
+                <td><?php echo $login['id_usuario'];?></td>
+                <td><?php echo $login['usuario'];?></td>   
+                <td class="d-flex justify-content-center border-bottom-0">
+                  <form method="GET" action="../controle/remove/removelogin.php">
+                    <input type="hidden" name="id_excluir" value="<?php echo $login['id'];?>"/>
+                    <input class="float-left" name="excluir" onclick="excluir()" type="image" src="..//img/excluir.png" width="20px">
+                  </form>
+                </td>   
+              </tr>
+
+              <?php endforeach; ?>
+
+            </tbody>
+        </table>      
   <footer>
 
   </footer>

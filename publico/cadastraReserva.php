@@ -60,7 +60,7 @@
                 <td><?php echo $livro['titulo'];?></td>
                 <td><?php echo $livro['autor'];?></td>
                 <td><?php echo $livro['editora'];?></td>
-                <td></td>   
+                <td><?php echo $livro['data_emprestimo'];?></td>   
               </tr>
 
               <?php endforeach; ?>

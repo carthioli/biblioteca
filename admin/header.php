@@ -30,7 +30,7 @@
                 <ul class="navbar-nav mr-auto float-right">
                     <li>
                         <div class="ml-1 mt-2 mr-1 text-center">
-                        <a class="text-decoration-none text-body mt-1" type="submit" name="emprestar" href="../index.php"><button class="button border-0 mt-2">Inicio</button></a>
+                        <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="../controle/index.html"><button class="button border-0 mt-2">Inicio</button></a>
                         </div>
                     </li>
                    <!-- <form class="mt-3" method="POST" action="categoria.php">
@@ -43,28 +43,30 @@
                             <button class="a" type="submit" name="ficcao"><a class="a dropdown-item p-4">FICÇÃO</a></button>
                         </div>
                     </li>
-                    </form>-->
-                    <li >
-                        <div class="ml-1 mt-2 mr-1 text-center">
-                            <a class="text-decoration-none text-body" type="submit" name="emprestar" href="../publico/cadastraEmprestimo.php"><button class="button border-0 mt-2">Emprestar<br/>Livro</button></a><br>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="mt-2 mr-2 text-center">
-                            <a class="text-decoration-none text-body" type="submit" name="reservar" href="../publico/cadastraEmprestimo.php"><button class="button border-0 mt-2">Reservar<br/>Livro</button></a>
-                        </div>
-                    </li> 
+                    </form>--> 
                     <li class="nav-item active dropleft p-0 mt-0">
-                        <a class="nav-link dropdown-toggle" id="Admin" role="button" data-toggle="dropdown" >Admin</a>
-                        <div class="dropdown-menu rounded" aria-labelledby="Admin">
+                        <a class="nav-link dropdown-toggle" id="cadastrar" role="button" data-toggle="dropdown" >Cadastrar</a>
+                        <div class="dropdown-menu rounded" aria-labelledby="cadastrar">
                             <h5 class="text-center text-danger">CADASTRAR</h5>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom border-top" href="../admin/cadastraAluno.php">ALUNO</a></button>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAutor.php">AUTOR</a></button>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraLogin.php">LOGIN</a></button>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraEditora.php">EDITORA</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraLivro.php">LIVRO</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 " href="../admin/cadastraLivro.php">LIVRO</a></button>
+                            
+                        </div>
+                    </li>
+                    <li class="nav-item active dropleft p-0 mt-0">
+                        <a class="nav-link dropdown-toggle" id="vizualizar" role="button" data-toggle="dropdown" >Vizualizar</a>
+                        <div class="dropdown-menu rounded" aria-labelledby="vizualizar">
                             <h5 class="text-center text-danger">VIZUALIZAR</h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="../publico/cadastraEmprestimo.php">EMPRESTIMOS</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="mostra/cadastraEmprestimo.php">EMPRESTIMOS</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4  border-top" href="mostra/cadastraReserva.php">RESERVAS</a></button>    
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ml-1 mt-2 mr-1 text-center">
+                        <a class="text-decoration-none text-body mt-1" type="submit" name="sair" href="../login.php"><button class="button border-0 mt-2">Sair</button></a>
                         </div>
                     </li>
                 </ul>
