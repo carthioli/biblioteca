@@ -21,7 +21,7 @@
               insereEmprestimoLivro($_POST['id_livro'], $ultimoEmprestimo, $_POST['dias_devolucao'] );
                  
                 
-              header('location: ..\\..\\publico\\cadastraEmprestimo.php');
+              //header('location: ..\\..\\publico\\cadastraEmprestimo.php');
               $_SESSION['valida'] = 5;
             }
             else{
