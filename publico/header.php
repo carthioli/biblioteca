@@ -1,3 +1,9 @@
+<?php
+        if ( !isset($_SESSION['logado'] ) && !$_SESSION['logado'] == 2 ){
+            header('location: ..\login.php');
+        }
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -30,7 +36,7 @@
                 <ul class="navbar-nav mr-auto float-right">
                     <li>
                         <div class="ml-1 mt-2 mr-1 text-center">
-                            <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="index.html"><button class="button border-0 mt-2">Inicio</button></a>
+                            <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="index.php"><button class="button border-0 mt-2">Inicio</button></a>
                         </div>
                     </li>
                    <!-- <form class="mt-3" method="POST" action="categoria.php">
@@ -54,9 +60,13 @@
                             <a class="text-decoration-none text-body" type="submit" name="reservar" href="cadastraReserva.php"><button class="button border-0 mt-2">Reservar<br/>Livro</button></a>
                         </div>
                     </li>
-                    <div class="ml-1 mt-2 mr-1 text-center">
-                            <a class="text-decoration-none text-body mt-1" type="submit" name="sair" href="../login.php"><button class="button border-0 mt-2">Sair</button></a>
-                        </div>
+                    <li>
+                        <form method="POST" action="../controle/validacao/logout.php">
+                            <div class="ml-1 mt-2 mr-1 text-center">
+                                <a class="text-decoration-none text-body mt-1" type="submit" name="sair"><button class="button border-0 mt-2">Sair</button></a>
+                            </div>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </nav>

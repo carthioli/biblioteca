@@ -22,7 +22,7 @@
           return "RESERVA DO LIVRO REALIZADA COM SUCESSO!";
           break; 
         case 6:
-          return "USUÁRIO CADASTRADO COM SUCESSO!!";
+          return "USUÁRIO CADASTRADO COM SUCESSO!";
           break;          
       }
 
@@ -31,29 +31,32 @@
 
       switch ( $erro ){
         case 1:
-          return "ERRO: Insira um AUTOR VALIDO*";
+          return "Insira um AUTOR VALIDO*";
           break;
         case 2:
-          return "ERRO: Insira uma EDITORA VALIDA*";
+          return "Insira uma EDITORA VALIDA*";
           break; 
         case 3:
-          return "ERRO: Insira um LIVRO VALIDO*";
+          return "Insira um LIVRO VALIDO*";
           break;  
         case 4:
-          return "ERRO: Insira um ALUNO VALIDO*";
+          return "Insira um ALUNO VALIDO*";
           break;   
         case 5:
-          return "ERRO: Emprestimo não realizado*";
+          return "Emprestimo não realizado*";
           break;   
         case 5:
-          return "ERRO: Reserva não realizada*";
+          return "Reserva não realizada*";
           break;  
         case 6:
-          return "ERRO: Usuário não cadastado*";
+          return "Usuário não cadastado*";
           break;
         case 7:
           return "Usuário ou senha inválida*";
-          break;           
+          break; 
+        case 8:
+          return "Campos não preenchidos*";
+          break;              
         default:
           return "ERRO NÃO CATALOGADO*";   
       }
@@ -62,6 +65,9 @@
       switch( $erro ){
         case 4:
           return "Campo obrigatório*";
+          break;
+        case 1:
+          return "As senhas não conferem*";  
           break;
       }
     }

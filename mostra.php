@@ -3,4 +3,4 @@
     session_start();
 
     echo "<pre>";
-    print_r($_SESSION['erroCampo']);
+    print_r($_SESSION['logado']);

@@ -53,11 +53,19 @@
             </select>  
             <label class="mt-3 mb-2">USUARIO:</label> 
             <input type="text" class="form-control-dark mb-1 " name="usuario">    
-
+            <p class="text-danger text-center">
+            <?php
+                  if ( isset( $_SESSION['erroCampo'] ) ){   
+                    
+                    $mensagem_erro = mensagensErroCampo( $_SESSION['erroCampo'] );
+                    echo "{$mensagem_erro}";
+                  }
+            ?>
+            </p>     
             <label class="mt-3 mb-2">SENHA:</label>
-            <input type="text" class="form-control-dark mb-2" name="senha"> 
+            <input type="password" class="form-control-dark mb-2" name="senha"> 
             <label class="mt-3 mb-2">CONFIRMAR SENHA:</label>
-            <input type="text" class="form-control-dark mb-2" name="confirma_senha">     
+            <input type="password" class="form-control-dark mb-2" name="confirma_senha">     
             </div> 
             <div class="text-center">  
               <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
