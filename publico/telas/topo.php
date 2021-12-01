@@ -14,5 +14,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../../javascript/script.js"></script>
     <script src="../javascript/script.js"></script>
+    <script src="../javascript/script1.js"></script>
     <link rel="stylesheet" href="../css/estilo.css">    
 </head>

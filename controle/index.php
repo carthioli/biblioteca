@@ -9,6 +9,319 @@
         }
 
 ?>
+<?php
+
+    include "..\\config.php";
+    $link =  include CONTROLE . "insere\\conexao.php";
+    if( isset( $_POST['pesquisar'] ) ){
+        $titulo = $_POST['pesquisar'];
+    }
+
+    $pesquisa = false;
+    /*PESQUISA ALUNO*/    
+    if( isset( $_POST['pesquisar'] ) && isset( $_POST['aluno'] ) ){
+        $titulo = $_POST['pesquisar'];
+        $pesquisa = true;
+        $query = pg_query("SELECT id, nome, sobrenome, cpf, telefone
+                           FROM aluno AS a
+                           WHERE a.nome LIKE  '%$titulo%'");
+
+      
+    } 
+    /*PESQUISA AUTOR*/ 
+    if( isset( $_POST['pesquisar'] ) && isset( $_POST['autor'] ) ){
+        $titulo = $_POST['pesquisar'];
+        $pesquisa = true;
+        $query = pg_query("SELECT id, nome, sobrenome, cpf 
+                           FROM autor AS a 
+                           WHERE nome LIKE  '%$titulo%'");
+
+       
+    } 
+    /*PESQUISA EDITORA*/ 
+    if( isset( $_POST['pesquisar'] ) && isset( $_POST['editora'] ) ){
+        $titulo = $_POST['pesquisar'];
+        $pesquisa = true;
+        $query = pg_query("SELECT id, nome,telefone
+                        FROM  editora 
+                        WHERE nome LIKE  '%$titulo%'");
+
+    } 
+    /*PESQUISA LOGIN*/ 
+    if( isset( $_POST['pesquisar'] ) && isset( $_POST['login'] ) ){
+        $nome = $_POST['pesquisar'];
+        $pesquisa = true;
+        $query = pg_query("SELECT l.id, l.nivel, a.nome AS nome_usuario, l.nome
+                           FROM login AS l   
+                           JOIN aluno AS a ON a.id = l.id_usuario
+                           WHERE l.nome LIKE  '%$titulo%'");
+
+        $login = [];
+
+        while( $resultado = pg_fetch_assoc( $query ) ){
+        $login[] = [
+            'id' => $resultado['id'],
+         'nivel' => $resultado['nivel'],
+  'nome_usuario' => $resultado['nome_usuario'],
+       'usuario' => $resultado['nome']
+        ];
+        }
+    } 
+    /*PESQUISA LIVRO*/ 
+    if( isset( $_POST['pesquisar'] ) && isset( $_POST['livro'] ) ){
+        $nivel = $_POST['pesquisar'];
+        $pesquisa = true;
+        $query = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
+                        FROM livro AS l
+                        JOIN autor AS a ON a.id = l.id_autor
+                        JOIN editora AS e ON e.id = l.id_editora
+                        WHERE l.nome LIKE  '%$titulo%'");
+
+    }   
+    if( isset( $_POST['fechar'] ) ){
+        $pesquisar = false;
+    } 
+?>
+<?php
+
+define('QTD_RESGISTROS', 5);
+define('RANGE_PAGINAS', 1);
+$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+$linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+$link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+$sql = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
+                 FROM aluno
+                 LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                
+$sqlContador = ("SELECT COUNT(*) AS total_registros
+                 FROM aluno ");
+
+$stm = $link->prepare($sqlContador);
+$stm->execute();
+$valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+$alunos = [];
+
+while ( $resultado = pg_fetch_assoc( $sql ) ){
+    $alunos[] = [
+        'id'   => $resultado['id'],
+        'nome' => $resultado['nome'],
+        'sobrenome' => $resultado['sobrenome'],
+        'cpf' => $resultado['cpf'],
+        'telefone' => $resultado['telefone']
+
+];
+}
+
+$primeira_pagina = 1;
+
+$ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+$pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+$proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+$range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+$range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+$exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+$exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
+
+$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+$linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+$link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+$sql = pg_query("SELECT id, nome, sobrenome, cpf 
+                FROM autor
+                LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                
+$sqlContador = ("SELECT COUNT(*) AS total_registros
+                FROM autor ");
+
+$stm = $link->prepare($sqlContador);
+$stm->execute();
+$valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+$autores = [];
+
+    while ( $resultado = pg_fetch_assoc( $sql ) ){
+    $autores[] = [
+        'id'   => $resultado['id'],
+        'nome' => $resultado['nome'],
+        'sobrenome' => $resultado['sobrenome'],
+        'cpf'  => $resultado['cpf'] 
+    ];
+    }
+
+$primeira_pagina = 1;
+
+$ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+$pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+$proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+$range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+$range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+$exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+$exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
+?>
+<?php
+
+$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+$linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+$link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+$sql = pg_query("SELECT id, nome, telefone 
+                FROM editora
+                LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                
+$sqlContador = ("SELECT COUNT(*) AS total_registros
+                FROM editora ");
+
+$stm = $link->prepare($sqlContador);
+$stm->execute();
+$valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+$editoras = [];
+
+while ( $resultado = pg_fetch_assoc( $sql ) ){
+$editoras[] = [
+    'id'   => $resultado['id'],
+    'nome' => $resultado['nome'],
+    'telefone' => $resultado['telefone']
+];
+}
+
+$primeira_pagina = 1;
+
+$ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+$pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+$proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+$range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+$range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+$exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+$exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
+?>
+<?php
+
+$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+    $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
+                    FROM livro AS l
+                    JOIN autor AS a ON a.id = l.id_autor 
+                    JOIN editora AS e ON e.id = l.id_editora
+                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                    
+    $sqlContador = ("SELECT COUNT(*) AS total_registros
+                    FROM livro ");
+
+    $stm = $link->prepare($sqlContador);
+    $stm->execute();
+    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+    $livros = [];
+
+    while ( $resultado = pg_fetch_assoc( $sql ) ){
+    $livros[] = [
+        'id'   => $resultado['id'],
+        'titulo' => $resultado['nome'],
+        'autor'  => $resultado['autor'],
+        'editora'=> $resultado['editora']
+    ];
+    }
+
+    $primeira_pagina = 1;
+
+    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
+?>
+<?php
+
+$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+    $sql = pg_query("SELECT id, nivel, id_usuario, nome
+                     FROM login   
+                     LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                    
+    $sqlContador = ("SELECT COUNT(*) AS total_registros
+                    FROM login");
+
+    $stm = $link->prepare($sqlContador);
+    $stm->execute();
+    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+    $logins = [];
+
+    while ( $resultado = pg_fetch_assoc( $sql ) ){
+    $logins[] = [
+      'id'       => $resultado['id'],
+      'nivel'     => $resultado['nivel'],  
+      'id_usuario'    => $resultado['id_usuario'],
+      'usuario'  => $resultado['nome']
+    ];
+    }
+
+    $primeira_pagina = 1;
+
+    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
+
+?>
+
 <title>Biblioteca Digital</title>
 <body>
     <header>
@@ -20,18 +333,6 @@
                 </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto float-right">
-                   <!-- <form class="mt-3" method="POST" action="categoria.php">
-                    <li class="nav-item active dropdown">
-                        <a class="nav-link dropdown-toggle text-dan" id="categoria" role="button" data-toggle="dropdown" >Categoria</a>
-                        <div class="dropdown-menu rounded" aria-labelledby="categoria">
-                            <button class="a" type="submit" name="acao"><a class="a dropdown-item p-4 border-bottom">AÇÃO</a></button>
-                            <button class="a" type="submit" name="aventura"><a class="a dropdown-item p-4 border-bottom">AVENTURA</a></button>
-                            <button class="a" type="submit" name="suspense"><a class="a dropdown-item p-4 border-bottom">SUSPENSE</a></button>
-                            <button class="a" type="submit" name="ficcao"><a class="a dropdown-item p-4">FICÇÃO</a></button>
-                        </div>
-                    </li>
-                    </form>-->
-                    
                     <li class="nav-item active dropleft p-0 mt-0">
                         <a class="nav-link dropdown-toggle" id="admin" role="button" data-toggle="dropdown" >Cadastrar</a>
                         <div class="dropdown-menu rounded" aria-labelledby="admin">
@@ -71,82 +372,392 @@
         <div class="grid">
             <div class="grid-item ml-5 mr-5 border-left g1">
                 <div class="d-flex justify-content-center mt-5 rounded">
-                    <form method="POST" action="recebe.php">
+                    <form method="POST" action="index.php">
+                        <div>
+                        <label for="aluno">ALUNO</label>
+                        <input type="checkbox" id="aluno" name="aluno">
+                        <label for="autor">AUTOR</label>
+                        <input type="checkbox" id="autor" name="autor">
+                        <label for="editora">EDITORA</label>
+                        <input type="checkbox" id="editora" name="editora">
+                        <label for="livro">LIVRO</label>
+                        <input type="checkbox" id="livro" name="livro"> 
+                        <label for="login">LOGIN</label>
+                        <input type="checkbox" id="login" name="login">
+                        </div>
                         <input class="p-1 float-left" type="text" name="pesquisar" placeholder="Pesquisar...">
-                        <a class="text-decoration-none text-body" type="submit" name="reservar" href="cadastraReserva.php"><button class="glyphicon glyphicon-search col-1 b border-0 mt-2 float-left"></button></a>
+                        <a class="text-decoration-none text-body" type="submit"><button class="glyphicon glyphicon-search col-1 b border-0 mt-2 float-left"></button></a>
                     </form>
-                </div><br>
+                </div>
                 <div class="mt-5 ml-5">
                 <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
                 </div>
             </div>
             <div class="grid-item ml-5 border-right g2">
+
+
+            <!-- TABELA ALUNO -->
+                <?php if( $pesquisa == true && isset( $_POST['aluno'] )): ?>
+                    <h4>TABELA ALUNOS</h4>
+                    <form method="POST" action="index.php">    
+                        <button type="submit" name="fechar" class="close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+                    
+                    <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">NOME</th>
+                            <th class="text-center">SOBRENOME</th>
+                            <th class="text-center">CPF</th>
+                            <th class="text-center">TELEFONE</th>
+                        </tr>  
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <?php foreach ( $alunos as $aluno):    
+                        ?>
+                            <td class="text-center"><?php echo $aluno['id'];?></td>
+                            <td><?php echo $aluno['nome'];?></td>
+                            <td><?php echo $aluno['sobrenome'];?></td>
+                            <td><?php echo $aluno['cpf'];?></td>
+                            <td><?php echo $aluno['telefone'];?></td>    
+                        </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <div class="text-center">   
+                    <nav aria-label="Navegação de página exemplo">
+                        <form method="POST" action="index.php">
+                        <ul class="pagination">
+                            <li class="page-item">
+                            <input type="hidden" name="aluno">
+                            <input type="hidden" name="pesquisar">    
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
+                                <span aria-hidden="true">Primeira</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Anterior</span>
+                            </button>
+                            </li>
+                            <?php  
+                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+                            ?>   
+                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                            <?php endfor; ?>  
+                            <li class="page-item">
+                            <input type="hidden" name="aluno">
+                            <input type="hidden" name="pesquisar"> 
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Próximo</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
+                                <span aria-hidden="true">Ultima</span>
+                            </button>
+                            </li>
+                        </ul>
+                        </form>
+                      </nav>   
+                      </div>
+                <?php endif; ?>
+                
+             <!-- TABELA AUTOR -->
+                <?php if( $pesquisa == true && isset( $_POST['autor'] )): ?>
+                    <h4>TABELA AUTORES</h4>
+                    <form method="POST" action="index.php">    
+                        <button type="submit" name="fechar" class="close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+                    <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+                        <thead>
+                        <tr>
+                        <th class="text-center">ID</th>
+                            <th class="text-center">NOME</th>
+                            <th class="text-center">SOBRENOME</th>
+                            <th class="text-center">CPF</th>
+                        </tr>  
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <?php foreach ( $autores as $autor):    
+                        ?>
+                            <td class="text-center"><?php echo $autor['id'];?></td>
+                            <td><?php echo $autor['nome'];?></td>
+                            <td><?php echo $autor['sobrenome'];?></td>
+                            <td><?php echo $autor['cpf'];?></td>    
+                        </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <div class="text-center">   
+                    <nav aria-label="Navegação de página exemplo">
+                        <form method="POST" action="index.php">
+                        <ul class="pagination">
+                            <li class="page-item">
+                            <input type="hidden" name="autor">
+                            <input type="hidden" name="pesquisar">    
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
+                                <span aria-hidden="true">Primeira</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Anterior</span>
+                            </button>
+                            </li>
+                            <?php  
+                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+                            ?>   
+                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                            <?php endfor; ?>  
+                            <li class="page-item">
+                            <input type="hidden" name="autor">
+                            <input type="hidden" name="pesquisar"> 
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Próximo</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
+                                <span aria-hidden="true">Ultima</span>
+                            </button>
+                            </li>
+                        </ul>
+                        </form>
+                      </nav>   
+                      </div>
+                <?php endif; ?>
+            <!-- TABELA EDITORA -->                    
+                <?php if( $pesquisa == true && isset( $_POST['editora'] )): ?>
+                    <h4>TABELA EDITORAS</h4>
+                    <form method="POST" action="index.php">    
+                        <button type="submit" name="fechar" class="close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+                    <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">NOME</th>
+                            <th class="text-center">TELEFONE</th>
+                        </tr>  
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <?php foreach ( $editoras as $editora):    
+                        ?>
+                            <td class="text-center"><?php echo $editora['id'];?></td>
+                            <td><?php echo $editora['nome'];?></td>
+                            <td><?php echo $editora['telefone'];?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                    <nav aria-label="Navegação de página exemplo">
+                        <form method="POST" action="index.php">
+                        <ul class="pagination">
+                            <li class="page-item">
+                            <input type="hidden" name="editora">
+                            <input type="hidden" name="pesquisar">    
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
+                                <span aria-hidden="true">Primeira</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Anterior</span>
+                            </button>
+                            </li>
+                            <?php  
+                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+                            ?>   
+                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                            <?php endfor; ?>  
+                            <li class="page-item">
+                            <input type="hidden" name="editora">
+                            <input type="hidden" name="pesquisar"> 
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Próximo</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
+                                <span aria-hidden="true">Ultima</span>
+                            </button>
+                            </li>
+                        </ul>
+                        </form>
+                      </nav> 
+                      </div>
+                <?php endif; ?>
+            <!-- TABELA LIVRO -->                
+                <?php if( $pesquisa == true && isset( $_POST['livro'] )): ?>
+                    <h4>TABELA LIVROS</h4>
+                    <form method="POST" action="index.php">    
+                        <button type="submit" name="fechar" class="close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+                    <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">TITULO</th>
+                            <th class="text-center">AUTOR</th>
+                            <th class="text-center">EDITORA</th>
+                        </tr>  
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <?php foreach ( $livros as $livro):    
+                        ?>
+                            <td class="text-center"><?php echo $livro['id'];?></td>
+                            <td><?php echo $livro['titulo'];?></td>
+                            <td><?php echo $livro['autor'];?></td>
+                            <td><?php echo $livro['editora'];?></td>    
+                        </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                    <nav aria-label="Navegação de página exemplo">
+                        <form method="POST" action="index.php">
+                        <ul class="pagination">
+                            <li class="page-item">
+                            <input type="hidden" name="livro">
+                            <input type="hidden" name="pesquisar">    
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
+                                <span aria-hidden="true">Primeira</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Anterior</span>
+                            </button>
+                            </li>
+                            <?php  
+                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+                            ?>   
+                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                            <?php endfor; ?>  
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Próximo</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
+                                <span aria-hidden="true">Ultima</span>
+                            </button>
+                            </li>
+                        </ul>
+                        </form>
+                      </nav> 
+                      </div>
+                <?php endif; ?>
+            <!-- TABELA LOGIN -->       
+
+                <?php if( $pesquisa == true && isset( $_POST['login'] )): ?>
+                    <h4">TABELA LOGIN</h4>
+                    <form method="POST" action="index.php">    
+                        <button type="submit" name="fechar" class="close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+                    <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">NÍVEL</th>
+                            <th class="text-center">NOME</th>
+                            <th class="text-center">USUARIO</th>
+                        </tr>  
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <?php foreach ( $login as $logins):    
+                        ?>
+                            <td class="text-center"><?php echo $logins['id'];?></td>
+                            <td><?php echo $logins['nivel'];?></td>
+                            <td><?php echo $logins['nome_usuario'];?></td>  
+                            <td><?php echo $logins['usuario'];?></td>    
+                        </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                    <nav aria-label="Navegação de página exemplo">
+                        <form method="POST" action="index.php">
+                        <ul class="pagination">
+                            <li class="page-item">
+                            <input type="hidden" name="login">
+                            <input type="hidden" name="pesquisar">    
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
+                                <span aria-hidden="true">Primeira</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Anterior</span>
+                            </button>
+                            </li>
+                            <?php  
+                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+                            ?>   
+                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                            <?php endfor; ?>  
+                            <li class="page-item">
+                            <input type="hidden" name="login">
+                            <input type="hidden" name="pesquisar"> 
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Próximo</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
+                                <span aria-hidden="true">Ultima</span>
+                            </button>
+                            </li>
+                        </ul>
+                        </form>
+                      </nav> 
+                      </div>
+                <?php endif; ?>
+
                 <div class="container col-8 border-bottom p-2">
                     <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/divina.jpg">
                     </div> 
                     <h4>A divina comédia, de Dante Alighieri</h4>
-                    <p>Um dos principais clássicos do mundo, A divina comédia não poderia 
-                    ficar de fora da lista. Este livro é um poema épico e teológico. 
-                    Escrito por Dante Alighieri no século XIV, um dos principais livros 
-                    da literatura mundial é dividido em três partes: Inferno, Purgatório 
-                    e Paraíso. Além do próprio autor, há outros três personagens principais. 
-                    Na história, Virgílio é um guia no inferno e no purgatório, Beatriz 
-                    atua no paraíso terrestre, enquanto São Bernardo, nas esferas celestes.</p>
                     <a class="float-right mr-5" href="#">Ler mais...</a><br>
                 </div>
-                <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/romeu.jpg">
-                    </div> 
-                    <h4>Romeu e Julieta, de William Shakespeare</h4>
-                    <p>A trama de Romeu e Julieta, primeira grande tragédia de William Shakespeare, é baseada em fatos ocorridos na própria cidade de Verona. Outros escritores, antes do bardo inglês, criaram enredos inspirados no destino dos dois jovens amantes que viveram um amor proibido de desfecho trágico devido à rivalidade das famílias Montechcchio (de Verona) e Capuleto (de Cremona). Mas nenhuma versão se compara à de Shakespeare que transformou uma história, aparentemente corriqueira em termos literários, numa obra-prima de dimensão universal.</p>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
-                </div>
-                <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/republica.jpg">
-                    </div> 
-                    <h4>A república, de Platão</h4>
-                    <p>Se o centro nevrálgico da discussão e investigação desenvolvidas por Platão é, por certo, a cidade e as formas e estruturas do governo, os padrões de moral e de justiça que os conduzem e regulam o embate de seus interesses e a perfeita solução que lhes pode ser dada numa politeia ideal, não é menos verdade que os argumentos em torno do problema da tirania e da democracia encontram-se na pauta dos conflitos e dos debates de nossa contemporaneidade.</p>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
-                </div>
-                <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/nacoes.jpeg">
-                    </div> 
-                    <h4>A riqueza das nações, de Adam Smith</h4>
-                    <p>O livro A riqueza das nações é um clássico de relevante interesse histórico no pensamento econômico. Trata-se, na verdade, de uma obra considerada por especialistas como “uma das grandes construções intelectuais da história moderna”. Ideias fundamentais, como a da divisão do trabalho ou a da organização natural da vida econômica, foram particularmente aprofundadas por Adam Smith.</p>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
-                </div>
-                <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/odisseia.jpg">
-                    </div> 
-                    <h4>Odisseia, de Homero</h4>
-                    <p>Composta por volta do século VIII a.C., a Odisseia relata o complexo e aventuroso percurso de Odisseu, um herói grego, ao tentar regressar para Ítaca e para Penélope, sua esposa, após o fim da guerra. É um dos principais livros do mundo.</p>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
-                </div>
-            </div>
-
-            <div class="grid-item ml-5 mt-5 mr-5 border g3">
-                <form method="POST" action="">
-                    <div class="d-flex justify-content-center mt-3 rounded">
-                        <textarea class="p-4" placeholder="Sugestão"></textarea>
-                    </div><br>
-                    <div class="d-flex justify-content-center rounded">
-                        <input class="p-2" type="text" placeholder="Email:">   
-                    </div>
-                    <div class="d-flex justify-content-center mt-3 rounded">
-                        <input class="p-2" type="submit">   
-                    </div>
-                </form>
             </div>
         </div>
       </div>
     </main>
-      
-
 </body>
 </html>
    
