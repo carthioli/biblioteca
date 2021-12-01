@@ -154,8 +154,12 @@
                 <td><?php echo $aluno['cpf'];?></td>
                 <td><?php echo $aluno['telefone'];?></td>
                 <td class="d-flex justify-content-center border-bottom-0">
-                  <form method="GET" action="../controle/remove/removeLivro.php">
-                    <input type="hidden" name="id_excluir" value="<?php echo $livro['id'];?>"/>
+                  <form method="POST" action="cadastraAluno.php">
+                    <input type="hidden" name="id" value="<?php echo $id;?>"/>
+                    <input name="editar" type="image" src="../img/editar.png" width="20px">
+                  </form> 
+                  <form method="POST" action="../controle/remove/removeAluno.php">
+                    <input type="hidden" name="id_excluir" value="<?php echo $aluno['id'];?>"/>
                     <input class="float-left" name="excluir" onclick="excluir()" type="image" src="..//img/excluir.png" width="20px">
                   </form>
                 </td>   

@@ -23,7 +23,10 @@
           break; 
         case 6:
           return "LOGIN CADASTRADO COM SUCESSO!";
-          break;          
+          break; 
+        case 7:
+          return "ALUNO EXCLUÍDO COM SUCESSO!";
+          break;              
       }
 
     }
