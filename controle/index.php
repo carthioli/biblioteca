@@ -78,8 +78,6 @@
                 </div><br>
                 <div class="mt-5 ml-5">
                 <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
-                <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
-                <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
                 </div>
             </div>
             <div class="grid-item ml-5 border-right g2">

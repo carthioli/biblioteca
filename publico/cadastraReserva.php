@@ -5,9 +5,60 @@
     include "header.php";
     include "..\\config.php";
     include "..\\controle\\mensagem.php";
-    include CONTROLE . "mostra\\mostraLivros.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
     
+?>
+<?php
+
+    define('QTD_RESGISTROS', 5);
+    define('RANGE_PAGINAS', 1);
+    $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
+
+    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo
+                     FROM livro as l
+                     JOIN autor AS a ON a.id = l.id_autor
+                     JOIN editora as e ON e.id = l.id_editora
+                     JOIN emprestimo_livro as el ON el.id_livro = l.id
+                     LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                    
+        $sqlContador = ("SELECT COUNT(*) AS total_registros
+                        FROM livro ");
+
+                        $stm = $link->prepare($sqlContador);
+                        $stm->execute();
+                        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+      $livros = [];
+
+      while ( $resultado = pg_fetch_assoc( $sql ) ){
+      $livros[] = [
+        'id'       => $resultado['id'],
+        'titulo'   => $resultado['titulo'],
+        'autor'    => $resultado['nome_autor'],
+        'editora'  => $resultado['nome_editora'],
+        'data_emprestimo' => $resultado['data_emprestimo']
+      ];
+      }
+
+      $primeira_pagina = 1;
+
+      $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+      $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+      $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+      $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+      $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+      $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+      $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
 ?>
   <title>Reserva</title>
 </head>
@@ -104,11 +155,43 @@
         </div>
 
         </form>
+        <nav aria-label="Navegação de página exemplo">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraReserva.php?page=<?=$primeira_pagina?>" aria-label="primeira">
+                <span aria-hidden="true">Primeira</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraReserva.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Anterior</span>
+              </a>
+            </li>
+            <?php  
+              for ($i=$range_inicial; $i <= $range_final; $i++):   
+                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+            ?>   
+                <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraReserva.php?page=<?=$i?>"><?=$i?></a> </li>
+            <?php endfor; ?>  
+            <li class="page-item">
+              <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraReserva.php?page=<?=$proxima_pagina?>" aria-label="proximo">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Próximo</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraReserva.php?page=<?=$ultima_pagina?>" aria-label="ultima">
+                <span aria-hidden="true">Ultima</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
         <div class="text-center">  
           <button onclick="emprestar()" class="btn btn-danger text-body " data-toggle="modal" data-target="#usuario">RESERVAR</button>
-         
-      
         </div>          
+        
       </div>
     </main>
 <footer>

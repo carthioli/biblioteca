@@ -1,4 +1,6 @@
 <?php
+        
+        include "..\\controle\\insere\\conexao.php";
         include "..\publico\\telas\\topo.php";
         if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 2 ){
             header('location: ..\\..\\publico\\index.php');

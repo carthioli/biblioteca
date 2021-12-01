@@ -6,7 +6,54 @@
     include "..\\controle\\mostra\\mostraLogin.php";
     include "header.php";
 ?>
+<?php
+    define('QTD_RESGISTROS', 5);
+    define('RANGE_PAGINAS', 1);
+    $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
 
+    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+    $sql = pg_query("SELECT id, nivel, id_usuario, nome
+                     FROM login   
+                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                    
+    $sqlContador = ("SELECT COUNT(*) AS total_registros
+                    FROM login");
+
+    $stm = $link->prepare($sqlContador);
+    $stm->execute();
+    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+    $logins = [];
+
+    while ( $resultado = pg_fetch_assoc( $sql ) ){
+    $logins[] = [
+      'id'       => $resultado['id'],
+      'nivel'     => $resultado['nivel'],  
+      'id_usuario'    => $resultado['id_usuario'],
+      'usuario'  => $resultado['nome']
+    ];
+    }
+
+    $primeira_pagina = 1;
+
+    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
+?>
   <title>Cadastra Login</title>
 </head>
 <body>
@@ -88,12 +135,8 @@
               </tr>  
             </thead>
             <tbody>
-        
               <tr>
-
-              <?php foreach ( $logins as $login):    
-              ?>
-
+              <?php foreach ( $logins as $login): ?>
                 <td class="text-center"><input type="checkbox" name="id_login" value="<?php echo $login['id'];?>"></td>
                 <td class="text-center"><?php echo $login['id'];?></td>
                 <td><?php echo $login['nivel'];?></td>
@@ -106,11 +149,43 @@
                   </form>
                 </td>   
               </tr>
-
               <?php endforeach; ?>
-
             </tbody>
-        </table>      
+        </table>   
+        <div class="text-center">   
+          <nav aria-label="Navegação de página exemplo">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraLogin.php?page=<?=$primeira_pagina?>" aria-label="primeira">
+                  <span aria-hidden="true">Primeira</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraLogin.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Anterior</span>
+                </a>
+              </li>
+              <?php  
+                for ($i=$range_inicial; $i <= $range_final; $i++):   
+                  $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+              ?>   
+                  <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraLogin.php?page=<?=$i?>"><?=$i?></a> </li>
+              <?php endfor; ?>  
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraLogin.php?page=<?=$proxima_pagina?>" aria-label="proximo">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Próximo</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraLogin.php?page=<?=$ultima_pagina?>" aria-label="ultima">
+                  <span aria-hidden="true">Ultima</span>
+                </a>
+              </li>
+            </ul>
+          </nav> 
+        <div>    
   <footer>
 
   </footer>

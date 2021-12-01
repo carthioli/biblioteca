@@ -1,5 +1,6 @@
 <?php
         include "telas/topo.php";
+        include "pesquisar/pesquisarLivro.php";
         session_start();
         if ( !isset($_SESSION['logado'] ) && !$_SESSION['logado'] == 2 ){
             header('location: ..\login.php'); 
@@ -65,62 +66,54 @@
         <div class="grid">
             <div class="grid-item ml-5 mr-5 border-left g1">
                 <div class="d-flex justify-content-center mt-5 rounded">
+                   
+                
                     <form method="POST" action="recebe.php">
-                        <input class="p-1 float-left" type="text" name="pesquisar" placeholder="Pesquisar...">
+                        <input class="p-1 float-left" type="text" name="pesquisar" placeholder="Pesquisar livros...">
                         <a class="text-decoration-none text-body" type="submit" name="reservar" href="cadastraReserva.php"><button class="glyphicon glyphicon-search col-1 b border-0 mt-2 float-left"></button></a>
+
+
                     </form>
+
+
                 </div><br>
                 <div class="mt-5 ml-5">
-                <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
-                <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
                 <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
                 </div>
             </div>
             <div class="grid-item ml-5 border-right g2">
+                <?php if( isset( $resultado ) ): ?>
+                <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+                    <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">TITULO</th>
+                        <th class="text-center">AUTOR</th>
+                        <th class="text-center">EDITORA</th>
+                        <th class="text-center">AÇÕES</th>
+                    </tr>  
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <?php foreach ( $livros as $livro):    
+                    ?>
+                        <td class="text-center"><?php echo $livro['id'];?></td>
+                        <td><?php echo $livro['titulo'];?></td>
+                        <td><?php echo $livro['autor'];?></td>
+                        <td><?php echo $livro['editora'];?></td>        
+                        <td class="d-flex justify-content-center border-bottom-0">
+                        <form method="GET" action="../controle/remove/removeLivro.php">
+                            <input type="hidden" name="id_excluir" value="<?php echo $livro['id'];?>"/>
+                            <input class="float-left" name="excluir" onclick="excluir()" type="image" src="..//img/excluir.png" width="20px">
+                        </form>
+                        </td>   
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php endif; ?>
                 <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/divina.jpg">
-                    </div> 
                     <h4>A divina comédia, de Dante Alighieri</h4>
-                    <p>Um dos principais clássicos do mundo, A divina comédia não poderia 
-                    ficar de fora da lista. Este livro é um poema épico e teológico. 
-                    Escrito por Dante Alighieri no século XIV, um dos principais livros 
-                    da literatura mundial é dividido em três partes: Inferno, Purgatório 
-                    e Paraíso. Além do próprio autor, há outros três personagens principais. 
-                    Na história, Virgílio é um guia no inferno e no purgatório, Beatriz 
-                    atua no paraíso terrestre, enquanto São Bernardo, nas esferas celestes.</p>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
-                </div>
-                <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/romeu.jpg">
-                    </div> 
-                    <h4>Romeu e Julieta, de William Shakespeare</h4>
-                    <p>A trama de Romeu e Julieta, primeira grande tragédia de William Shakespeare, é baseada em fatos ocorridos na própria cidade de Verona. Outros escritores, antes do bardo inglês, criaram enredos inspirados no destino dos dois jovens amantes que viveram um amor proibido de desfecho trágico devido à rivalidade das famílias Montechcchio (de Verona) e Capuleto (de Cremona). Mas nenhuma versão se compara à de Shakespeare que transformou uma história, aparentemente corriqueira em termos literários, numa obra-prima de dimensão universal.</p>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
-                </div>
-                <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/republica.jpg">
-                    </div> 
-                    <h4>A república, de Platão</h4>
-                    <p>Se o centro nevrálgico da discussão e investigação desenvolvidas por Platão é, por certo, a cidade e as formas e estruturas do governo, os padrões de moral e de justiça que os conduzem e regulam o embate de seus interesses e a perfeita solução que lhes pode ser dada numa politeia ideal, não é menos verdade que os argumentos em torno do problema da tirania e da democracia encontram-se na pauta dos conflitos e dos debates de nossa contemporaneidade.</p>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
-                </div>
-                <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/nacoes.jpeg">
-                    </div> 
-                    <h4>A riqueza das nações, de Adam Smith</h4>
-                    <p>O livro A riqueza das nações é um clássico de relevante interesse histórico no pensamento econômico. Trata-se, na verdade, de uma obra considerada por especialistas como “uma das grandes construções intelectuais da história moderna”. Ideias fundamentais, como a da divisão do trabalho ou a da organização natural da vida econômica, foram particularmente aprofundadas por Adam Smith.</p>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
-                </div>
-                <div class="container col-8 border-bottom p-2">
-                    <div class="text-center container col-6">  
-                        <img class="p-2" src="../img/odisseia.jpg">
-                    </div> 
-                    <h4>Odisseia, de Homero</h4>
-                    <p>Composta por volta do século VIII a.C., a Odisseia relata o complexo e aventuroso percurso de Odisseu, um herói grego, ao tentar regressar para Ítaca e para Penélope, sua esposa, após o fim da guerra. É um dos principais livros do mundo.</p>
                     <a class="float-right mr-5" href="#">Ler mais...</a><br>
                 </div>
             </div>

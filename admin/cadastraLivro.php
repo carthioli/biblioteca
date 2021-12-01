@@ -6,11 +6,58 @@
     include "..\\controle\\mostra\\mostraAutor.php";
     include "..\\controle\\mostra\\mostraEditora.php";
     include "..\\controle\\mostra\\mostraLivros.php";
-    include "..\\controle\\mostra\\mostraAlunos.php";
-  
-  
+    include "..\\controle\\mostra\\mostraAlunos.php"; 
 ?>
+<?php
+    define('QTD_RESGISTROS', 5);
+    define('RANGE_PAGINAS', 1);
+    $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
 
+    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+    $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
+                    FROM livro AS l
+                    JOIN autor AS a ON a.id = l.id_autor 
+                    JOIN editora AS e ON e.id = l.id_editora
+                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                    
+    $sqlContador = ("SELECT COUNT(*) AS total_registros
+                    FROM livro ");
+
+    $stm = $link->prepare($sqlContador);
+    $stm->execute();
+    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+    $livros = [];
+
+    while ( $resultado = pg_fetch_assoc( $sql ) ){
+    $livros[] = [
+        'id'   => $resultado['id'],
+        'titulo' => $resultado['nome'],
+        'autor'  => $resultado['autor'],
+        'editora'=> $resultado['editora']
+    ];
+    }
+
+    $primeira_pagina = 1;
+
+    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
+?>
   <title>Cadastra Livro</title>
 </head>
 <body>
@@ -70,8 +117,6 @@
         </div>          
         </form>
   </main>
-
- 
         <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
             <thead>
               <tr>
@@ -84,18 +129,14 @@
               </tr>  
             </thead>
             <tbody>
-        
               <tr>
-
               <?php foreach ( $livros as $livro):    
               ?>
-
                 <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $livro['id'];?>"></td>
                 <td class="text-center"><?php echo $livro['id'];?></td>
                 <td><?php echo $livro['titulo'];?></td>
                 <td><?php echo $livro['autor'];?></td>
-                <td><?php echo $livro['editora'];?></td> 
-        
+                <td><?php echo $livro['editora'];?></td>        
                 <td class="d-flex justify-content-center border-bottom-0">
                   <form method="GET" action="../controle/remove/removeLivro.php">
                     <input type="hidden" name="id_excluir" value="<?php echo $livro['id'];?>"/>
@@ -103,12 +144,43 @@
                   </form>
                 </td>   
               </tr>
-
               <?php endforeach; ?>
-
             </tbody>
         </table>
-
+        <div class="text-center">   
+          <nav aria-label="Navegação de página exemplo">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraLivro.php?page=<?=$primeira_pagina?>" aria-label="primeira">
+                  <span aria-hidden="true">Primeira</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraLivro.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Anterior</span>
+                </a>
+              </li>
+              <?php  
+                for ($i=$range_inicial; $i <= $range_final; $i++):   
+                  $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+              ?>   
+                  <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraLivro.php?page=<?=$i?>"><?=$i?></a> </li>
+              <?php endfor; ?>  
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraLivro.php?page=<?=$proxima_pagina?>" aria-label="proximo">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Próximo</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraLivro.php?page=<?=$ultima_pagina?>" aria-label="ultima">
+                  <span aria-hidden="true">Ultima</span>
+                </a>
+              </li>
+            </ul>
+          </nav> 
+        <div>         
   <footer>
   </footer>
 </body>
