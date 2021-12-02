@@ -50,10 +50,7 @@
           break;   
         case 5:
           return "Emprestimo não realizado*";
-          break;   
-        case 5:
-          return "Reserva não realizada*";
-          break;  
+          break; 
         case 6:
           return "Login não cadastado*";
           break;
@@ -65,7 +62,10 @@
           break;
         case 9:
           return "Campos não preenchidos*";
-          break;               
+          break;     
+        case 10:
+          return "Reserva não realizada*";
+          break;                
         default:
           return "ERRO NÃO CATALOGADO*";   
       }
