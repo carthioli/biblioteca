@@ -1,5 +1,6 @@
 <?php
         include "..\publico\\telas\\topo.php";
+        include "mostra\mostraLivros.php";
 
         session_start();
         if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 1 ){
@@ -7,7 +8,6 @@
         }else{
             header('location: ..\login.php'); 
         }
-
 ?>
 <?php
 
@@ -16,8 +16,8 @@
     if( isset( $_POST['pesquisar'] ) ){
         $titulo = $_POST['pesquisar'];
     }
-
     $pesquisa = false;
+
     /*PESQUISA ALUNO*/    
     if( isset( $_POST['pesquisar'] ) && isset( $_POST['aluno'] ) ){
         $titulo = $_POST['pesquisar'];
@@ -25,8 +25,17 @@
         $query = pg_query("SELECT id, nome, sobrenome, cpf, telefone
                            FROM aluno AS a
                            WHERE a.nome LIKE  '%$titulo%'");
+        $alunos = [];
 
-      
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $alunos[] = [
+                'id'   => $resultado['id'],
+                'nome' => $resultado['nome'],
+                'sobrenome' => $resultado['sobrenome'],
+                'cpf' => $resultado['cpf'],
+                'telefone' => $resultado['telefone']
+        ];
+        }
     } 
     /*PESQUISA AUTOR*/ 
     if( isset( $_POST['pesquisar'] ) && isset( $_POST['autor'] ) ){
@@ -35,8 +44,16 @@
         $query = pg_query("SELECT id, nome, sobrenome, cpf 
                            FROM autor AS a 
                            WHERE nome LIKE  '%$titulo%'");
+        $autores = [];
 
-       
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+        $autores[] = [
+            'id'   => $resultado['id'],
+            'nome' => $resultado['nome'],
+            'sobrenome' => $resultado['sobrenome'],
+            'cpf'  => $resultado['cpf'] 
+        ];
+        }  
     } 
     /*PESQUISA EDITORA*/ 
     if( isset( $_POST['pesquisar'] ) && isset( $_POST['editora'] ) ){
@@ -45,6 +62,15 @@
         $query = pg_query("SELECT id, nome,telefone
                         FROM  editora 
                         WHERE nome LIKE  '%$titulo%'");
+        $editoras = [];
+
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+        $editoras[] = [
+            'id'   => $resultado['id'],
+            'nome' => $resultado['nome'],
+            'telefone' => $resultado['telefone']
+        ];
+        }
 
     } 
     /*PESQUISA LOGIN*/ 
@@ -55,7 +81,6 @@
                            FROM login AS l   
                            JOIN aluno AS a ON a.id = l.id_usuario
                            WHERE l.nome LIKE  '%$titulo%'");
-
         $login = [];
 
         while( $resultado = pg_fetch_assoc( $query ) ){
@@ -76,251 +101,38 @@
                         JOIN autor AS a ON a.id = l.id_autor
                         JOIN editora AS e ON e.id = l.id_editora
                         WHERE l.nome LIKE  '%$titulo%'");
+        $livros = [];
 
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+        $livros[] = [
+            'id'   => $resultado['id'],
+            'titulo' => $resultado['nome'],
+            'autor'  => $resultado['autor'],
+            'editora'=> $resultado['editora']
+        ];
+        }
     }   
+    /*MOSTRA TODOS OS LIVROS */
+         $querytodos = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
+                                 FROM livro AS l
+                                 JOIN autor AS a ON a.id = l.id_autor
+                                 JOIN editora AS e ON e.id = l.id_editora");
+        $todoslivros = [];
+
+        while ( $resultado = pg_fetch_assoc( $querytodos ) ){
+        $todoslivros[] = [
+            'id'   => $resultado['id'],
+            'titulo' => $resultado['nome'],
+            'autor'  => $resultado['autor'],
+            'editora'=> $resultado['editora']
+        ];
+        }
+    /*FECHA TABELAS*/    
     if( isset( $_POST['fechar'] ) ){
         $pesquisar = false;
     } 
 ?>
-<?php
 
-define('QTD_RESGISTROS', 5);
-define('RANGE_PAGINAS', 1);
-$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-
-$linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-$link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-$sql = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
-                 FROM aluno
-                 LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                
-$sqlContador = ("SELECT COUNT(*) AS total_registros
-                 FROM aluno ");
-
-$stm = $link->prepare($sqlContador);
-$stm->execute();
-$valor = $stm ->fetch(PDO::FETCH_OBJ); 
-
-$alunos = [];
-
-while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $alunos[] = [
-        'id'   => $resultado['id'],
-        'nome' => $resultado['nome'],
-        'sobrenome' => $resultado['sobrenome'],
-        'cpf' => $resultado['cpf'],
-        'telefone' => $resultado['telefone']
-
-];
-}
-
-$primeira_pagina = 1;
-
-$ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
-
-$pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
-$proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
-$range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
-$range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-$exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-$exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-
-
-$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-
-$linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-$link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-$sql = pg_query("SELECT id, nome, sobrenome, cpf 
-                FROM autor
-                LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                
-$sqlContador = ("SELECT COUNT(*) AS total_registros
-                FROM autor ");
-
-$stm = $link->prepare($sqlContador);
-$stm->execute();
-$valor = $stm ->fetch(PDO::FETCH_OBJ); 
-
-$autores = [];
-
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $autores[] = [
-        'id'   => $resultado['id'],
-        'nome' => $resultado['nome'],
-        'sobrenome' => $resultado['sobrenome'],
-        'cpf'  => $resultado['cpf'] 
-    ];
-    }
-
-$primeira_pagina = 1;
-
-$ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
-
-$pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
-$proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
-$range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
-$range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-$exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-$exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-
-?>
-<?php
-
-$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-
-$linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-$link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-$sql = pg_query("SELECT id, nome, telefone 
-                FROM editora
-                LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                
-$sqlContador = ("SELECT COUNT(*) AS total_registros
-                FROM editora ");
-
-$stm = $link->prepare($sqlContador);
-$stm->execute();
-$valor = $stm ->fetch(PDO::FETCH_OBJ); 
-
-$editoras = [];
-
-while ( $resultado = pg_fetch_assoc( $sql ) ){
-$editoras[] = [
-    'id'   => $resultado['id'],
-    'nome' => $resultado['nome'],
-    'telefone' => $resultado['telefone']
-];
-}
-
-$primeira_pagina = 1;
-
-$ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
-
-$pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
-$proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
-$range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
-$range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-$exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-$exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-
-?>
-<?php
-
-$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-
-    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-    $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
-                    FROM livro AS l
-                    JOIN autor AS a ON a.id = l.id_autor 
-                    JOIN editora AS e ON e.id = l.id_editora
-                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                    
-    $sqlContador = ("SELECT COUNT(*) AS total_registros
-                    FROM livro ");
-
-    $stm = $link->prepare($sqlContador);
-    $stm->execute();
-    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
-
-    $livros = [];
-
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $livros[] = [
-        'id'   => $resultado['id'],
-        'titulo' => $resultado['nome'],
-        'autor'  => $resultado['autor'],
-        'editora'=> $resultado['editora']
-    ];
-    }
-
-    $primeira_pagina = 1;
-
-    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
-
-    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
-    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
-    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
-    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-
-?>
-<?php
-
-$pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-
-    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-    $sql = pg_query("SELECT id, nivel, id_usuario, nome
-                     FROM login   
-                     LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                    
-    $sqlContador = ("SELECT COUNT(*) AS total_registros
-                    FROM login");
-
-    $stm = $link->prepare($sqlContador);
-    $stm->execute();
-    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
-
-    $logins = [];
-
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $logins[] = [
-      'id'       => $resultado['id'],
-      'nivel'     => $resultado['nivel'],  
-      'id_usuario'    => $resultado['id_usuario'],
-      'usuario'  => $resultado['nome']
-    ];
-    }
-
-    $primeira_pagina = 1;
-
-    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
-
-    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
-    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
-    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
-    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-
-
-?>
 
 <title>Biblioteca Digital</title>
 <body>
@@ -748,11 +560,17 @@ $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_P
                       </div>
                 <?php endif; ?>
 
-                <div class="container col-8 border-bottom p-2">
+                <div class="container col-8 p-2">
                     <div class="text-center container col-6">  
                     </div> 
-                    <h4>A divina comédia, de Dante Alighieri</h4>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
+                    <?php foreach( $todoslivros AS $livro ): ?>
+                        <form method="POST" action="index.php">
+                            <h4><?php echo $livro['titulo']; ?>, de <?php echo $livro['autor'];?></h4>
+                            <div class="border-bottom">
+                            <a class="float-right mr-5" href="#">Ler mais...</a><br>
+                            </div>
+                        </form>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
