@@ -15,5 +15,6 @@
     <script src="../../javascript/script.js"></script>
     <script src="../javascript/script.js"></script>
     <script src="../javascript/script1.js"></script>
-    <link rel="stylesheet" href="../css/estilo.css">    
+    <link rel="stylesheet" href="../css/estilo.css"> 
+    <link rel="stylesheet" href="../../css/estilo.css">    
 </head>

@@ -18,9 +18,6 @@
         case 5:
           return "EMPRESTIMO DO LIVRO REALIZADO COM SUCESSO!";
           break;  
-        case 5:
-          return "RESERVA DO LIVRO REALIZADA COM SUCESSO!";
-          break; 
         case 6:
           return "LOGIN CADASTRADO COM SUCESSO!";
           break; 
@@ -29,7 +26,13 @@
           break;      
         case 8:
           return "PERFIL ATUALIZADO COM SUCESSO!";
-          break;           
+          break; 
+        case 9:
+          return "LIVRO DEVOLVIDO COM SUCESSO!";  
+          break;
+        case 10:
+          return "RESERVA DO LIVRO REALIZADA COM SUCESSO!";
+          break;             
       }
 
     }
@@ -65,7 +68,10 @@
           break;     
         case 10:
           return "Reserva não realizada*";
-          break;                
+          break;
+        case 10:
+          return "Livro não devolvido*";
+          break;                  
         default:
           return "ERRO NÃO CATALOGADO*";   
       }

@@ -6,7 +6,6 @@
     include "..\\config.php";
     include "..\\controle\\mensagem.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
-    
 ?>
 <?php
 
@@ -18,7 +17,7 @@
 
     $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
 
-    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo, el.dias_emprestimo
                      FROM livro as l
                      JOIN autor AS a ON a.id = l.id_autor
                      JOIN editora as e ON e.id = l.id_editora
@@ -39,7 +38,8 @@
         'titulo'   => $resultado['titulo'],
         'autor'    => $resultado['nome_autor'],
         'editora'  => $resultado['nome_editora'],
-        'data_emprestimo' => $resultado['data_emprestimo']
+        'data_emprestimo' => $resultado['data_emprestimo'],
+        'dias_emprestimo' => $resultado['dias_emprestimo'],
       ];
       }
 
@@ -105,10 +105,9 @@
             <tbody>
         <form method="POST" action="..\controle\insere\insereReserva.php">
               <tr>
-
+              <input type="hidden" name=id_aluno value="<?php echo $_SESSION['Id'];?>">
               <?php foreach ( $livros as $livro):    
               ?>
-
                 <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $livro['id'];?>"></td>
                 <td class="text-center"><?php echo $livro['id'];?></td>
                 <td><?php echo $livro['titulo'];?></td>
@@ -116,16 +115,8 @@
                 <td><?php echo $livro['editora'];?></td>
                 <td class="text-center">
                     <?php
-                          $dataEmprestimo = date("d/m/Y", strtotime( $livro['data_emprestimo'] ) );
-                          $diasDevolucao  = date("d/m/Y", strtotime( "2/12/2021" ) );
-                         
-                         
-                          $data_inicio = new DateTime( $livro['data_emprestimo'] );
-                          $data_fim = new DateTime("02-12-2021");
-                      
-                          $dateInterval = $data_inicio->diff($data_fim);
-                          echo $dateInterval->days;
-                          
+                      $data = date("d/m/Y", strtotime( '+'.$livro['dias_emprestimo']. 'days', strtotime($livro['data_emprestimo']) ));
+                      echo $data;       
                     ?>
                 </td>   
               </tr>
@@ -134,32 +125,7 @@
 
             </tbody>
         </table>
-
-        <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">INFORME O ALUNO</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body text-center">
-                <select name="id_aluno" class="p-1 w-75">
-                  <option selected disabled>SELECIONE UM ALUNO...</option>
-                  <?php foreach ( $alunos as $aluno ) :    
-                ?>
-                  <option value="<?php echo $aluno['id'];?>"><?php echo $aluno['nome'];?></option>
-                <?php endforeach; ?>
-               </select>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">FINALIZAR</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        </form>
+        
         <div class="text-center">
           <nav aria-label="Navegação de página exemplo">
             <ul class="pagination">
@@ -193,11 +159,11 @@
               </li>
             </ul>
           </nav>
-        </div>
+        </div> 
         <div class="text-center">  
-          <button onclick="emprestar()" class="btn btn-danger text-body " data-toggle="modal" data-target="#usuario">RESERVAR</button>
-        </div>          
-        
+          <button type="submit" onclick="emprestar()" class="btn-danger border-0 p-2 rounded text-white ">RESERVAR</button>
+        </div>
+        </form>     
       </div>
     </main>
 <footer>

@@ -19,12 +19,13 @@
 
     $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
 
-    $sql = pg_query("SELECT livro.id, livro.nome as titulo, autor.nome as nome_autor, editora.nome as nome_editora
-                         FROM livro 
-                         JOIN autor on autor.id = livro.id_autor
-                         JOIN editora on editora.id = livro.id_editora
-                         WHERE livro.id not in (SELECT id_livro FROM emprestimo_livro)
-                         LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo, el.dias_emprestimo
+                     FROM emprestimo_livro as el 
+                     JOIN livro as l ON l.id = el.id_livro
+                     JOIN autor as a ON a.id = l.id_autor
+                     JOIN editora as e ON e.id = l.id_editora
+                     JOIN emprestimo as em ON em.id = el.id_emprestimo 
+                     WHERE em.id_aluno = {$_SESSION['Id']}");
                      
         $sqlContador = ("SELECT COUNT(*) AS total_registros
                          FROM livro ");
@@ -41,7 +42,9 @@
             'id'   => $resultado['id'],
             'titulo'     => $resultado['titulo'],
             'autor'      => $resultado['nome_autor'],
-            'editora'    => $resultado['nome_editora'] 
+            'editora'    => $resultado['nome_editora'],
+    'data_emprestimo'    => $resultado['data_emprestimo'],
+    'dias_emprestimo'    => $resultado['dias_emprestimo'] 
           ];
         }
       }  
@@ -64,7 +67,7 @@
   
 ?>
 
-  <title>Emprestimo</title>
+  <title>Seus emprestimo</title>
 </head>
 <body>
     <header>
@@ -94,28 +97,59 @@
             ?>
           </p> 
         </div>
-        <h4>EMPRESTIMOS DE LIVROS</h4>         
+        <h4>DEVOLVER EMPRESTIMOS</h4>         
         <table class="table table-striped table-bordered border" id="tabela_livro">
             <thead>
               <tr>
                 <th></th>
-                <th class="text-center">ID</th>
                 <th class="text-center">TITULO</th>
                 <th class="text-center">AUTOR</th>
                 <th class="text-center">EDITORA</th>
+                <th class="text-center">DATA EMPRESTIMO</th>
+                <th class="text-center">DATA ENTREGA</th>
+                <th class="text-center">STATUS</th>
               </tr>  
             </thead>
             <tbody>
-        <form method="POST" action="..\controle\insere\insereEmprestimo.php">
+        <form method="POST" action="..\controle\remove\removeEmprestimo.php">
               <tr>
               <input type="hidden" name=id_aluno value="<?php echo $_SESSION['Id'];?>">
                 <?php foreach ( $emprestados as $emprestado ):    
                 ?>
                   <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $emprestado['id'];?>"></td>
-                  <td class="text-center"><?php echo $emprestado['id'];?></td>
                   <td><?php echo $emprestado['titulo'];?></td>
                   <td><?php echo $emprestado['autor']?></td>
-                  <td class="text-center"><?php echo $emprestado['editora'];?></td>   
+                  <td class="text-center"><?php echo $emprestado['editora'];?></td>
+                  <td class="text-center"><?php echo date("d/m/Y", strtotime( $emprestado['data_emprestimo'] ) ); ?></td>
+                  <td class="text-center">
+                    <?php
+                      $data = date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) ));
+                      echo $data;       
+                    ?>
+                 </td>   
+                 <td class="text-center">
+                 <p class="text-success text-uppercase">
+                 <?php
+                      if ( date("d/m/Y", strtotime('21-12-2021') ) < date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) )) ){
+                        echo "Em dia";
+                      }     
+                    ?>
+                  </p>  
+                  <p class="text-success text-uppercase">
+                 <?php
+                      if ( date("d/m/Y", strtotime('21-12-2021') ) == date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) )) ){
+                        echo "dia da devolução";
+                      }     
+                    ?>
+                  </p>
+                  <p class="text-success text-uppercase">
+                 <?php
+                      if ( date("d/m/Y", strtotime('21-12-2021')) > date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) )) ){
+                        echo "Em atraso";
+                      }     
+                    ?>
+                  </p>
+                 </td>
               </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -156,36 +190,11 @@
           </nav>
         </div>  
         <!--FIM PAGINAÇÃO-->      
-          <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">INFORME O ALUNO</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body text-center">  
-                <select  name="dias_devolucao" class="mt-2 p-1 w-75">
-                  <option selected disabled>SELECIONE UMA DATA...</option>
-                  <option>3</option>
-                  <option>5</option>
-                  <option>7</option>
-                  <option>14</option>
-                  <option>21</option>
-                </select>      
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn-primary border-0 p-2 rounded">FINALIZAR</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
         <div class="text-center">  
-          <button onclick="emprestar()" class="btn-danger border-0 p-2 rounded" data-toggle="modal" data-target="#usuario">EMPRESTAR</button>            
+          <button onclick="emprestar()" class="btn-danger border-0 p-2 rounded" type="submit">DEVOLVER</button>            
         </div>          
-      </div>               
+      </div>  
+      </form>             
     </main>
 <footer>
   

@@ -112,17 +112,6 @@ $todoslivros[] = [
                 </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto float-right">
-                   <!-- <form class="mt-3" method="POST" action="categoria.php">
-                    <li class="nav-item active dropdown">
-                        <a class="nav-link dropdown-toggle text-dan" id="categoria" role="button" data-toggle="dropdown" >Categoria</a>
-                        <div class="dropdown-menu rounded" aria-labelledby="categoria">
-                            <button class="a" type="submit" name="acao"><a class="a dropdown-item p-4 border-bottom">AÇÃO</a></button>
-                            <button class="a" type="submit" name="aventura"><a class="a dropdown-item p-4 border-bottom">AVENTURA</a></button>
-                            <button class="a" type="submit" name="suspense"><a class="a dropdown-item p-4 border-bottom">SUSPENSE</a></button>
-                            <button class="a" type="submit" name="ficcao"><a class="a dropdown-item p-4">FICÇÃO</a></button>
-                        </div>
-                    </li>
-                    </form>-->
                     <li >
                         <div class="ml-1 mt-2 mr-1 text-center">
                             <a class="text-decoration-none text-body" type="submit" name="emprestar" href="cadastraEmprestimo.php"><button class="button border-0 mt-2">Emprestar<br/>Livro</button></a><br>
@@ -133,6 +122,11 @@ $todoslivros[] = [
                             <a class="text-decoration-none text-body" type="submit" name="reservar" href="cadastraReserva.php"><button class="button border-0 mt-2">Reservar<br/>Livro</button></a>
                         </div>
                     </li> 
+                    <li>
+                        <div class="ml-1 mt-2 mr-1 text-center">
+                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="devolucao.php"><button class="button border-0 mt-2">Devolução</button></a>
+                        </div>
+                    </li>
                     <li class="nav-item active dropleft p-0 mt-0">
                         <div class="mt-2">
                         <a class="nav-link" id="user" role="button" data-toggle="dropdown" >
@@ -184,6 +178,7 @@ $todoslivros[] = [
                             <th class="text-center">TITULO</th>
                             <th class="text-center">AUTOR</th>
                             <th class="text-center">EDITORA</th>
+                            <th class="text-center">EMPRESTAR</th>
                         </tr>  
                         </thead>
                         <tbody>
@@ -194,7 +189,10 @@ $todoslivros[] = [
                             <td class="text-center"><?php echo $livro['id'];?></td>
                             <td><?php echo $livro['titulo'];?></td>
                             <td><?php echo $livro['autor'];?></td>
-                            <td><?php echo $livro['editora'];?></td>    
+                            <td><?php echo $livro['editora'];?></td>  
+                            <td class="text-center col-1">
+                              <a type="submit"><button class="glyphicon glyphicon-check border-0 bg-transparent"></button></a>
+                            </td>  
                         </tr>
                         <?php endforeach; ?>
                         <?php endif; ?>  
@@ -205,6 +203,9 @@ $todoslivros[] = [
                             <td><?php echo $livro['titulo'];?></td>
                             <td><?php echo $livro['autor'];?></td>
                             <td><?php echo $livro['editora'];?></td>     
+                            <td class="text-center col-1">
+                              <a type="submit"><button class="glyphicon glyphicon-check border-0 bg-transparent"></button></a>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                         <?php endif; ?>
