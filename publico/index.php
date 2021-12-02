@@ -35,6 +35,70 @@
     if( isset( $_POST['fechar'] ) ){
         $pesquisar = false;
     } 
+
+
+    define('QTD_RESGISTROS', 5);
+    define('RANGE_PAGINAS', 1);
+    $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+    $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
+                    FROM livro AS l
+                    JOIN autor AS a ON a.id = l.id_autor 
+                    JOIN editora AS e ON e.id = l.id_editora
+                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                    
+    $sqlContador = ("SELECT COUNT(*) AS total_registros
+                    FROM livro ");
+
+    $stm = $link->prepare($sqlContador);
+    $stm->execute();
+    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+    $livrosPagina = [];
+
+    while ( $resultado = pg_fetch_assoc( $sql ) ){
+    $livrosPagina[] = [
+        'id'   => $resultado['id'],
+        'titulo' => $resultado['nome'],
+        'autor'  => $resultado['autor'],
+        'editora'=> $resultado['editora']
+    ];
+    }
+    /*MOSTRA TODOS OS LIVROS */
+    $querytodos = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
+    FROM livro AS l
+    JOIN autor AS a ON a.id = l.id_autor
+    JOIN editora AS e ON e.id = l.id_editora");
+$todoslivros = [];
+
+while ( $resultado = pg_fetch_assoc( $querytodos ) ){
+$todoslivros[] = [
+'id'   => $resultado['id'],
+'titulo' => $resultado['nome'],
+'autor'  => $resultado['autor'],
+'editora'=> $resultado['editora']
+];
+}
+
+    $primeira_pagina = 1;
+
+    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
 ?>
 <title>Biblioteca Digital</title>
 
@@ -124,6 +188,7 @@
                         </thead>
                         <tbody>
                         <tr>
+                        <?php if( !empty( $_POST['pesquisar'] )): ?>
                         <?php foreach ( $livros as $livro):    
                         ?>
                             <td class="text-center"><?php echo $livro['id'];?></td>
@@ -132,12 +197,71 @@
                             <td><?php echo $livro['editora'];?></td>    
                         </tr>
                         <?php endforeach; ?>
+                        <?php endif; ?>  
+                        <?php if( empty( $_POST['pesquisar'] )): ?> 
+                        <?php foreach ( $livrosPagina as $livro):    
+                        ?>
+                            <td class="text-center"><?php echo $livro['id'];?></td>
+                            <td><?php echo $livro['titulo'];?></td>
+                            <td><?php echo $livro['autor'];?></td>
+                            <td><?php echo $livro['editora'];?></td>     
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
+                    <div class="text-center">
+                    <nav aria-label="Navegação de página exemplo">
+                        <form method="POST" action="index.php">
+                        <ul class="pagination">
+                            <li class="page-item">
+                            <input type="hidden" name="livro">
+                            <input type="hidden" name="pesquisar">    
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
+                                <span aria-hidden="true">Primeira</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Anterior</span>
+                            </button>
+                            </li>
+                            <?php  
+                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+                            ?>   
+                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                            <?php endfor; ?>  
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Próximo</span>
+                            </button>
+                            </li>
+                            <li class="page-item">
+                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
+                                <span aria-hidden="true">Ultima</span>
+                            </button>
+                            </li>
+                        </ul>
+                        </form>
+                      </nav> 
+                      </div>
                 <?php endif; ?>
                 <div class="container col-8 border-bottom p-2">
-                    <h4>A divina comédia, de Dante Alighieri</h4>
-                    <a class="float-right mr-5" href="#">Ler mais...</a><br>
+                <?php foreach( $todoslivros AS $livro ): ?>
+                        <form method="POST" action="index.php">
+                            <h4><?php echo $livro['titulo']; ?>, de <?php echo $livro['autor'];?></h4>
+                            <div class="border-bottom">
+                            <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo']; ?>">
+                            <input type="hidden" name="livro">
+                            <div class="mb-1">
+                            <a class="float-right mr-5"><button  type="submit" class="border-0 bg-white">Ver mais...</button></a><br>   
+                            </div>
+                            </div>
+                        </form>
+                    <?php endforeach; ?>
                 </div>
             </div>
           </div>

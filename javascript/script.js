@@ -1,8 +1,8 @@
 function cancelar(){
 
     document.getElementById('nome').value = "";
-    document.getElementById('telefone').value = "";
     document.getElementById('sobrenome').value = "";
+    document.getElementById('telefone').value = "";
     document.getElementById('cpf').value = "";
 
 }
@@ -27,5 +27,5 @@ function cancelarLivro(){
     document.getElementById('titulo').value = "";
     document.getElementById('id_autor').value = "SELECIONE UM AUTOR...";
     document.getElementById('id_editora').value = "SELECIONE UMA EDITORA...";
-
 }
+

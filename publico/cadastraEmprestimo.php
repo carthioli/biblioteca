@@ -120,39 +120,41 @@
             </tbody>
         </table>
         <!--PAGINAÇÃO-->
-        <nav aria-label="Navegação de página exemplo">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraEmprestimo.php?page=<?=$primeira_pagina?>" aria-label="primeira">
-                <span aria-hidden="true">Primeira</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraEmprestimo.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Anterior</span>
-              </a>
-            </li>
-            <?php  
-              for ($i=$range_inicial; $i <= $range_final; $i++):   
-                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-            ?>   
-                <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraEmprestimo.php?page=<?=$i?>"><?=$i?></a> </li>
-            <?php endfor; ?>  
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraEmprestimo.php?page=<?=$proxima_pagina?>" aria-label="proximo">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Próximo</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraEmprestimo.php?page=<?=$ultima_pagina?>" aria-label="ultima">
-                <span aria-hidden="true">Ultima</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <!--FIM PAGINAÇÃO-->        
+        <div class="text-center">  
+          <nav aria-label="Navegação de página exemplo">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraEmprestimo.php?page=<?=$primeira_pagina?>" aria-label="primeira">
+                  <span aria-hidden="true">Primeira</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraEmprestimo.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Anterior</span>
+                </a>
+              </li>
+              <?php  
+                for ($i=$range_inicial; $i <= $range_final; $i++):   
+                  $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+              ?>   
+                  <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraEmprestimo.php?page=<?=$i?>"><?=$i?></a> </li>
+              <?php endfor; ?>  
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraEmprestimo.php?page=<?=$proxima_pagina?>" aria-label="proximo">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Próximo</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraEmprestimo.php?page=<?=$ultima_pagina?>" aria-label="ultima">
+                  <span aria-hidden="true">Ultima</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>  
+        <!--FIM PAGINAÇÃO-->      
           <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -189,8 +191,7 @@
         <div class="text-center">  
           <button onclick="emprestar()" class="btn-danger border-0 p-2 rounded" data-toggle="modal" data-target="#usuario">EMPRESTAR</button>            
         </div>          
-      </div>
-
+      </div>               
     </main>
 <footer>
   

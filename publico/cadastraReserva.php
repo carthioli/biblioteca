@@ -18,7 +18,7 @@
 
     $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
 
-    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimos
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo
                      FROM livro as l
                      JOIN autor AS a ON a.id = l.id_autor
                      JOIN editora as e ON e.id = l.id_editora
@@ -116,8 +116,16 @@
                 <td><?php echo $livro['editora'];?></td>
                 <td class="text-center">
                     <?php
-                          $data = date("d/m/Y", strtotime( $livro['data_emprestimo'] ) );
-                          echo $data;
+                          $dataEmprestimo = date("d/m/Y", strtotime( $livro['data_emprestimo'] ) );
+                          $diasDevolucao  = date("d/m/Y", strtotime( "2/12/2021" ) );
+                         
+                         
+                          $data_inicio = new DateTime( $livro['data_emprestimo'] );
+                          $data_fim = new DateTime("02-12-2021");
+                      
+                          $dateInterval = $data_inicio->diff($data_fim);
+                          echo $dateInterval->days;
+                          
                     ?>
                 </td>   
               </tr>
@@ -137,9 +145,6 @@
                 </button>
               </div>
               <div class="modal-body text-center">
-
-                
-               
                 <select name="id_aluno" class="p-1 w-75">
                   <option selected disabled>SELECIONE UM ALUNO...</option>
                   <?php foreach ( $alunos as $aluno ) :    
@@ -154,41 +159,41 @@
             </div>
           </div>
         </div>
-
         </form>
-        <nav aria-label="Navegação de página exemplo">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraReserva.php?page=<?=$primeira_pagina?>" aria-label="primeira">
-                <span aria-hidden="true">Primeira</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraReserva.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Anterior</span>
-              </a>
-            </li>
-            <?php  
-              for ($i=$range_inicial; $i <= $range_final; $i++):   
-                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-            ?>   
-                <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraReserva.php?page=<?=$i?>"><?=$i?></a> </li>
-            <?php endfor; ?>  
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraReserva.php?page=<?=$proxima_pagina?>" aria-label="proximo">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Próximo</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraReserva.php?page=<?=$ultima_pagina?>" aria-label="ultima">
-                <span aria-hidden="true">Ultima</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-
+        <div class="text-center">
+          <nav aria-label="Navegação de página exemplo">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraReserva.php?page=<?=$primeira_pagina?>" aria-label="primeira">
+                  <span aria-hidden="true">Primeira</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraReserva.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Anterior</span>
+                </a>
+              </li>
+              <?php  
+                for ($i=$range_inicial; $i <= $range_final; $i++):   
+                  $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+              ?>   
+                  <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraReserva.php?page=<?=$i?>"><?=$i?></a> </li>
+              <?php endfor; ?>  
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraReserva.php?page=<?=$proxima_pagina?>" aria-label="proximo">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Próximo</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraReserva.php?page=<?=$ultima_pagina?>" aria-label="ultima">
+                  <span aria-hidden="true">Ultima</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
         <div class="text-center">  
           <button onclick="emprestar()" class="btn btn-danger text-body " data-toggle="modal" data-target="#usuario">RESERVAR</button>
         </div>          

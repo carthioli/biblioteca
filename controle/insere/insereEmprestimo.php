@@ -28,6 +28,7 @@
           header('location: ..\\..\\publico\\cadastraEmprestimo.php');
           $_SESSION['erro'] = 5;
         }
+        
         }
         catch( Exception $e )
         {

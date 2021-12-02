@@ -26,7 +26,10 @@
           break; 
         case 7:
           return "ALUNO EXCLUÍDO COM SUCESSO!";
-          break;              
+          break;      
+        case 8:
+          return "PERFIL ATUALIZADO COM SUCESSO!";
+          break;           
       }
 
     }
@@ -59,18 +62,27 @@
           break; 
         case 8:
           return "Campos não preenchidos*";
-          break;              
+          break;
+        case 9:
+          return "Campos não preenchidos*";
+          break;               
         default:
           return "ERRO NÃO CATALOGADO*";   
       }
     }
     function mensagensErroCampo( $erro ){
       switch( $erro ){
-        case 4:
-          return "Campo obrigatório*";
-          break;
         case 1:
           return "As senhas não conferem*";  
           break;
+        case 2:
+          return "Senha não conferem*";
+          break;   
+        case 3:
+          return "Senhas inválida*";
+          break;    
+        case 4:
+          return "Campo obrigatório*";
+          break;    
       }
     }

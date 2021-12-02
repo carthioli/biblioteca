@@ -9,7 +9,7 @@
       $usuario = $_POST['usuario'];
       $senha   = $_POST['senha'];
 
-      $sql = ("SELECT l.id, l.id_usuario, l.nivel, l.nome, l.senha, a.nome as nome_aluno, a.sobrenome
+      $sql = ("SELECT l.id, l.id_usuario, l.nivel, l.nome, l.senha, a.nome as nome_usuario, a.sobrenome, a.cpf, a.telefone
               FROM login AS l
               JOIN aluno AS a ON a.id = l.id_usuario
               WHERE l.nome = ('".$usuario."') AND (l.senha = '".$senha."')");
@@ -30,20 +30,24 @@
 
           if ( $resultado['nivel'] == 1 ) {
               $_SESSION['usuarioId'] = $resultado['id'];
-              $_SESSION['usuarioNome'] = $resultado['nome'];
+              $_SESSION['usuarioNome'] = $resultado['nome_usuario'];
+              $_SESSION['usuarioUsuario'] = $resultado['nome'];
+              $_SESSION['usuarioSobrenome'] = $resultado['sobrenome'];
               $_SESSION['usuarioNivel'] = $resultado['nivel'];
+              $_SESSION['usuarioTelefone'] = $resultado['telefone'];
               $_SESSION['logado'] = 1;
-
               header('location: ..\\index.php');
         exit;
           }else {
+            $_SESSION['Id'] = $resultado['id_usuario'];
             $_SESSION['usuarioId'] = $resultado['id'];
-            $_SESSION['usuarioNome'] = $resultado['nome_aluno'];
+            $_SESSION['usuarioNome'] = $resultado['nome_usuario'];
+            $_SESSION['usuarioUsuario'] = $resultado['nome'];
             $_SESSION['usuarioSobrenome'] = $resultado['sobrenome'];
             $_SESSION['usuarioNivel'] = $resultado['nivel'];
-
-            header('location: ..\\..\\publico\\index.php');
+            $_SESSION['usuarioTelefone'] = $resultado['telefone'];
             $_SESSION['logado'] = 2;  
+            header('location: ..\\..\\publico\\index.php');
           }
         
       }

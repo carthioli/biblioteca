@@ -802,7 +802,6 @@
                     </div> 
                     <?php foreach( $todoslivros AS $livro ): ?>
                         <form method="POST" action="index.php">
-
                             <h4><?php echo $livro['titulo']; ?>, de <?php echo $livro['autor'];?></h4>
                             <div class="border-bottom">
                             <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo']; ?>">
