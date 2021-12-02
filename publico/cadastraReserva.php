@@ -18,7 +18,7 @@
 
     $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
 
-    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimos
                      FROM livro as l
                      JOIN autor AS a ON a.id = l.id_autor
                      JOIN editora as e ON e.id = l.id_editora
@@ -114,7 +114,8 @@
                 <td><?php echo $livro['titulo'];?></td>
                 <td><?php echo $livro['autor'];?></td>
                 <td><?php echo $livro['editora'];?></td>
-                <td class="text-center"><?php
+                <td class="text-center">
+                    <?php
                           $data = date("d/m/Y", strtotime( $livro['data_emprestimo'] ) );
                           echo $data;
                     ?>

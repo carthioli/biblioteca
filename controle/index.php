@@ -131,6 +131,195 @@
     if( isset( $_POST['fechar'] ) ){
         $pesquisar = false;
     } 
+    /*TABELA ALUNO PAGINAÇÃO */
+        define('QTD_RESGISTROS', 5);
+        define('RANGE_PAGINAS', 1);
+        $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+        
+        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+        
+        $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+        
+        $sql = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
+                        FROM aluno
+                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                        
+        $sqlContador = ("SELECT COUNT(*) AS total_registros
+                        FROM aluno ");
+        
+        $stm = $link->prepare($sqlContador);
+        $stm->execute();
+        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+        
+        $alunosPagina = [];
+        
+        while ( $resultado = pg_fetch_assoc( $sql ) ){
+            $alunosPagina[] = [
+                'id'   => $resultado['id'],
+                'nome' => $resultado['nome'],
+                'sobrenome' => $resultado['sobrenome'],
+                'cpf' => $resultado['cpf'],
+                'telefone' => $resultado['telefone']
+        
+        ];
+        }
+    
+        $primeira_pagina = 1;
+        
+        $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+        
+        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+        
+        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+        
+        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+        
+        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+        
+        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+        
+        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+        
+        /*TABELA AUTOR PAGINAÇÃO*/
+
+        $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+        
+        $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+        
+        $sql = pg_query("SELECT id, nome, sobrenome, cpf 
+                        FROM autor
+                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                        
+        $sqlContador = ("SELECT COUNT(*) AS total_registros
+                        FROM autor ");
+        
+        $stm = $link->prepare($sqlContador);
+        $stm->execute();
+        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+        
+        $autoresPagina = [];
+    
+        while ( $resultado = pg_fetch_assoc( $sql ) ){
+        $autoresPagina[] = [
+            'id'   => $resultado['id'],
+            'nome' => $resultado['nome'],
+            'sobrenome' => $resultado['sobrenome'],
+            'cpf'  => $resultado['cpf'] 
+        ];
+        }
+    
+        $primeira_pagina = 1;
+        
+        $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+        
+        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+        
+        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+        
+        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+        
+        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+        
+        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+        
+        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+
+    /*TABELA EDITORA PAGINAÇÃO*/
+        $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+        $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+        $sql = pg_query("SELECT id, nome, telefone 
+                        FROM editora
+                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                        
+        $sqlContador = ("SELECT COUNT(*) AS total_registros
+                        FROM editora ");
+
+        $stm = $link->prepare($sqlContador);
+        $stm->execute();
+        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+        $editorasPagina = [];
+
+        while ( $resultado = pg_fetch_assoc( $sql ) ){
+        $editorasPagina[] = [
+            'id'   => $resultado['id'],
+            'nome' => $resultado['nome'],
+            'telefone' => $resultado['telefone']
+        ];
+        }
+
+        $primeira_pagina = 1;
+
+        $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+    
+    /*TABELA LIVRO PAGINAÇÃO*/
+        $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+
+        $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+
+        $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
+                        FROM livro AS l
+                        JOIN autor AS a ON a.id = l.id_autor 
+                        JOIN editora AS e ON e.id = l.id_editora
+                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+                        
+        $sqlContador = ("SELECT COUNT(*) AS total_registros
+                        FROM livro ");
+
+        $stm = $link->prepare($sqlContador);
+        $stm->execute();
+        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+
+        $livrosPagina = [];
+
+        while ( $resultado = pg_fetch_assoc( $sql ) ){
+        $livrosPagina[] = [
+            'id'   => $resultado['id'],
+            'titulo' => $resultado['nome'],
+            'autor'  => $resultado['autor'],
+            'editora'=> $resultado['editora']
+        ];
+        }
+
+        $primeira_pagina = 1;
+
+        $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+
+        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+
+        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+
+        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+
+        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+
+        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+
+        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+        
+    /*TABELA LOGIN PAGINAÇÃO*/
+
+
 ?>
 
 
@@ -160,8 +349,8 @@
                         <a class="nav-link dropdown-toggle" id="vizualizar" role="button" data-toggle="dropdown" >Visualizar</a>
                         <div class="dropdown-menu rounded" aria-labelledby="vizualizar">
                             <h5 class="text-center text-danger">VIZUALIZAR</h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="mostra/cadastraEmprestimo.php">EMPRESTIMOS</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4  border-top" href="mostra/cadastraReserva.php">RESERVAS</a></button>    
+                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="../controle/mostra/mostraEmprestimos.php">EMPRESTIMOS</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4  border-top" href="../controle/mostra/mostraReservas.php">RESERVAS</a></button>    
                         </div>
                     </li>
                     <li>
@@ -209,7 +398,7 @@
 
 
             <!-- TABELA ALUNO -->
-                <?php if( $pesquisa == true && isset( $_POST['aluno'] )): ?>
+                <?php if( isset( $_POST['aluno'] )): ?>
                     <h4>TABELA ALUNOS</h4>
                     <form method="POST" action="index.php">    
                         <button type="submit" name="fechar" class="close">
@@ -229,6 +418,7 @@
                         </thead>
                         <tbody>
                         <tr>
+                        <?php if( !empty( $_POST['pesquisar'] )): ?>    
                         <?php foreach ( $alunos as $aluno):    
                         ?>
                             <td class="text-center"><?php echo $aluno['id'];?></td>
@@ -237,7 +427,19 @@
                             <td><?php echo $aluno['cpf'];?></td>
                             <td><?php echo $aluno['telefone'];?></td>    
                         </tr>
+                        <?php endforeach; ?>  
+                        <?php endif; ?>  
+                        <?php if( empty( $_POST['pesquisar'] )): ?> 
+                        <?php foreach ( $alunosPagina as $aluno):    
+                        ?>
+                            <td class="text-center"><?php echo $aluno['id'];?></td>
+                            <td><?php echo $aluno['nome'];?></td>
+                            <td><?php echo $aluno['sobrenome'];?></td>
+                            <td><?php echo $aluno['cpf'];?></td>
+                            <td><?php echo $aluno['telefone'];?></td>    
+                        </tr>
                         <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                     <div class="text-center">   
@@ -301,6 +503,7 @@
                         </thead>
                         <tbody>
                         <tr>
+                        <?php if( !empty( $_POST['pesquisar'] )): ?>    
                         <?php foreach ( $autores as $autor):    
                         ?>
                             <td class="text-center"><?php echo $autor['id'];?></td>
@@ -309,6 +512,17 @@
                             <td><?php echo $autor['cpf'];?></td>    
                         </tr>
                         <?php endforeach; ?>
+                        <?php endif; ?>
+                        <?php if( empty( $_POST['pesquisar'] )): ?> 
+                        <?php foreach ( $autoresPagina as $autor):    
+                        ?>
+                            <td class="text-center"><?php echo $autor['id'];?></td>
+                            <td><?php echo $autor['nome'];?></td>
+                            <td><?php echo $autor['sobrenome'];?></td>
+                            <td><?php echo $autor['cpf'];?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                     <div class="text-center">   
@@ -370,6 +584,7 @@
                         </thead>
                         <tbody>
                         <tr>
+                        <?php if( !empty( $_POST['pesquisar'] )): ?>
                         <?php foreach ( $editoras as $editora):    
                         ?>
                             <td class="text-center"><?php echo $editora['id'];?></td>
@@ -377,6 +592,16 @@
                             <td><?php echo $editora['telefone'];?></td>
                         </tr>
                         <?php endforeach; ?>
+                        <?php endif; ?>  
+                        <?php if( empty( $_POST['pesquisar'] )): ?> 
+                        <?php foreach ( $editorasPagina as $editora):    
+                        ?>
+                            <td class="text-center"><?php echo $editora['id'];?></td>
+                            <td><?php echo $editora['nome'];?></td>
+                            <td><?php echo $editora['telefone'];?></td>    
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                     <div class="text-center">
@@ -439,6 +664,7 @@
                         </thead>
                         <tbody>
                         <tr>
+                        <?php if( !empty( $_POST['pesquisar'] )): ?>
                         <?php foreach ( $livros as $livro):    
                         ?>
                             <td class="text-center"><?php echo $livro['id'];?></td>
@@ -447,6 +673,17 @@
                             <td><?php echo $livro['editora'];?></td>    
                         </tr>
                         <?php endforeach; ?>
+                        <?php endif; ?>  
+                        <?php if( empty( $_POST['pesquisar'] )): ?> 
+                        <?php foreach ( $livrosPagina as $livro):    
+                        ?>
+                            <td class="text-center"><?php echo $livro['id'];?></td>
+                            <td><?php echo $livro['titulo'];?></td>
+                            <td><?php echo $livro['autor'];?></td>
+                            <td><?php echo $livro['editora'];?></td>     
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                     <div class="text-center">
@@ -565,9 +802,14 @@
                     </div> 
                     <?php foreach( $todoslivros AS $livro ): ?>
                         <form method="POST" action="index.php">
+
                             <h4><?php echo $livro['titulo']; ?>, de <?php echo $livro['autor'];?></h4>
                             <div class="border-bottom">
-                            <a class="float-right mr-5" href="#">Ler mais...</a><br>
+                            <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo']; ?>">
+                            <input type="hidden" name="livro">
+                            <div class="mb-1">
+                            <a class="float-right mr-5"><button  type="submit" class="border-0 bg-white">Ver mais...</button></a><br>   
+                            </div>
                             </div>
                         </form>
                     <?php endforeach; ?>
