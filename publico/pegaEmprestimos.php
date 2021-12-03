@@ -10,9 +10,9 @@
 
   function avaliaDataDevolucao( $data ){
 
-    if( $data > (date("d/m/Y" ) < date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) ) ) ) ) // atrasado
+    if( $data >  ) // atrasado
       return "atrasado";
-    if( $data == ( date("d/m/Y" ) < date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) ) ) ) ) 
+    if( $data == 1 ) 
       return "dia da devolucao";
     return "em dia";
 
@@ -20,9 +20,9 @@
 
   function pegaEmprestimos( $idaluno ){
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+    $link = include "..\\controle\\insere\\conexao.php";
 
-    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo, el.dias_emprestimo
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo, el.dias_emprestimo, el.data_devolucao
                      FROM emprestimo_livro as el 
                      JOIN livro as l ON l.id = el.id_livro
                      JOIN autor as a ON a.id = l.id_autor
@@ -30,12 +30,11 @@
                      JOIN emprestimo as em ON em.id = el.id_emprestimo 
                      WHERE em.id_aluno = $idaluno");
                      
-    $sqlContador = ("SELECT COUNT(*) AS total_registros
+    $sqlContador = pg_query("SELECT COUNT(*) AS total_registros
                          FROM livro ");
 
-    $stm = $link->prepare($sqlContador);
-    $stm->execute();
-    $valor = $stm->fetch(PDO::FETCH_OBJ); 
+    
+    $valor = pg_fetch_assoc( $sqlContador ); 
       
       $emprestados = [];
        
@@ -55,7 +54,7 @@
 
       return [
         "emprestados"     => $emprestados,
-        "total_registros" => $valor->total_registros
+        "total_registros" => $valor['total_registros']
       ];
 
   }

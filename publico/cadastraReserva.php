@@ -17,11 +17,12 @@
 
     $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
 
-    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo, el.dias_emprestimo
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo, el.dias_emprestimo, el.data_devolucao
                      FROM livro as l
                      JOIN autor AS a ON a.id = l.id_autor
                      JOIN editora as e ON e.id = l.id_editora
                      JOIN emprestimo_livro as el ON el.id_livro = l.id
+                     JOIN emprestimo as em ON em.id = el.id_emprestimo
                      LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
                     
         $sqlContador = ("SELECT COUNT(*) AS total_registros
@@ -40,6 +41,7 @@
         'editora'  => $resultado['nome_editora'],
         'data_emprestimo' => $resultado['data_emprestimo'],
         'dias_emprestimo' => $resultado['dias_emprestimo'],
+        'data_devolucao'  => $resultado['data_devolucao']
       ];
       }
 
@@ -113,11 +115,7 @@
                 <td><?php echo $livro['titulo'];?></td>
                 <td><?php echo $livro['autor'];?></td>
                 <td><?php echo $livro['editora'];?></td>
-                <td class="text-center">
-                    <?php
-                      $data = date("d/m/Y", strtotime( '+'.$livro['dias_emprestimo']. 'days', strtotime($livro['data_emprestimo']) ));
-                      echo $data;       
-                    ?>
+                <td class="text-center"><?php echo $livro['data_devolucao']; ?>
                 </td>   
               </tr>
 

@@ -4,6 +4,7 @@
 
     include "header.php";
     include "..\\config.php";
+    include "pegaEmprestimos.php";
     include "..\\controle\\mensagem.php";
     include CONTROLE . "mostra\\mostraEmprestimo.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
@@ -11,17 +12,20 @@
     define('QTD_RESGISTROS', 5);
     define('RANGE_PAGINAS', 1);
 
-    include "pegaEmprestimos.php";
-
     $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
+            [
+                "emprestados"     => $emprestados,
+                "total_registros" => $total_registros
+            ] = 
+            pegaEmprestimos( $_SESSION['Id'] );
 
-    [
-      "emprestados"     => $emprestados,
-      "total_registros" => $total_registros
-    ] = pegaEmprestimos( $_SESSION['Id'] );
+              
 
+    
+     
+          
 
     $primeira_pagina = 1;
     $ultima_pagina = ceil( $total_registros / QTD_RESGISTROS);
@@ -109,12 +113,12 @@
           <nav aria-label="Navegação de página exemplo">
             <ul class="pagination">
               <li class="page-item">
-                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraEmprestimo.php?page=<?=$primeira_pagina?>" aria-label="primeira">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="devolucao.php?page=<?=$primeira_pagina?>" aria-label="primeira">
                   <span aria-hidden="true">Primeira</span>
                 </a>
               </li>
               <li class="page-item">
-                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraEmprestimo.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
+                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="devolucao.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
                   <span aria-hidden="true">&laquo;</span>
                   <span class="sr-only">Anterior</span>
                 </a>
@@ -123,16 +127,16 @@
                 for ($i=$range_inicial; $i <= $range_final; $i++):   
                   $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
               ?>   
-                  <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraEmprestimo.php?page=<?=$i?>"><?=$i?></a> </li>
+                  <li class="page-item"><a class='box-numero <?=$destaque?>' href="devolucao.php?page=<?=$i?>"><?=$i?></a> </li>
               <?php endfor; ?>  
               <li class="page-item">
-                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraEmprestimo.php?page=<?=$proxima_pagina?>" aria-label="proximo">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="devolucao.php?page=<?=$proxima_pagina?>" aria-label="proximo">
                   <span aria-hidden="true">&raquo;</span>
                   <span class="sr-only">Próximo</span>
                 </a>
               </li>
               <li class="page-item">
-                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraEmprestimo.php?page=<?=$ultima_pagina?>" aria-label="ultima">
+                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="devolucao.php?page=<?=$ultima_pagina?>" aria-label="ultima">
                   <span aria-hidden="true">Ultima</span>
                 </a>
               </li>

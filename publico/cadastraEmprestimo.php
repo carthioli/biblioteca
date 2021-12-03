@@ -134,10 +134,10 @@
             <tbody>
         <form method="POST" action="..\controle\insere\insereEmprestimo.php">
               <tr>
-              <input type="hidden" name=id_aluno value="<?php echo $_SESSION['Id'];?>">
+              <input type="hidden" name='id_aluno' value="<?php echo $_SESSION['Id'];?>">
                 <?php foreach ( $emprestados as $emprestado ):    
                 ?>
-                  <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $emprestado['id'];?>"></td>
+                  <td class="text-center"><input type="checkbox" name="id_livro[]" value="<?php echo $emprestado['id'];?>"></td>
                   <td class="text-center"><?php echo $emprestado['id'];?></td>
                   <td><?php echo $emprestado['titulo'];?></td>
                   <td><?php echo $emprestado['autor']?></td>
@@ -150,10 +150,10 @@
             <tbody>
             <form method="POST" action="..\controle\insere\insereEmprestimo.php">
               <tr>
-              <input type="hidden" name=id_aluno value="<?php echo $_SESSION['Id'];?>">
+              <input type="hidden" name='id_aluno' value="<?php echo $_SESSION['Id'];?>">
                 <?php foreach ( $livrosPesquisados as $livroPesquisado ):    
                 ?>
-                  <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $livroPesquisado['id'];?>"></td>
+                  <td class="text-center"><input type="checkbox" name="id_livro[]" value="<?php echo $livroPesquisado['id'];?>"></td>
                   <td class="text-center"><?php echo $livroPesquisado['id'];?></td>
                   <td><?php echo $livroPesquisado['titulo'];?></td>
                   <td><?php echo $livroPesquisado['autor']?></td>
