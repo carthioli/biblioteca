@@ -143,7 +143,7 @@
                 <td><?php echo $login['id_usuario'];?></td>
                 <td><?php echo $login['usuario'];?></td>   
                 <td class="d-flex justify-content-center border-bottom-0">
-                  <form method="GET" action="../controle/remove/removelogin.php">
+                  <form method="POST" action="../controle/remove/removelogin.php">
                     <input type="hidden" name="id_excluir" value="<?php echo $login['id'];?>"/>
                     <input class="float-left" name="excluir" onclick="excluir()" type="image" src="..//img/excluir.png" width="20px">
                   </form>

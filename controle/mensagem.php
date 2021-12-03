@@ -32,7 +32,10 @@
           break;
         case 10:
           return "RESERVA DO LIVRO REALIZADA COM SUCESSO!";
-          break;             
+          break;  
+        case 11;
+          return "LOGIN REMOVIDO COM SUCESSO!";  
+          break;           
       }
 
     }
@@ -77,6 +80,9 @@
           break;
         case 13:
           return "O ALUNO NÃO PODE SER REMOVIDO*";
+          break; 
+        case 14:
+          return "O LOGIN NÃO PODE SER REMOVIDO*";
           break;                          
         default:
           return "ERRO NÃO CATALOGADO*";   

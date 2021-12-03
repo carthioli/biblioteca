@@ -8,60 +8,28 @@
     include CONTROLE . "mostra\\mostraEmprestimo.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
     
-?>
-<?php
-
     define('QTD_RESGISTROS', 5);
     define('RANGE_PAGINAS', 1);
-    $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
 
+    include "pegaEmprestimos.php";
+
+    $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
 
-    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo, el.dias_emprestimo
-                     FROM emprestimo_livro as el 
-                     JOIN livro as l ON l.id = el.id_livro
-                     JOIN autor as a ON a.id = l.id_autor
-                     JOIN editora as e ON e.id = l.id_editora
-                     JOIN emprestimo as em ON em.id = el.id_emprestimo 
-                     WHERE em.id_aluno = {$_SESSION['Id']}");
-                     
-        $sqlContador = ("SELECT COUNT(*) AS total_registros
-                         FROM livro ");
+    [
+      "emprestados"     => $emprestados,
+      "total_registros" => $total_registros
+    ] = pegaEmprestimos( $_SESSION['Id'] );
 
-                         $stm = $link->prepare($sqlContador);
-                         $stm->execute();
-                         $valor = $stm ->fetch(PDO::FETCH_OBJ); 
-      
-      $emprestados = [];
-       
-      while ( $resultado = pg_fetch_assoc( $sql ) ){
-        if ( isset($resultado['id']) ){
-          $emprestados[] = [
-            'id'   => $resultado['id'],
-            'titulo'     => $resultado['titulo'],
-            'autor'      => $resultado['nome_autor'],
-            'editora'    => $resultado['nome_editora'],
-    'data_emprestimo'    => $resultado['data_emprestimo'],
-    'dias_emprestimo'    => $resultado['dias_emprestimo'] 
-          ];
-        }
-      }  
+
     $primeira_pagina = 1;
-
-    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
-
+    $ultima_pagina = ceil( $total_registros / QTD_RESGISTROS);
     $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
     $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
     $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
     $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
     $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
     $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
 
   
@@ -128,27 +96,9 @@
                     ?>
                  </td>   
                  <td class="text-center">
-                 <p class="text-success text-uppercase">
-                 <?php
-                      if ( date("d/m/Y", strtotime('21-12-2021') ) < date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) )) ){
-                        echo "Em dia";
-                      }     
-                    ?>
+                 <p class="text-<?php echo ajudaConverteAvisoParaRotulo( $emprestado['msg_devoluvacao'] )?> text-uppercase">
+                   <?php echo $emprestado['msg_devolucao']?>
                   </p>  
-                  <p class="text-warning text-uppercase">
-                 <?php
-                      if ( date("d/m/Y", strtotime('21-12-2021') ) == date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) )) ){
-                        echo "dia da devolução";
-                      }     
-                    ?>
-                  </p>
-                  <p class="text-danger text-uppercase">
-                 <?php
-                      if ( date("d/m/Y", strtotime('21-12-2021')) > date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) )) ){
-                        echo "Em atraso";
-                      }     
-                    ?>
-                  </p>
                  </td>
               </tr>
                 <?php endforeach; ?>

@@ -391,9 +391,6 @@
                         <a class="text-decoration-none text-body" type="submit"><button class="glyphicon glyphicon-search col-1 b border-0 mt-2 float-left"></button></a>
                     </form>
                 </div>
-                <div class="mt-5 ml-5">
-                <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
-                </div>
             </div>
             <div class="grid-item ml-5 border-right g2">
 

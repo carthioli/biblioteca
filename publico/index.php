@@ -52,6 +52,7 @@
                     FROM livro AS l
                     JOIN autor AS a ON a.id = l.id_autor 
                     JOIN editora AS e ON e.id = l.id_editora
+                    WHERE l.id not in (SELECT id_livro FROM emprestimo_livro)
                     LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
                     
     $sqlContador = ("SELECT COUNT(*) AS total_registros
@@ -178,7 +179,7 @@
             </div>
             <div class="grid-item ml-5 border-right g2">
                 <?php if( $pesquisa == true ): ?>
-                    <form method="POST" action="cadastraEmprestimo.php">    
+                    <form method="POST" action="index.php">    
                         <button type="submit" name="fechar" class="close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -256,7 +257,10 @@
                 <div class="container col-8 border-bottom p-2">
                 <?php foreach( $todoslivros AS $livro ): ?>
                         <form method="POST" action="index.php">
-                            <h4><?php echo $livro['titulo']; ?>, de <?php echo $livro['autor'];?></h4>
+                            <h4>Título:</h4>
+                                <p class="text-primary"><?php echo $livro['titulo']; ?></p>
+                            <h4>Autor:</h4>   
+                                <p class="text-primary"> <?php echo $livro['autor'];?></p>
                             <div class="border-bottom">
                             <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo']; ?>">
                             <input type="hidden" name="livro">
