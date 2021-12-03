@@ -10,7 +10,7 @@
 
   function avaliaDataDevolucao( $data ){
 
-    if( $data >  ) // atrasado
+    if( $data > 1 ) // atrasado
       return "atrasado";
     if( $data == 1 ) 
       return "dia da devolucao";
@@ -22,7 +22,7 @@
 
     $link = include "..\\controle\\insere\\conexao.php";
 
-    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo, el.dias_emprestimo, el.data_devolucao
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo, el.dias_emprestimo, el.data_devolucao
                      FROM emprestimo_livro as el 
                      JOIN livro as l ON l.id = el.id_livro
                      JOIN autor as a ON a.id = l.id_autor
@@ -47,7 +47,7 @@
             'editora'    => $resultado['nome_editora'],
     'data_emprestimo'    => $resultado['data_emprestimo'],
     'dias_emprestimo'    => $resultado['dias_emprestimo'],
-       'msg_devoluvacao' => avaliaDataDevolucao( $resultado['data_devolucao'] )
+       'msg_devoluvacao' => avaliaDataDevolucao( $resultado['data_emprestimo'] )
           ];
         }
       }      

@@ -28,17 +28,16 @@
 
               foreach($_POST['id_livro'] as $livro){
 
-                insereEmprestimoLivro($livro, $ultimoEmprestimo['id'], $_POST['dias_devolucao'], $ultimoEmprestimo['data_devolucao'] ); 
+                insereEmprestimoLivro($livro, $ultimoEmprestimo['id'], $_POST['dias_devolucao'], $ultimoEmprestimo['data_emprestimo']  ); 
 
               }
-                 
                 
                header('location: ..\\..\\publico\\cadastraEmprestimo.php');
               $_SESSION['valida'] = 5;
 
             }    
         }else{
-          header('location: ..\\..\\publico\\cadastraEmprestimo.php');
+          //header('location: ..\\..\\publico\\cadastraEmprestimo.php');
           $_SESSION['erro'] = 5;
         }
         
