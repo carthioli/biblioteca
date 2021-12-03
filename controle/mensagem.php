@@ -69,9 +69,15 @@
         case 10:
           return "Reserva não realizada*";
           break;
-        case 10:
+        case 11:
           return "Livro não devolvido*";
-          break;                  
+          break;
+        case 12:
+          return "NÍVEL DE ACESSO NEGADO*";
+          break;
+        case 13:
+          return "O ALUNO NÃO PODE SER REMOVIDO*";
+          break;                          
         default:
           return "ERRO NÃO CATALOGADO*";   
       }

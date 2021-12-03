@@ -135,14 +135,14 @@
                       }     
                     ?>
                   </p>  
-                  <p class="text-success text-uppercase">
+                  <p class="text-warning text-uppercase">
                  <?php
                       if ( date("d/m/Y", strtotime('21-12-2021') ) == date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) )) ){
                         echo "dia da devolução";
                       }     
                     ?>
                   </p>
-                  <p class="text-success text-uppercase">
+                  <p class="text-danger text-uppercase">
                  <?php
                       if ( date("d/m/Y", strtotime('21-12-2021')) > date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) )) ){
                         echo "Em atraso";

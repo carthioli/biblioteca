@@ -29,8 +29,8 @@
               <?php
                     if ( isset( $_SESSION['erro'] ) ){  
                       session_destroy(); 
-                      $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
-                      echo "{$mensagem_confirma}";
+                      $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+                      echo "{$mensagem_erro}";
                     }
               ?>
             </p> 

@@ -18,7 +18,7 @@
                 }    
             }else{
               header('location: ..\\..\\publico\\devolucao.php');
-              $_SESSION['erro'] = 9;
+              $_SESSION['erro'] = 11;
             }
         }
         catch( Exception $e )

@@ -6,7 +6,8 @@
         if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 1 ){
             
         }else{
-            header('location: ..\login.php'); 
+            header('location: ..\\index.php'); 
+            $_SESSION['erro'] = 12;
         }
 ?>
 <?php

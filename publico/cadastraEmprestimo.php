@@ -63,6 +63,31 @@
 
   
 ?>
+<?php
+
+    if( isset( $_POST['pesquisar'] ) ){
+      $titulo = $_POST['pesquisar'];
+      $pesquisa = true;
+
+      $queryPesquisado = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
+                      FROM livro AS l
+                      JOIN autor AS a ON a.id = l.id_autor
+                      JOIN editora AS e ON e.id = l.id_editora
+                      WHERE l.nome LIKE  '%$titulo%'");
+
+      $livrosPesquisados = [];
+
+      while( $resultadoPesquisado = pg_fetch_assoc( $queryPesquisado ) ){
+      $livrosPesquisados[] = [
+          'id' => $resultadoPesquisado['id'],
+      'titulo' => $resultadoPesquisado['nome'],
+      'autor' => $resultadoPesquisado['autor'],
+      'editora' => $resultadoPesquisado['editora']
+      ];
+      }
+    }   
+
+?>
 
   <title>Emprestimo</title>
 </head>
@@ -105,6 +130,7 @@
                 <th class="text-center">EDITORA</th>
               </tr>  
             </thead>
+            <?php if( empty( $_POST['pesquisar'] ) ): ?>
             <tbody>
         <form method="POST" action="..\controle\insere\insereEmprestimo.php">
               <tr>
@@ -119,6 +145,23 @@
               </tr>
                 <?php endforeach; ?>
             </tbody>
+            <?php endif; ?>
+            <?php if( !empty( $_POST['pesquisar'] ) ): ?>
+            <tbody>
+            <form method="POST" action="..\controle\insere\insereEmprestimo.php">
+              <tr>
+              <input type="hidden" name=id_aluno value="<?php echo $_SESSION['Id'];?>">
+                <?php foreach ( $livrosPesquisados as $livroPesquisado ):    
+                ?>
+                  <td class="text-center"><input type="checkbox" name="id_livro" value="<?php echo $livroPesquisado['id'];?>"></td>
+                  <td class="text-center"><?php echo $livroPesquisado['id'];?></td>
+                  <td><?php echo $livroPesquisado['titulo'];?></td>
+                  <td><?php echo $livroPesquisado['autor']?></td>
+                  <td class="text-center"><?php echo $livroPesquisado['editora'];?></td>   
+              </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <?php endif; ?>
         </table>
         <!--PAGINAÇÃO-->
         <div class="text-center">  

@@ -100,6 +100,7 @@
                 <th class="text-center">EDITORA</th>
                 <th class="text-center">DATA EMPRESTIMO</th>
                 <th class="text-center">DATA ENTREGA</th>
+                <th class="text-center">STATUS</th>
               </tr>  
             </thead>
             <tbody>
@@ -123,6 +124,29 @@
                       echo $data;       
                     ?> 
                   </td> 
+                  <td class="text-center">
+                  <p class="text-success text-uppercase">
+                 <?php
+                      if ( date("d/m/Y"/*, strtotime('21-12-2021')*/ ) < date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data']) )) ){
+                        echo "Em dia";
+                      }     
+                    ?>
+                  </p>  
+                  <p class="text-warning text-uppercase">
+                 <?php
+                      if ( date("d/m/Y"/*, strtotime('21-12-2021')*/ ) == date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data']) )) ){
+                        echo "dia da devolução";
+                      }     
+                    ?>
+                  </p>
+                  <p class="text-danger text-uppercase">
+                 <?php
+                      if ( date("d/m/Y"/*, strtotime('21-12-2021')*/ ) > date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data']) )) ){
+                        echo "Em atraso";
+                      }     
+                    ?>
+                  </p>
+                  </td>
               </tr>
                 <?php endforeach; ?>
             </tbody>

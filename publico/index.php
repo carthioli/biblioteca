@@ -1,5 +1,6 @@
 <?php
         include "telas/topo.php";
+        include "..\\controle\\mensagem.php";
         session_start();
         if ( !isset($_SESSION['logado'] ) && !$_SESSION['logado'] == 2 ){
             header('location: ..\login.php'); 
@@ -11,7 +12,8 @@
     $link =  include CONTROLE . "insere\\conexao.php";
 
     $pesquisa = false;
-
+    
+    /* MOTRA PESQUISADO */
     if( isset( $_POST['pesquisar'] ) ){
         $titulo = $_POST['pesquisar'];
         $pesquisa = true;
@@ -32,11 +34,12 @@
         ];
         }
     }   
+
     if( isset( $_POST['fechar'] ) ){
         $pesquisar = false;
     } 
 
-
+    /* INICIO PAGINAÇÃO */
     define('QTD_RESGISTROS', 5);
     define('RANGE_PAGINAS', 1);
     $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
@@ -70,19 +73,19 @@
     }
     /*MOSTRA TODOS OS LIVROS */
     $querytodos = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
-    FROM livro AS l
-    JOIN autor AS a ON a.id = l.id_autor
-    JOIN editora AS e ON e.id = l.id_editora");
-$todoslivros = [];
+                            FROM livro AS l
+                            JOIN autor AS a ON a.id = l.id_autor
+                            JOIN editora AS e ON e.id = l.id_editora");
+        $todoslivros = [];
 
-while ( $resultado = pg_fetch_assoc( $querytodos ) ){
-$todoslivros[] = [
-'id'   => $resultado['id'],
-'titulo' => $resultado['nome'],
-'autor'  => $resultado['autor'],
-'editora'=> $resultado['editora']
-];
-}
+        while ( $resultado = pg_fetch_assoc( $querytodos ) ){
+        $todoslivros[] = [
+        'id'   => $resultado['id'],
+        'titulo' => $resultado['nome'],
+        'autor'  => $resultado['autor'],
+        'editora'=> $resultado['editora']
+        ];
+        }
 
     $primeira_pagina = 1;
 
@@ -99,6 +102,7 @@ $todoslivros[] = [
     $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
 
     $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+    /* FIM PAGINAÇÃO */
 ?>
 <title>Biblioteca Digital</title>
 
@@ -110,6 +114,17 @@ $todoslivros[] = [
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+            <div class="text-center">    
+            <p class="text-danger text-center">
+              <?php
+                    if ( isset( $_SESSION['erro'] ) ){  
+                      session_destroy(); 
+                      $mensagem_confirma = mensagensErro( $_SESSION['erro'] );
+                      echo "{$mensagem_confirma}";
+                    }
+              ?>
+            </p> 
+            </div>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto float-right">
                     <li >
@@ -160,13 +175,10 @@ $todoslivros[] = [
                         <a class="text-decoration-none text-body" type="submit"><button class="glyphicon glyphicon-search col-1 b border-0 mt-2 float-left"></button></a>
                     </form>
                 </div><br>
-                <div class="mt-5 ml-5">
-                <a class="p-3 text-decoration-none" href="#">Mais procurados</a><br>
-                </div>
             </div>
             <div class="grid-item ml-5 border-right g2">
                 <?php if( $pesquisa == true ): ?>
-                    <form method="POST" action="index.php">    
+                    <form method="POST" action="cadastraEmprestimo.php">    
                         <button type="submit" name="fechar" class="close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -183,19 +195,6 @@ $todoslivros[] = [
                         </thead>
                         <tbody>
                         <tr>
-                        <?php if( !empty( $_POST['pesquisar'] )): ?>
-                        <?php foreach ( $livros as $livro):    
-                        ?>
-                            <td class="text-center"><?php echo $livro['id'];?></td>
-                            <td><?php echo $livro['titulo'];?></td>
-                            <td><?php echo $livro['autor'];?></td>
-                            <td><?php echo $livro['editora'];?></td>  
-                            <td class="text-center col-1">
-                              <a type="submit"><button class="glyphicon glyphicon-check border-0 bg-transparent"></button></a>
-                            </td>  
-                        </tr>
-                        <?php endforeach; ?>
-                        <?php endif; ?>  
                         <?php if( empty( $_POST['pesquisar'] )): ?> 
                         <?php foreach ( $livrosPagina as $livro):    
                         ?>
@@ -204,8 +203,12 @@ $todoslivros[] = [
                             <td><?php echo $livro['autor'];?></td>
                             <td><?php echo $livro['editora'];?></td>     
                             <td class="text-center col-1">
-                              <a type="submit"><button class="glyphicon glyphicon-check border-0 bg-transparent"></button></a>
+                            <form method="POST" action="cadastraEmprestimo.php">
+                                <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo'];?>">
+                                <button type="submit" class="glyphicon glyphicon-check border-0 bg-transparent"></button>
+                            </form>
                             </td>
+                        </form>
                         </tr>
                         <?php endforeach; ?>
                         <?php endif; ?>
