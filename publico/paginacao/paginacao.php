@@ -7,7 +7,7 @@
     $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
+    
     $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
                     FROM livro AS l
                     JOIN autor AS a ON a.id = l.id_autor 

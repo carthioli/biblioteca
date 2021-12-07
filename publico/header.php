@@ -34,6 +34,11 @@
                             <a class="text-decoration-none text-body" type="submit" name="reservar" href="cadastraReserva.php"><button class="button border-0 mt-2">Reservar<br/>Livro</button></a>
                         </div>
                     </li> 
+                    <li>
+                        <div class="ml-1 mt-2 mr-1 text-center">
+                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="devolucao.php"><button class="button border-0 mt-2">Devolução</button></a>
+                        </div>
+                    </li>
                     <li class="nav-item active dropleft p-0 mt-0">
                         <div class="mt-2">
                         <a class="nav-link" id="user" role="button" data-toggle="dropdown" >

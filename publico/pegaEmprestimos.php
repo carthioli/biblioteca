@@ -1,18 +1,9 @@
 <?php
 
-  function ajudaConverteAvisoParaRotulo( $aviso ){ 
-    if( $aviso == "atrasado" )
-      return "danger";
-    if( $aviso == "-" )
-      return 'success';
-    return "warning";
-  }
-
-  function avaliaDataDevolucao( $data ){
-
-    if( $data > 1 ) // atrasado
+  function avaliaDataDevolucao( $data_emprestimo, $data_devolucao ){
+    if( $data_emprestimo > $data_devolucao ) // atrasado
       return "atrasado";
-    if( $data == 1 ) 
+    if( $data_emprestimo == $data_devolucao ) 
       return "dia da devolucao";
     return "em dia";
 
@@ -28,10 +19,12 @@
                      JOIN autor as a ON a.id = l.id_autor
                      JOIN editora as e ON e.id = l.id_editora
                      JOIN emprestimo as em ON em.id = el.id_emprestimo 
-                     WHERE em.id_aluno = $idaluno");
+                     WHERE em.id_aluno = $idaluno
+                     LIMIT ".QTD_RESGISTROS."");
                      
     $sqlContador = pg_query("SELECT COUNT(*) AS total_registros
-                         FROM livro ");
+                             FROM livro 
+                             ");
 
     
     $valor = pg_fetch_assoc( $sqlContador ); 
@@ -41,13 +34,15 @@
       while ( $resultado = pg_fetch_assoc( $sql ) ){
         if ( isset($resultado['id']) ){
           $emprestados[] = [
-            'id'   => $resultado['id'],
-            'titulo'     => $resultado['titulo'],
-            'autor'      => $resultado['nome_autor'],
-            'editora'    => $resultado['nome_editora'],
-    'data_emprestimo'    => $resultado['data_emprestimo'],
-    'dias_emprestimo'    => $resultado['dias_emprestimo'],
-       'msg_devoluvacao' => avaliaDataDevolucao( $resultado['data_emprestimo'] )
+                 'id'  => $resultado['id'],
+             'titulo'  => $resultado['titulo'],
+              'autor'  => $resultado['nome_autor'],
+            'editora'  => $resultado['nome_editora'],
+    'data_emprestimo'  => $resultado['data_emprestimo'],     
+     'data_devolucao'  => $resultado['data_devolucao'],
+    'dias_emprestimo'  => $resultado['dias_emprestimo'],
+      'msg_devolucao'  => avaliaDataDevolucao( $resultado['data_emprestimo'], $resultado['data_devolucao'] ),
+      
           ];
         }
       }      

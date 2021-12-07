@@ -6,19 +6,21 @@
               include "../mostra/mostraReserva.php";
               include "insereReserva_livro.php";
               
-        if ( !empty( $_POST['id_aluno'] ) &&
-             !empty( $_POST['id_livro'] ) &&
-             is_numeric( $_POST['id_aluno'] ) &&
-             is_numeric( $_POST['id_livro'] ) ) {
+        if ( !empty( $_POST['id_aluno'] ) ) {
  
             $inserir = "INSERT INTO reserva(id_aluno) VALUES ('{$_POST['id_aluno']}')";
             $inseriu = pg_query( $link, $inserir );  
             
             if( pg_affected_rows( $inseriu ) ){
+
               $ultimoReserva = mostraReserva();
-                               insereReservaLivro($_POST['id_livro'], $ultimoReserva );
-                 
-                
+
+              foreach( $_POST['id_livro'] AS $livro ){  
+
+                insereReservaLivro($livro, $ultimoReserva['id'] );
+
+              }
+               
               header('location: ..\\..\\publico\\cadastraReserva.php');
               $_SESSION['valida'] = 10;
             }

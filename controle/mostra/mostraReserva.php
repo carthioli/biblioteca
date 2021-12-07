@@ -12,18 +12,10 @@
                            FROM reserva
                            ORDER BY id DESC 
                            LIMIT 1");
+        
+        $resultado = pg_fetch_assoc( $query );
+        return $resultado;
       
-        $reservas = [];
-      
-        while ( $resultado = pg_fetch_assoc( $query ) ){
-        $reservas[] = [
-            'id'   => $resultado['id']
-        ];
-        }
-        foreach ( $reservas as $reserva){
-          
-        }return $reserva['id'];
       }
-    
 
 ?>

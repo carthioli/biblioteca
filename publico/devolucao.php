@@ -12,20 +12,14 @@
     define('QTD_RESGISTROS', 5);
     define('RANGE_PAGINAS', 1);
 
-    $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
+    $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
             [
                 "emprestados"     => $emprestados,
                 "total_registros" => $total_registros
             ] = 
-            pegaEmprestimos( $_SESSION['Id'] );
-
-              
-
-    
-     
-          
+            pegaEmprestimos( $_SESSION['Id'] );   
 
     $primeira_pagina = 1;
     $ultima_pagina = ceil( $total_registros / QTD_RESGISTROS);
@@ -36,7 +30,6 @@
     $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
     $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
 
-  
 ?>
 
   <title>Seus emprestimo</title>
@@ -100,55 +93,63 @@
                     ?>
                  </td>   
                  <td class="text-center">
-                 <p class="text-<?php echo ajudaConverteAvisoParaRotulo( $emprestado['msg_devoluvacao'] )?> text-uppercase">
+                 <?php if( $emprestado['msg_devolucao'] == 'em dia' ): ?>  
+                    <p class="text-success text-uppercase">   
+                 <?php elseif( $emprestado['msg_devolucao'] == 'dia da devolucao' ): ?>
+                    <p class="text-warning text-uppercase">
+                 <?php elseif( $emprestado['msg_devolucao'] == 'atrasado' ): ?>
+                    <p class="text-danger text-uppercase">       
+                 <?php endif; ?>
                    <?php echo $emprestado['msg_devolucao']?>
                   </p>  
                  </td>
               </tr>
                 <?php endforeach; ?>
             </tbody>
-        </table>
-        <!--PAGINAÇÃO-->
-        <div class="text-center">  
-          <nav aria-label="Navegação de página exemplo">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="devolucao.php?page=<?=$primeira_pagina?>" aria-label="primeira">
-                  <span aria-hidden="true">Primeira</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="devolucao.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Anterior</span>
-                </a>
-              </li>
-              <?php  
-                for ($i=$range_inicial; $i <= $range_final; $i++):   
-                  $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-              ?>   
-                  <li class="page-item"><a class='box-numero <?=$destaque?>' href="devolucao.php?page=<?=$i?>"><?=$i?></a> </li>
-              <?php endfor; ?>  
-              <li class="page-item">
-                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="devolucao.php?page=<?=$proxima_pagina?>" aria-label="proximo">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Próximo</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="devolucao.php?page=<?=$ultima_pagina?>" aria-label="ultima">
-                  <span aria-hidden="true">Ultima</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>  
-        <!--FIM PAGINAÇÃO-->      
+        </table>     
         <div class="text-center">  
           <button onclick="emprestar()" class="btn-danger border-0 p-2 rounded" type="submit">DEVOLVER</button>            
         </div>          
       </div>  
-      </form>             
+      </form>  
+      <!--PAGINAÇÃO-->
+      <div class="text-center">  
+          <nav aria-label="Navegação de página exemplo">
+            <form method="POST" action="devolucao.php">
+              <ul class="pagination">
+                <li class="page-item">
+                  <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
+                    <span aria-hidden="true">Primeira</span>
+                 </button>
+                </li>
+                <li class="page-item">
+                  <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Anterior</span>
+                 </button>
+                </li>
+                <?php  
+                  for ($i=$range_inicial; $i < $range_final; $i++):   
+                    $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+                ?>   
+                    <li class="page-item"><button class='float-left box-numero <?=$destaque?>' name="page" value="<?=$i?>"><?=$i?></button> </li>
+                <?php endfor; ?>  
+                <li class="float-left page-item">
+                  <button class="page-link box-navegacao <?=$exibir_botao_final?>" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Próximo</span>
+                  </button>
+                </li>
+                <li class="float-left page-item">
+                  <button class="page-link box-navegacao <?=$exibir_botao_final?>" name="page" value="<?=$ultima_pagina?>" aria-label="ultima">
+                    <span aria-hidden="true">Ultima</span>
+                  </button>
+                </li>
+              </ul>
+            </form>
+          </nav>
+        </div>  
+        <!--FIM PAGINAÇÃO-->            
     </main>
 <footer>
   
