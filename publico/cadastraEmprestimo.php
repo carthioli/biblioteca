@@ -18,8 +18,6 @@
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
     $sql = pg_query("SELECT livro.id, livro.nome as titulo, autor.nome as nome_autor, editora.nome as nome_editora
                          FROM livro 
                          JOIN autor on autor.id = livro.id_autor
@@ -235,7 +233,7 @@
             </form>
         </nav> 
       </div>
-        <!--FIM PAGINAÇÃO-->                
+      <!--FIM PAGINAÇÃO-->                
     </main>
 <footer>
   

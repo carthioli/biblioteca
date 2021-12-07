@@ -17,8 +17,6 @@
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
     $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo, el.dias_emprestimo, el.data_devolucao
                      FROM livro as l
                      JOIN autor AS a ON a.id = l.id_autor

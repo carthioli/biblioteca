@@ -9,37 +9,34 @@
 <?php
     define('QTD_RESGISTROS', 5);
     define('RANGE_PAGINAS', 1);
-    $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
+    $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-    $sql = pg_query("SELECT id, nivel, id_usuario, nome
-                     FROM login   
-                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                    
-    $sqlContador = ("SELECT COUNT(*) AS total_registros
-                    FROM login");
-
-    $stm = $link->prepare($sqlContador);
-    $stm->execute();
-    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+    $query = pg_query("SELECT l.id, l.nivel, a.nome AS nome_usuario, l.nome AS usuario
+                        FROM login AS l 
+                        JOIN aluno AS a ON a.id = l.id_usuario
+                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
 
     $logins = [];
 
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $logins[] = [
-      'id'       => $resultado['id'],
-      'nivel'     => $resultado['nivel'],  
-      'id_usuario'    => $resultado['id_usuario'],
-      'usuario'  => $resultado['nome']
+    while ( $resultado = pg_fetch_assoc( $query ) ){
+        $logins[] = [
+             'id'  => $resultado['id'],
+          'nivel'  => $resultado['nivel'],
+   'nome_usuario'  => $resultado['nome_usuario'],
+        'usuario'  => $resultado['usuario']
     ];
     }
+        
+    $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                             FROM login");
+
+    $valor = pg_fetch_assoc( $sqlContador ); 
 
     $primeira_pagina = 1;
 
-    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+    $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
 
     $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
 
@@ -129,7 +126,7 @@
                 <th></th>
                 <th class="text-center">ID</th>
                 <th class="text-center">NÍVEL</th>
-                <th class="text-center">ID USUARIO</th>
+                <th class="text-center">NOME USUARIO</th>
                 <th class="text-center">USUARIO</th>
                 <th class="text-center">AÇÕES</th>
               </tr>  
@@ -140,7 +137,7 @@
                 <td class="text-center"><input type="checkbox" name="id_login" value="<?php echo $login['id'];?>"></td>
                 <td class="text-center"><?php echo $login['id'];?></td>
                 <td><?php echo $login['nivel'];?></td>
-                <td><?php echo $login['id_usuario'];?></td>
+                <td><?php echo $login['nome_usuario'];?></td>
                 <td><?php echo $login['usuario'];?></td>   
                 <td class="d-flex justify-content-center border-bottom-0">
                   <form method="POST" action="../controle/remove/removelogin.php">

@@ -12,33 +12,29 @@
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-    $sql = pg_query("SELECT id, nome, sobrenome, cpf 
-                    FROM autor
+    $query = pg_query("SELECT id, nome, sobrenome, cpf
+                    FROM autor 
                     LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                    
-    $sqlContador = ("SELECT COUNT(*) AS total_registros
-                    FROM autor ");
-
-    $stm = $link->prepare($sqlContador);
-    $stm->execute();
-    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
 
     $autores = [];
 
-        while ( $resultado = pg_fetch_assoc( $sql ) ){
+    while ( $resultado = pg_fetch_assoc( $query ) ){
         $autores[] = [
-            'id'   => $resultado['id'],
-            'nome' => $resultado['nome'],
-            'sobrenome' => $resultado['sobrenome'],
-            'cpf'  => $resultado['cpf'] 
-        ];
-        }
+                'id'  => $resultado['id'],
+              'nome'  => $resultado['nome'],
+        'sobrenome'  => $resultado['sobrenome'],
+              'cpf'  => $resultado['cpf'],
+    ];
+    }
+        
+    $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                             FROM autor");
+
+    $valor = pg_fetch_assoc( $sqlContador ); 
 
     $primeira_pagina = 1;
 
-    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+    $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
 
     $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
 
@@ -144,7 +140,7 @@
                 </a>
               </li>
               <?php  
-                for ($i=$range_inicial; $i <= $range_final; $i++):   
+                for ($i=$range_inicial; $i < $range_final; $i++):   
                   $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
               ?>   
                   <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraAutor.php?page=<?=$i?>"><?=$i?></a> </li>
