@@ -30,11 +30,11 @@
 
         while ( $resultado = pg_fetch_assoc( $query ) ){
             $alunos[] = [
-                'id'   => $resultado['id'],
-                'nome' => $resultado['nome'],
-                'sobrenome' => $resultado['sobrenome'],
-                'cpf' => $resultado['cpf'],
-                'telefone' => $resultado['telefone']
+                    'id'  => $resultado['id'],
+                  'nome'  => $resultado['nome'],
+             'sobrenome'  => $resultado['sobrenome'],
+                   'cpf'  => $resultado['cpf'],
+              'telefone'  => $resultado['telefone']
         ];
         }
     } 
@@ -133,178 +133,213 @@
         $pesquisar = false;
     } 
     /*TABELA ALUNO PAGINAÇÃO */
-        define('QTD_RESGISTROS', 5);
-        define('RANGE_PAGINAS', 1);
-        $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+    define('QTD_RESGISTROS', 5);
+    define('RANGE_PAGINAS', 1);
+    $pagina_atualAluno = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
-        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-        
-        $sql = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
-                        FROM aluno
-                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                        
-        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
-                                 FROM aluno
-                                 WHERE id in (SELECT id FROM aluno)");
-        
-        $valor = pg_fetch_assoc( $sqlContador ); 
-        
+    $linha_inicialAluno = ( $pagina_atualAluno - 1 ) * QTD_RESGISTROS;
+
+    $query = pg_query("SELECT id, nome, sobrenome, cpf, telefone
+                       FROM aluno 
+                       LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicialAluno}");
         $alunosPagina = [];
-    
-        while ( $resultado = pg_fetch_assoc( $sql ) ){
-        $alunosPagina[] = [
-            'id'   => $resultado['id'],
-            'nome' => $resultado['nome'],
-            'sobrenome' => $resultado['sobrenome'],
-            'cpf'  => $resultado['cpf'],
-            'telefone' => $resultado['telefone'] 
+
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $alunosPagina[] = [
+                    'id'  => $resultado['id'],
+                  'nome'  => $resultado['nome'],
+             'sobrenome'  => $resultado['sobrenome'],
+                   'cpf'  => $resultado['cpf'],
+              'telefone'  => $resultado['telefone']
         ];
         }
+        
+      $sqlContadorAluno = pg_query("SELECT COUNT(id) AS total_registros
+                              FROM aluno");
 
-        $primeira_pagina = 1;
-        
-        $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
-        
-        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-        
-        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-        
-        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-        
-        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-        
-        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+      $valor = pg_fetch_assoc( $sqlContadorAluno ); 
 
-        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-        
-        
-        /*TABELA AUTOR PAGINAÇÃO*/
+      $primeira_paginaAutorAluno = 1;
 
-        $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+      $ultima_paginaAluno = ceil( $valor['total_registros'] / QTD_RESGISTROS);
 
-        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-                
-        $sql = pg_query("SELECT id, nome, sobrenome, cpf 
-                        FROM autor
-                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-        
+      $pagina_anteriorAluno = ( $pagina_atualAluno > 1 ) ? $pagina_atualAluno - 1 : '';
+
+      $proxima_paginaAluno = ( $pagina_atualAluno < $ultima_paginaAluno ) ? $pagina_atualAluno + 1 : '';
+
+      $range_inicialAluno = ( ( $pagina_atualAluno - RANGE_PAGINAS ) >= 1 ) ? $pagina_atualAluno - RANGE_PAGINAS : 1;
+
+      $range_finalAluno = ( ( $pagina_atualAluno - RANGE_PAGINAS ) <= $ultima_paginaAluno ) ? $pagina_atualAluno + RANGE_PAGINAS : $ultima_paginaAluno;
+
+      $exibir_botao_inicialAluno = ( $range_inicialAluno < $pagina_atualAluno ) ? 'mostrar' : 'esconder';
+
+      $exibir_botao_finalAluno = ( $range_finalAluno > $pagina_atualAluno ) ? 'mostrar' : 'esconder';
+    
+    /*TABELA AUTOR PAGINAÇÃO*/
+        $pagina_atualAutor = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+
+        $linha_inicialAutor = ( $pagina_atualAutor - 1 ) * QTD_RESGISTROS;
+
+        $query = pg_query("SELECT id, nome, sobrenome, cpf
+                        FROM autor 
+                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicialAutor}");
+
         $autoresPagina = [];
-    
-        while ( $resultado = pg_fetch_assoc( $sql ) ){
-        $autoresPagina[] = [
-            'id'   => $resultado['id'],
-            'nome' => $resultado['nome'],
-            'sobrenome' => $resultado['sobrenome'],
-            'cpf'  => $resultado['cpf'] 
+
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $autoresPagina[] = [
+                   'id'  => $resultado['id'],
+                 'nome'  => $resultado['nome'],
+            'sobrenome'  => $resultado['sobrenome'],
+                  'cpf'  => $resultado['cpf'],
         ];
         }
-        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
-                                 FROM autor ");
-        
-        $valor = pg_fetch_assoc( $sqlContador ); 
-        
-        
-    
-        $primeira_pagina = 1;
-        
-        $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
-        
-        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-        
-        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-        
-        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-        
-        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-        
-        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-        
-        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+            
+        $sqlContadorAutor = pg_query("SELECT COUNT(id) AS total_registros
+                                      FROM autor");
+
+        $valorAutor = pg_fetch_assoc( $sqlContadorAutor ); 
+
+        $primeira_paginaAutor = 1;
+
+        $ultima_paginaAutor = ceil( $valorAutor['total_registros'] / QTD_RESGISTROS);
+
+        $pagina_anteriorAutor = ( $pagina_atualAutor > 1 ) ? $pagina_atualAutor - 1 : '';
+
+        $proxima_paginaAutor = ( $pagina_atualAutor < $ultima_paginaAutor ) ? $pagina_atualAutor + 1 : '';
+
+        $range_inicialAutor = ( ( $pagina_atualAutor - RANGE_PAGINAS ) >= 1 ) ? $pagina_atualAutor - RANGE_PAGINAS : 1;
+
+        $range_finalAutor = ( ( $pagina_atualAutor - RANGE_PAGINAS ) <= $ultima_paginaAutor ) ? $pagina_atualAutor + RANGE_PAGINAS : $ultima_paginaAutor;
+
+        $exibir_botao_inicialAutor = ( $range_inicialAutor < $pagina_atualAutor ) ? 'mostrar' : 'esconder';
+
+        $exibir_botao_finalAutor = ( $range_finalAutor > $pagina_atualAutor ) ? 'mostrar' : 'esconder';
 
     /*TABELA EDITORA PAGINAÇÃO*/
-    $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+        $pagina_atualEditora = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
-    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+        $linha_inicialEditora = ( $pagina_atualEditora - 1 ) * QTD_RESGISTROS;
+
+        $query = pg_query("SELECT id, nome, telefone
+                        FROM editora 
+                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicialEditora}");
+
+        $editorasPagina = [];
+
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $editorasPagina[] = [
+                  'id'  => $resultado['id'],
+                'nome'  => $resultado['nome'],
+            'telefone'  => $resultado['telefone']
+        ];
+        }
             
-    $sql = pg_query("SELECT id, nome, telefone 
-                    FROM editora
-                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-    
-    $editorasPagina = [];
+        $sqlContadorEditora = pg_query("SELECT COUNT(id) AS total_registros
+                                        FROM editora");
 
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $editorasPagina[] = [
-        'id'   => $resultado['id'],
-        'nome' => $resultado['nome'],
-    'telefone' => $resultado['telefone']
-    ];
-    }
-    $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
-                             FROM editora ");
-    
-    $valor = pg_fetch_assoc( $sqlContador ); 
-    
-    $primeira_pagina = 1;
-    
-    $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
-    
-    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-    
-    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-    
-    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-    
-    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-    
-    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-    
-    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-    
+        $valorEditora = pg_fetch_assoc( $sqlContadorEditora ); 
+
+        $primeira_paginaEditora = 1;
+
+        $ultima_paginaEditora = ceil( $valorEditora['total_registros'] / QTD_RESGISTROS);
+
+        $pagina_anteriorEditora = ( $pagina_atualEditora > 1 ) ? $pagina_atualEditora - 1 : '';
+
+        $proxima_paginaEditora = ( $pagina_atualEditora < $ultima_paginaEditora ) ? $pagina_atualEditora + 1 : '';
+
+        $range_inicialEditora = ( ( $pagina_atualEditora - RANGE_PAGINAS ) >= 1 ) ? $pagina_atualEditora - RANGE_PAGINAS : 1;
+
+        $range_finalEditora = ( ( $pagina_atualEditora - RANGE_PAGINAS ) <= $ultima_paginaEditora ) ? $pagina_atualEditora + RANGE_PAGINAS : $ultima_paginaEditora;
+
+        $exibir_botao_inicialEditora = ( $range_inicialEditora < $pagina_atualEditora ) ? 'mostrar' : 'esconder';
+
+        $exibir_botao_finalEditora = ( $range_finalEditora > $pagina_atualEditora ) ? 'mostrar' : 'esconder';
+        
     /*TABELA LIVRO PAGINAÇÃO*/
-        $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+        $pagina_atualLivro = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
-        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+        $linha_inicialLivro = ( $pagina_atualLivro - 1 ) * QTD_RESGISTROS;
 
-        $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
-                        FROM livro AS l
-                        JOIN autor AS a ON a.id = l.id_autor 
-                        JOIN editora AS e ON e.id = l.id_editora
-                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                        
-        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
-                                 FROM livro");
-
-        $valor = pg_fetch_assoc( $sqlContador ); 
+        $query = pg_query("SELECT l.id, l.nome AS titulo, a.nome AS nome_autor, e.nome AS nome_editora
+                           FROM livro AS l 
+                           JOIN autor AS a ON a.id = l.id_autor
+                           JOIN editora AS e ON e.id = l.id_editora
+                           LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicialLivro}");
 
         $livrosPagina = [];
 
-        while ( $resultado = pg_fetch_assoc( $sql ) ){
-        $livrosPagina[] = [
-            'id'   => $resultado['id'],
-            'titulo' => $resultado['nome'],
-            'autor'  => $resultado['autor'],
-            'editora'=> $resultado['editora']
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $livrosPagina[] = [
+                  'id'  => $resultado['id'],
+              'titulo'  => $resultado['titulo'],
+               'autor'  => $resultado['nome_autor'],
+             'editora'  => $resultado['nome_editora']
         ];
         }
+            
+        $sqlContadorLivro = pg_query("SELECT COUNT(id) AS total_registros
+                                      FROM Livro");
 
-        $primeira_pagina = 1;
+        $valorLivro = pg_fetch_assoc( $sqlContadorLivro ); 
 
-        $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
+        $primeira_paginaLivro = 1;
 
-        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+        $ultima_paginaLivro = ceil( $valorLivro['total_registros'] / QTD_RESGISTROS);
 
-        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+        $pagina_anteriorLivro = ( $pagina_atualLivro > 1 ) ? $pagina_atualLivro - 1 : '';
 
-        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+        $proxima_paginaLivro = ( $pagina_atualLivro < $ultima_paginaLivro ) ? $pagina_atualLivro + 1 : '';
 
-        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+        $range_inicialLivro = ( ( $pagina_atualLivro - RANGE_PAGINAS ) >= 1 ) ? $pagina_atualLivro - RANGE_PAGINAS : 1;
 
-        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+        $range_finalLivro = ( ( $pagina_atualLivro - RANGE_PAGINAS ) <= $ultima_paginaLivro ) ? $pagina_atualLivro + RANGE_PAGINAS : $ultima_paginaLivro;
 
-        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+        $exibir_botao_inicialLivro = ( $range_inicialLivro < $pagina_atualLivro ) ? 'mostrar' : 'esconder';
+
+        $exibir_botao_finalLivro = ( $range_finalLivro > $pagina_atualLivro ) ? 'mostrar' : 'esconder';
         
     /*TABELA LOGIN PAGINAÇÃO*/
+        $pagina_atualLogin = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
+        $linha_inicialLogin = ( $pagina_atualLogin - 1 ) * QTD_RESGISTROS;
+
+        $query = pg_query("SELECT l.id, l.nivel, a.nome AS nome_aluno, l.nome AS usuario
+                           FROM login AS l 
+                           JOIN aluno AS a ON a.id = l.id_usuario
+                           LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicialLogin}");
+
+        $loginsPagina = [];
+
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $loginsPagina[] = [
+                'id'  => $resultado['id'],
+             'nivel'  => $resultado['nivel'],
+        'nome_aluno'  => $resultado['nome_aluno'],
+           'usuario'  => $resultado['usuario']
+        ];
+        }
+            
+        $sqlContadorLogin = pg_query("SELECT COUNT(id) AS total_registros
+                                    FROM Login");
+
+        $valorLogin = pg_fetch_assoc( $sqlContadorLogin ); 
+
+        $primeira_paginaLogin = 1;
+
+        $ultima_paginaLogin = ceil( $valorLogin['total_registros'] / QTD_RESGISTROS);
+
+        $pagina_anteriorLogin = ( $pagina_atualLogin > 1 ) ? $pagina_atualLogin - 1 : '';
+
+        $proxima_paginaLogin = ( $pagina_atualLogin < $ultima_paginaLogin ) ? $pagina_atualLogin + 1 : '';
+
+        $range_inicialLogin = ( ( $pagina_atualLogin - RANGE_PAGINAS ) >= 1 ) ? $pagina_atualLogin - RANGE_PAGINAS : 1;
+
+        $range_finalLogin = ( ( $pagina_atualLogin - RANGE_PAGINAS ) <= $ultima_paginaLogin ) ? $pagina_atualLogin + RANGE_PAGINAS : $ultima_paginaLogin;
+
+        $exibir_botao_inicialLogin = ( $range_inicialLogin < $pagina_atualLogin ) ? 'mostrar' : 'esconder';
+
+        $exibir_botao_finalLogin = ( $range_finalLogin > $pagina_atualLogin ) ? 'mostrar' : 'esconder';
 
 ?>
 
@@ -425,46 +460,46 @@
                         <?php endif; ?>
                         </tbody>
                     </table>
-                    <div class="text-center">   
-                    <nav aria-label="Navegação de página exemplo">
-                        <form method="POST" action="index.php">
-                        <ul class="pagination">
-                            <li class="page-item">
-                            <input type="hidden" name="aluno">
-                            <input type="hidden" name="pesquisar">    
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
-                                <span aria-hidden="true">Primeira</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Anterior</span>
-                            </button>
-                            </li>
-                            <?php  
-                            for ($i=$range_inicial; $i < $range_final; $i++):   
-                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-                            ?>   
-                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
-                            <?php endfor; ?>  
-                            <li class="page-item">
-                            <input type="hidden" name="aluno">
-                            <input type="hidden" name="pesquisar"> 
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Próximo</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
-                                <span aria-hidden="true">Ultima</span>
-                            </button>
-                            </li>
-                        </ul>
-                        </form>
-                      </nav>   
-                      </div>
+                    <!--PAGINAÇÃO-->
+                    <div class="text-center">
+                        <nav aria-label="Navegação de página exemplo">
+                            <form method="POST" action="index.php">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                <input type="hidden" name="aluno">
+                                <input type="hidden" name="pesquisar">    
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioAluno?>" type="submit" name="page" value="<?=$primeira_paginaAutorAluno?>" aria-label="primeira">
+                                    <span aria-hidden="true">Primeira</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioAluno?>" type="submit" name="page" value="<?=$pagina_anteriorAutorAluno?>" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Anterior</span>
+                                </button>
+                                </li>
+                                <?php  
+                                for ($i=$range_inicialAluno; $i < $range_finalAluno; $i++):   
+                                    $destaque = ($i == $pagina_atualAluno);  
+                                ?>   
+                                    <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                                <?php endfor; ?>  
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalAluno?>" type="submit" name="page" value="<?=$proxima_paginaAluno?>" aria-label="proximo">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Próximo</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalAluno?>" name="page" type="submit" value="<?=$ultima_paginaAluno?>" aria-label="ultima">
+                                    <span aria-hidden="true">Ultima</span>
+                                </button>
+                                </li>
+                            </ul>
+                            </form>
+                        </nav> 
+                    </div>
+                    <!--FIM PAGINAÇÃO-->   
                 <?php endif; ?>
                 
              <!-- TABELA AUTOR -->
@@ -508,46 +543,46 @@
                         <?php endif; ?>
                         </tbody>
                     </table>
-                    <div class="text-center">   
-                    <nav aria-label="Navegação de página exemplo">
-                        <form method="POST" action="index.php">
-                        <ul class="pagination">
-                            <li class="page-item">
-                            <input type="hidden" name="autor">
-                            <input type="hidden" name="pesquisar">    
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
-                                <span aria-hidden="true">Primeira</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Anterior</span>
-                            </button>
-                            </li>
-                            <?php  
-                            for ($i=$range_inicial; $i < $range_final; $i++):   
-                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-                            ?>   
-                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
-                            <?php endfor; ?>  
-                            <li class="page-item">
-                            <input type="hidden" name="autor">
-                            <input type="hidden" name="pesquisar"> 
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Próximo</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
-                                <span aria-hidden="true">Ultima</span>
-                            </button>
-                            </li>
-                        </ul>
-                        </form>
-                      </nav>   
-                      </div>
+                     <!--PAGINAÇÃO-->
+                    <div class="text-center">
+                        <nav aria-label="Navegação de página exemplo">
+                            <form method="POST" action="index.php">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                <input type="hidden" name="autor">
+                                <input type="hidden" name="pesquisar">    
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioAutor?>" type="submit" name="page" value="<?=$primeira_paginaAutor?>" aria-label="primeira">
+                                    <span aria-hidden="true">Primeira</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioAutor?>" type="submit" name="page" value="<?=$pagina_anteriorAutor?>" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Anterior</span>
+                                </button>
+                                </li>
+                                <?php  
+                                for ($i=$range_inicialAutor; $i < $range_finalAutor; $i++):   
+                                    $destaque = ($i == $pagina_atualAutor);  
+                                ?>   
+                                    <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                                <?php endfor; ?>  
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalAutor?>" type="submit" name="page" value="<?=$proxima_paginaAutor?>" aria-label="proximo">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Próximo</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalAutor?>" name="page" type="submit" value="<?=$ultima_paginaAutor?>" aria-label="ultima">
+                                    <span aria-hidden="true">Ultima</span>
+                                </button>
+                                </li>
+                            </ul>
+                            </form>
+                        </nav> 
+                    </div>
+                    <!--FIM PAGINAÇÃO-->   
                 <?php endif; ?>
             <!-- TABELA EDITORA -->                    
                 <?php if( $pesquisa == true && isset( $_POST['editora'] )): ?>
@@ -587,46 +622,46 @@
                         <?php endif; ?>
                         </tbody>
                     </table>
+                    <!--PAGINAÇÃO-->
                     <div class="text-center">
-                    <nav aria-label="Navegação de página exemplo">
-                        <form method="POST" action="index.php">
-                        <ul class="pagination">
-                            <li class="page-item">
-                            <input type="hidden" name="editora">
-                            <input type="hidden" name="pesquisar">    
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
-                                <span aria-hidden="true">Primeira</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Anterior</span>
-                            </button>
-                            </li>
-                            <?php  
-                            for ($i=$range_inicial; $i < $range_final; $i++):   
-                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-                            ?>   
-                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
-                            <?php endfor; ?>  
-                            <li class="page-item">
-                            <input type="hidden" name="editora">
-                            <input type="hidden" name="pesquisar"> 
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Próximo</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
-                                <span aria-hidden="true">Ultima</span>
-                            </button>
-                            </li>
-                        </ul>
-                        </form>
-                      </nav> 
-                      </div>
+                        <nav aria-label="Navegação de página exemplo">
+                            <form method="POST" action="index.php">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                <input type="hidden" name="editora">
+                                <input type="hidden" name="pesquisar">    
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioEditora?>" type="submit" name="page" value="<?=$primeira_paginaEditora?>" aria-label="primeira">
+                                    <span aria-hidden="true">Primeira</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioEditora?>" type="submit" name="page" value="<?=$pagina_anteriorEditora?>" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Anterior</span>
+                                </button>
+                                </li>
+                                <?php  
+                                for ($i=$range_inicialEditora; $i < $range_finalEditora; $i++):   
+                                    $destaque = ($i == $pagina_atualEditora);  
+                                ?>   
+                                    <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                                <?php endfor; ?>  
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalEditora?>" type="submit" name="page" value="<?=$proxima_paginaEditora?>" aria-label="proximo">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Próximo</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalEditora?>" name="page" type="submit" value="<?=$ultima_paginaEditora?>" aria-label="ultima">
+                                    <span aria-hidden="true">Ultima</span>
+                                </button>
+                                </li>
+                            </ul>
+                            </form>
+                        </nav> 
+                    </div>
+                    <!--FIM PAGINAÇÃO-->    
                 <?php endif; ?>
             <!-- TABELA LIVRO -->                
                 <?php if( $pesquisa == true && isset( $_POST['livro'] )): ?>
@@ -669,44 +704,46 @@
                         <?php endif; ?>
                         </tbody>
                     </table>
+                    <!--PAGINAÇÃO-->
                     <div class="text-center">
-                    <nav aria-label="Navegação de página exemplo">
-                        <form method="POST" action="index.php">
-                        <ul class="pagination">
-                            <li class="page-item">
-                            <input type="hidden" name="livro">
-                            <input type="hidden" name="pesquisar">    
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
-                                <span aria-hidden="true">Primeira</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Anterior</span>
-                            </button>
-                            </li>
-                            <?php  
-                            for ($i=$range_inicial; $i < $range_final; $i++):   
-                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-                            ?>   
-                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
-                            <?php endfor; ?>  
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Próximo</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
-                                <span aria-hidden="true">Ultima</span>
-                            </button>
-                            </li>
-                        </ul>
-                        </form>
-                      </nav> 
-                      </div>
+                        <nav aria-label="Navegação de página exemplo">
+                            <form method="POST" action="index.php">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                <input type="hidden" name="livro">
+                                <input type="hidden" name="pesquisar">    
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioLivro?>" type="submit" name="page" value="<?=$primeira_paginaLivro?>" aria-label="primeira">
+                                    <span aria-hidden="true">Primeira</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioLivro?>" type="submit" name="page" value="<?=$pagina_anteriorLivro?>" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Anterior</span>
+                                </button>
+                                </li>
+                                <?php  
+                                for ($i=$range_inicialLivro; $i < $range_finalLivro; $i++):   
+                                    $destaque = ($i == $pagina_atualLivro);  
+                                ?>   
+                                    <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                                <?php endfor; ?>  
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalLivro?>" type="submit" name="page" value="<?=$proxima_paginaLivro?>" aria-label="proximo">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Próximo</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalLivro?>" name="page" type="submit" value="<?=$ultima_paginaLivro?>" aria-label="ultima">
+                                    <span aria-hidden="true">Ultima</span>
+                                </button>
+                                </li>
+                            </ul>
+                            </form>
+                        </nav> 
+                    </div>
+                    <!--FIM PAGINAÇÃO-->    
                 <?php endif; ?>
             <!-- TABELA LOGIN -->       
 
@@ -738,46 +775,46 @@
                         <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <!--PAGINAÇÃO-->
                     <div class="text-center">
-                    <nav aria-label="Navegação de página exemplo">
-                        <form method="POST" action="index.php">
-                        <ul class="pagination">
-                            <li class="page-item">
-                            <input type="hidden" name="login">
-                            <input type="hidden" name="pesquisar">    
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
-                                <span aria-hidden="true">Primeira</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Anterior</span>
-                            </button>
-                            </li>
-                            <?php  
-                            for ($i=$range_inicial; $i < $range_final; $i++):   
-                                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-                            ?>   
-                                <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
-                            <?php endfor; ?>  
-                            <li class="page-item">
-                            <input type="hidden" name="login">
-                            <input type="hidden" name="pesquisar"> 
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Próximo</span>
-                            </button>
-                            </li>
-                            <li class="page-item">
-                            <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
-                                <span aria-hidden="true">Ultima</span>
-                            </button>
-                            </li>
-                        </ul>
-                        </form>
-                      </nav> 
-                      </div>
+                        <nav aria-label="Navegação de página exemplo">
+                            <form method="POST" action="index.php">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                <input type="hidden" name="login">
+                                <input type="hidden" name="pesquisar">    
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioLogin?>" type="submit" name="page" value="<?=$primeira_paginaLogin?>" aria-label="primeira">
+                                    <span aria-hidden="true">Primeira</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicioLogin?>" type="submit" name="page" value="<?=$pagina_anteriorLogin?>" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Anterior</span>
+                                </button>
+                                </li>
+                                <?php  
+                                for ($i=$range_inicialLogin; $i < $range_finalLogin; $i++):   
+                                    $destaque = ($i == $pagina_atualLogin);  
+                                ?>   
+                                    <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
+                                <?php endfor; ?>  
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalLogin?>" type="submit" name="page" value="<?=$proxima_paginaLogin?>" aria-label="proximo">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Próximo</span>
+                                </button>
+                                </li>
+                                <li class="page-item">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_finalLogin?>" name="page" type="submit" value="<?=$ultima_paginaLogin?>" aria-label="ultima">
+                                    <span aria-hidden="true">Ultima</span>
+                                </button>
+                                </li>
+                            </ul>
+                            </form>
+                        </nav> 
+                    </div>
+                    <!--FIM PAGINAÇÃO-->    
                 <?php endif; ?>
 
                 <div class="container col-8 p-2">

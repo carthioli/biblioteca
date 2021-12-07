@@ -13,47 +13,41 @@
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+    $query = pg_query("SELECT id, nome, sobrenome, cpf, telefone
+                       FROM aluno 
+                       LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+        $alunos = [];
 
-    $sql = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
-                     FROM aluno
-                     LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                    
-    $sqlContador = ("SELECT COUNT(*) AS total_registros
-                     FROM aluno ");
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $alunos[] = [
+                    'id'  => $resultado['id'],
+                  'nome'  => $resultado['nome'],
+             'sobrenome'  => $resultado['sobrenome'],
+                   'cpf'  => $resultado['cpf'],
+              'telefone'  => $resultado['telefone']
+        ];
+        }
+        
+      $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                              FROM aluno");
 
-    $stm = $link->prepare($sqlContador);
-    $stm->execute();
-    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
-  
-   $alunos = [];
+      $valor = pg_fetch_assoc( $sqlContador ); 
 
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-        $alunos[] = [
-            'id'   => $resultado['id'],
-            'nome' => $resultado['nome'],
-            'sobrenome' => $resultado['sobrenome'],
-            'cpf' => $resultado['cpf'],
-            'telefone' => $resultado['telefone']
+      $primeira_paginaAutor = 1;
 
-    ];
-    }
+      $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
 
-   $primeira_pagina = 1;
+      $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
 
-   $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+      $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
 
-   $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+      $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
 
-   $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+      $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
 
-   $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+      $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
 
-   $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-   $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-   $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+      $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
 
 ?>
 
@@ -183,7 +177,7 @@
               </a>
             </li>
             <?php  
-              for ($i=$range_inicial; $i <= $range_final; $i++):   
+              for ($i=$range_inicial; $i < $range_final; $i++):   
                 $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
             ?>   
                 <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraAluno.php?page=<?=$i?>"><?=$i?></a> </li>

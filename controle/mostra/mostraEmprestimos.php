@@ -27,13 +27,11 @@
                      JOIN emprestimo as em ON em.id = el.id_emprestimo
                      LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
                      
-        $sqlContador = ("SELECT COUNT(*) AS total_registros
-                         FROM livro
-                         WHERE id not in (SELECT id_livro FROM emprestimo_livro) ");
+        $sqlContador = pg_query("SELECT COUNT(*) AS total_registros
+                                 FROM livro
+                                 WHERE id not in (SELECT id_livro FROM emprestimo_livro) ");
 
-                         $stm = $link->prepare($sqlContador);
-                         $stm->execute();
-                         $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+        $valor = pg_fetch_assoc( $sqlContador ); 
       
       $emprestados = [];
        
@@ -51,7 +49,7 @@
       }  
     $primeira_pagina = 1;
 
-    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+    $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
 
     $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
 

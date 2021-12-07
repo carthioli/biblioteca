@@ -9,46 +9,42 @@
     define('RANGE_PAGINAS', 1);
     $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
 
-    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+        $query = pg_query("SELECT id, nome, telefone
+                        FROM editora 
+                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
 
-    $sql = pg_query("SELECT id, nome, telefone 
-                    FROM editora
-                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                    
-    $sqlContador = ("SELECT COUNT(*) AS total_registros
-                    FROM editora ");
+        $editoras = [];
 
-    $stm = $link->prepare($sqlContador);
-    $stm->execute();
-    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $editoras[] = [
+                  'id'  => $resultado['id'],
+                'nome'  => $resultado['nome'],
+            'telefone'  => $resultado['telefone']
+        ];
+        }
+            
+        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                                 FROM editora");
 
-    $editoras = [];
+        $valor = pg_fetch_assoc( $sqlContador ); 
 
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $editoras[] = [
-        'id'   => $resultado['id'],
-        'nome' => $resultado['nome'],
-        'telefone' => $resultado['telefone']
-    ];
-    }
+        $primeira_pagina = 1;
 
-    $primeira_pagina = 1;
+        $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
 
-    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
 
-    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
 
-    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
 
-    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
 
-    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
 
-    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
 
 ?>
   <title>Cadastra Editora</title>
@@ -137,7 +133,7 @@
                 </a>
               </li>
               <?php  
-                for ($i=$range_inicial; $i <= $range_final; $i++):   
+                for ($i=$range_inicial; $i < $range_final; $i++):   
                   $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
               ?>   
                   <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraEditora.php?page=<?=$i?>"><?=$i?></a> </li>

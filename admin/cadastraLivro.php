@@ -15,35 +15,31 @@
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-    $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
-                    FROM livro AS l
-                    JOIN autor AS a ON a.id = l.id_autor 
-                    JOIN editora AS e ON e.id = l.id_editora
-                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                    
-    $sqlContador = ("SELECT COUNT(*) AS total_registros
-                    FROM livro ");
-
-    $stm = $link->prepare($sqlContador);
-    $stm->execute();
-    $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+    $query = pg_query("SELECT l.id, l.nome AS titulo, a.nome AS nome_autor, e.nome AS nome_editora
+                       FROM livro AS l 
+                       JOIN autor AS a ON a.id = l.id_autor
+                       JOIN editora AS e ON e.id = l.id_editora
+                       LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
 
     $livros = [];
 
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $livros[] = [
-        'id'   => $resultado['id'],
-        'titulo' => $resultado['nome'],
-        'autor'  => $resultado['autor'],
-        'editora'=> $resultado['editora']
+    while ( $resultado = pg_fetch_assoc( $query ) ){
+        $livros[] = [
+              'id'  => $resultado['id'],
+          'titulo'  => $resultado['titulo'],
+           'autor'  => $resultado['nome_autor'],
+         'editora'  => $resultado['nome_editora']
     ];
     }
+        
+    $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                             FROM livro");
+
+    $valor = pg_fetch_assoc( $sqlContador ); 
 
     $primeira_pagina = 1;
 
-    $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+    $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
 
     $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
 
@@ -162,7 +158,7 @@
                 </a>
               </li>
               <?php  
-                for ($i=$range_inicial; $i <= $range_final; $i++):   
+                for ($i=$range_inicial; $i < $range_final; $i++):   
                   $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
               ?>   
                   <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraLivro.php?page=<?=$i?>"><?=$i?></a> </li>
