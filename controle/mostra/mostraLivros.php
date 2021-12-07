@@ -2,11 +2,12 @@
 
     $link = include "..\\controle\\insere\\conexao.php";
 
-    $query = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo
+    $query = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo
                       FROM livro as l
                       JOIN autor AS a ON a.id = l.id_autor
                       JOIN editora as e ON e.id = l.id_editora
                       JOIN emprestimo_livro as el ON el.id_livro = l.id
+                      JOIN emprestimo as em ON em.id = el.id_emprestimo
                       ORDER BY 1 ASC");
 
     

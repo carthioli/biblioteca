@@ -19,14 +19,21 @@
                 "emprestados"     => $emprestados,
                 "total_registros" => $total_registros
             ] = 
-            pegaEmprestimos( $_SESSION['Id'] );   
+            pegaEmprestimos( $_SESSION['Id'], isset($_POST['page'] ), $linha_inicial );   
+
+            $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                                     FROM livro
+                                     WHERE id in (SELECT id_livro FROM emprestimo_livro)");
+
+
+    $valor = pg_fetch_assoc( $sqlContador ); 
 
     $primeira_pagina = 1;
-    $ultima_pagina = ceil( $total_registros / QTD_RESGISTROS);
+    $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
     $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
     $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
     $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) < $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
     $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
     $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
 
@@ -132,7 +139,7 @@
                   for ($i=$range_inicial; $i < $range_final; $i++):   
                     $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
                 ?>   
-                    <li class="page-item"><button class='float-left box-numero <?=$destaque?>' name="page" value="<?=$i?>"><?=$i?></button> </li>
+                    <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary  box-numero <?=$destaque?>' name="page" value="<?=$i?>"><?=$i?></button> </li>
                 <?php endfor; ?>  
                 <li class="float-left page-item">
                   <button class="page-link box-navegacao <?=$exibir_botao_final?>" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">

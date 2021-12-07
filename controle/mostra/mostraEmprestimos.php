@@ -19,15 +19,17 @@
 
     $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
 
-    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, el.data_emprestimo, el.dias_emprestimo
-    FROM livro as l
-    JOIN autor AS a ON a.id = l.id_autor
-    JOIN editora as e ON e.id = l.id_editora
-    JOIN emprestimo_livro as el ON el.id_livro = l.id
-                         LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+    $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo, el.dias_emprestimo
+                     FROM livro as l
+                     JOIN autor AS a ON a.id = l.id_autor
+                     JOIN editora as e ON e.id = l.id_editora
+                     JOIN emprestimo_livro as el ON el.id_livro = l.id
+                     JOIN emprestimo as em ON em.id = el.id_emprestimo
+                     LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
                      
         $sqlContador = ("SELECT COUNT(*) AS total_registros
-                         FROM livro ");
+                         FROM livro
+                         WHERE id not in (SELECT id_livro FROM emprestimo_livro) ");
 
                          $stm = $link->prepare($sqlContador);
                          $stm->execute();
@@ -167,7 +169,7 @@
               </a>
             </li>
             <?php  
-              for ($i=$range_inicial; $i <= $range_final; $i++):   
+              for ($i=$range_inicial; $i < $range_final; $i++):   
                 $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
             ?>   
                 <li class="page-item"><a class='box-numero <?=$destaque?>' href="mostraEmprestimos.php?page=<?=$i?>"><?=$i?></a> </li>

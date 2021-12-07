@@ -136,38 +136,34 @@
         define('QTD_RESGISTROS', 5);
         define('RANGE_PAGINAS', 1);
         $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-        
+
         $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-        
-        $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
         
         $sql = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
                         FROM aluno
                         LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
                         
-        $sqlContador = ("SELECT COUNT(*) AS total_registros
-                        FROM aluno ");
+        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                                 FROM aluno
+                                 WHERE id in (SELECT id FROM aluno)");
         
-        $stm = $link->prepare($sqlContador);
-        $stm->execute();
-        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+        $valor = pg_fetch_assoc( $sqlContador ); 
         
         $alunosPagina = [];
-        
+    
         while ( $resultado = pg_fetch_assoc( $sql ) ){
-            $alunosPagina[] = [
-                'id'   => $resultado['id'],
-                'nome' => $resultado['nome'],
-                'sobrenome' => $resultado['sobrenome'],
-                'cpf' => $resultado['cpf'],
-                'telefone' => $resultado['telefone']
-        
+        $alunosPagina[] = [
+            'id'   => $resultado['id'],
+            'nome' => $resultado['nome'],
+            'sobrenome' => $resultado['sobrenome'],
+            'cpf'  => $resultado['cpf'],
+            'telefone' => $resultado['telefone'] 
         ];
         }
-    
+
         $primeira_pagina = 1;
         
-        $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+        $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
         
         $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
         
@@ -178,27 +174,19 @@
         $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
         
         $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-        
+
         $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+        
         
         /*TABELA AUTOR PAGINAÇÃO*/
 
         $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
         $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-        
-        $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-        
+                
         $sql = pg_query("SELECT id, nome, sobrenome, cpf 
                         FROM autor
                         LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                        
-        $sqlContador = ("SELECT COUNT(*) AS total_registros
-                        FROM autor ");
-        
-        $stm = $link->prepare($sqlContador);
-        $stm->execute();
-        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
         
         $autoresPagina = [];
     
@@ -210,10 +198,16 @@
             'cpf'  => $resultado['cpf'] 
         ];
         }
+        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                                 FROM autor ");
+        
+        $valor = pg_fetch_assoc( $sqlContador ); 
+        
+        
     
         $primeira_pagina = 1;
         
-        $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+        $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
         
         $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
         
@@ -228,55 +222,48 @@
         $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
 
     /*TABELA EDITORA PAGINAÇÃO*/
-        $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
+    $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
-        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+            
+    $sql = pg_query("SELECT id, nome, telefone 
+                    FROM editora
+                    LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+    
+    $editorasPagina = [];
 
-        $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
-
-        $sql = pg_query("SELECT id, nome, telefone 
-                        FROM editora
-                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-                        
-        $sqlContador = ("SELECT COUNT(*) AS total_registros
-                        FROM editora ");
-
-        $stm = $link->prepare($sqlContador);
-        $stm->execute();
-        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
-
-        $editorasPagina = [];
-
-        while ( $resultado = pg_fetch_assoc( $sql ) ){
-        $editorasPagina[] = [
-            'id'   => $resultado['id'],
-            'nome' => $resultado['nome'],
-            'telefone' => $resultado['telefone']
-        ];
-        }
-
-        $primeira_pagina = 1;
-
-        $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
-
-        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
-        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
-        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
-        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+    while ( $resultado = pg_fetch_assoc( $sql ) ){
+    $editorasPagina[] = [
+        'id'   => $resultado['id'],
+        'nome' => $resultado['nome'],
+    'telefone' => $resultado['telefone']
+    ];
+    }
+    $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                             FROM editora ");
+    
+    $valor = pg_fetch_assoc( $sqlContador ); 
+    
+    $primeira_pagina = 1;
+    
+    $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
+    
+    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+    
+    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+    
+    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+    
+    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+    
+    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+    
+    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
     
     /*TABELA LIVRO PAGINAÇÃO*/
         $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 
         $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-        $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
 
         $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
                         FROM livro AS l
@@ -284,12 +271,10 @@
                         JOIN editora AS e ON e.id = l.id_editora
                         LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
                         
-        $sqlContador = ("SELECT COUNT(*) AS total_registros
-                        FROM livro ");
+        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                                 FROM livro");
 
-        $stm = $link->prepare($sqlContador);
-        $stm->execute();
-        $valor = $stm ->fetch(PDO::FETCH_OBJ); 
+        $valor = pg_fetch_assoc( $sqlContador ); 
 
         $livrosPagina = [];
 
@@ -304,7 +289,7 @@
 
         $primeira_pagina = 1;
 
-        $ultima_pagina = ceil( $valor->total_registros / QTD_RESGISTROS);
+        $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
 
         $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
 
@@ -458,7 +443,7 @@
                             </button>
                             </li>
                             <?php  
-                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                            for ($i=$range_inicial; $i < $range_final; $i++):   
                                 $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
                             ?>   
                                 <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
@@ -541,7 +526,7 @@
                             </button>
                             </li>
                             <?php  
-                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                            for ($i=$range_inicial; $i < $range_final; $i++):   
                                 $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
                             ?>   
                                 <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
@@ -620,7 +605,7 @@
                             </button>
                             </li>
                             <?php  
-                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                            for ($i=$range_inicial; $i < $range_final; $i++):   
                                 $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
                             ?>   
                                 <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
@@ -702,7 +687,7 @@
                             </button>
                             </li>
                             <?php  
-                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                            for ($i=$range_inicial; $i < $range_final; $i++):   
                                 $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
                             ?>   
                                 <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
@@ -771,7 +756,7 @@
                             </button>
                             </li>
                             <?php  
-                            for ($i=$range_inicial; $i <= $range_final; $i++):   
+                            for ($i=$range_inicial; $i < $range_final; $i++):   
                                 $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
                             ?>   
                                 <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>

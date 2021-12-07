@@ -9,7 +9,7 @@
 
   }
 
-  function pegaEmprestimos( $idaluno ){
+  function pegaEmprestimos( $idaluno, $pagina_atual, $linha_inicial ){
 
     $link = include "..\\controle\\insere\\conexao.php";
 
@@ -20,11 +20,11 @@
                      JOIN editora as e ON e.id = l.id_editora
                      JOIN emprestimo as em ON em.id = el.id_emprestimo 
                      WHERE em.id_aluno = $idaluno
-                     LIMIT ".QTD_RESGISTROS."");
+                     LIMIT ".QTD_RESGISTROS." OFFSET'{$linha_inicial}'");
                      
-    $sqlContador = pg_query("SELECT COUNT(*) AS total_registros
-                             FROM livro 
-                             ");
+    $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                             FROM livro
+                             WHERE id not in (SELECT id_livro FROM emprestimo_livro) ");
 
     
     $valor = pg_fetch_assoc( $sqlContador ); 
