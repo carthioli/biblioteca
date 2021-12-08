@@ -1,8 +1,8 @@
 <?php
     $link = include "..\\controle\\insere\\conexao.php";
+    include "funPaginacao.php";
 
-    define('QTD_RESGISTROS', 5);
-    define('RANGE_PAGINAS', 1);
+    definePaginacao();
 
     $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
 

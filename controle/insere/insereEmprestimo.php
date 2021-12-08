@@ -7,9 +7,10 @@
               include "insereEmprestimoLivro.php";
               
         if ( !empty( $_POST['id_aluno'] ) &&
-               !empty( $_POST['dias_devolucao'] ) &&
-                 is_numeric( $_POST['id_aluno'] ) &&
-                   is_numeric( $_POST['dias_devolucao'] ) ) {
+               !empty( $_POST['id_livro'] ) &&
+                 !empty( $_POST['dias_devolucao'] ) &&
+                   is_numeric( $_POST['id_aluno'] ) &&
+                       is_numeric( $_POST['dias_devolucao'] ) ) {
  
             $inserir = "INSERT INTO emprestimo(id_aluno) VALUES ('{$_POST['id_aluno']}')";
             $inseriu = pg_query( $link, $inserir );  

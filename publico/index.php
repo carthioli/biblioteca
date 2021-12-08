@@ -90,7 +90,7 @@
                         <tbody>
                             <tr>
                             <?php if( !empty( $_POST['pesquisar'] )): ?>
-                            <form method="GET" action="cadastra/cadastraEmprestimo.php">
+                            <form method="POST" action="cadastra/cadastraEmprestimo.php">
                             <?php foreach ( $livros as $livro):    
                             ?>
                                 <td class="text-center"><?php echo $livro['id'];?></td>
@@ -106,7 +106,7 @@
                             </form>
                             <?php endif; ?>  
                             <?php if( empty( $_POST['pesquisar'] )): ?> 
-                            <form method="GET" action="cadastra\cadastraEmprestimo.php">    
+                            <form method="POST" action="cadastra\cadastraEmprestimo.php">    
                             <?php foreach ( $livrosPagina as $livro):    
                             ?>
                                 <td class="text-center"><?php echo $livro['id'];?></td>

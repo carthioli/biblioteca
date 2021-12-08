@@ -1,91 +1,10 @@
 <?php
-
     session_start();  
 
-    include "..\\header\\header.php";
-    include "..\\..\\config.php";
-    include "..\\..\\controle\\mensagem.php";
-    include CONTROLE . "mostra\\mostraEmprestimo.php";
-    $link = include "..\\..\\controle\\insere\\conexao.php";
+    include "..\\header\\header.php";   
+    include "..\\paginacao\\funPaginacao.php";
+    include "..\\paginacao\\paginacaoCadastraEmprestimo.php";
     
-    
-?>
-<?php
-
-    define('QTD_RESGISTROS', 5);
-    define('RANGE_PAGINAS', 1);
-    $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-
-    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-    $sql = pg_query("SELECT livro.id, livro.nome as titulo, autor.nome as nome_autor, editora.nome as nome_editora
-                         FROM livro 
-                         JOIN autor on autor.id = livro.id_autor
-                         JOIN editora on editora.id = livro.id_editora
-                         WHERE livro.id not in (SELECT id_livro FROM emprestimo_livro)
-                         LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-    $emprestados = [];
-
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-      if ( isset($resultado['id']) ){
-        $emprestados[] = [
-          'id'   => $resultado['id'],
-          'titulo'     => $resultado['titulo'],
-          'autor'      => $resultado['nome_autor'],
-          'editora'    => $resultado['nome_editora'] 
-        ];
-      }
-    } 
-        
-      $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
-                              FROM livro
-                              WHERE id not in (SELECT id_livro FROM emprestimo_livro) 
-                              LIMIT ".QTD_RESGISTROS."");
-
-      $valor = pg_fetch_assoc( $sqlContador ); 
-
-      $primeira_pagina = 1;
-
-      $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
-
-      $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
-      $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
-      $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
-      $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-      $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-      $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-
-  
-?>
-<?php
-
-    if( isset( $_POST['pesquisar'] ) ){
-      $titulo = $_POST['pesquisar'];
-      $pesquisa = true;
-
-      $queryPesquisado = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
-                      FROM livro AS l
-                      JOIN autor AS a ON a.id = l.id_autor
-                      JOIN editora AS e ON e.id = l.id_editora
-                      WHERE l.nome LIKE  '%$titulo%'");
-
-      $livrosPesquisados = [];
-
-      while( $resultadoPesquisado = pg_fetch_assoc( $queryPesquisado ) ){
-      $livrosPesquisados[] = [
-          'id' => $resultadoPesquisado['id'],
-      'titulo' => $resultadoPesquisado['nome'],
-      'autor' => $resultadoPesquisado['autor'],
-      'editora' => $resultadoPesquisado['editora']
-      ];
-      }
-    }   
-
 ?>
 
   <title>Emprestimo</title>
@@ -147,7 +66,7 @@
             <?php endif; ?>
             <?php if( !empty( $_POST['pesquisar'] ) ): ?>
             <tbody>
-            <form method="POST" action="..\controle\insere\insereEmprestimo.php">
+            <form method="POST" action="..\..\controle\insere\insereEmprestimo.php">
               <tr>
               <input type="hidden" name='id_aluno' value="<?php echo $_SESSION['Id'];?>">
                 <?php foreach ( $livrosPesquisados as $livroPesquisado ):    
@@ -207,25 +126,25 @@
                 </button>
                 </li>
                 <li class="page-item">
-                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$paginacao['pagina_anterior']?>" aria-label="Anterior">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Anterior</span>
                 </button>
                 </li>
                 <?php  
-                for ($i=$range_inicial; $i < $range_final; $i++):   
-                    $destaque = ($i == $pagina_atual);  
+                for ($i=$paginacao['range_inicial']; $i < $paginacao['range_final']; $i++):   
+                    $destaque = ($i == $paginacao['pagina_atual']);  
                 ?>   
                     <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
                 <?php endfor; ?>  
                 <li class="page-item">
-                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$paginacao['proxima_pagina']?>" aria-label="proximo">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Próximo</span>
                 </button>
                 </li>
                 <li class="page-item">
-                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
+                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$paginacao['ultima_pagina']?>" aria-label="ultima">
                     <span aria-hidden="true">Ultima</span>
                 </button>
                 </li>
