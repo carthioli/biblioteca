@@ -6,7 +6,6 @@
     include "..\\controle\\mostra\\mostraAutor.php";
     include "..\\controle\\mostra\\mostraEditora.php";
     include "..\\controle\\mostra\\mostraLivros.php";
-    include "..\\controle\\mostra\\mostraAlunos.php"; 
 ?>
 <?php
     define('QTD_RESGISTROS', 5);

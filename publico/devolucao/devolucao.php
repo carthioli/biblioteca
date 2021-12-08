@@ -8,6 +8,8 @@
     include "..\\..\\controle\\mensagem.php";
     include CONTROLE . "mostra\\mostraEmprestimo.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
+    $link = include "..\\..\\controle\\insere\\conexao.php";
+
     
     define('QTD_RESGISTROS', 5);
     define('RANGE_PAGINAS', 1);
@@ -83,7 +85,7 @@
               </tr>  
             </thead>
             <tbody>
-        <form method="POST" action="..\controle\remove\removeEmprestimo.php">
+        <form method="POST" action="..\..\controle\remove\removeEmprestimo.php">
               <tr>
               <input type="hidden" name=id_aluno value="<?php echo $_SESSION['Id'];?>">
                 <?php foreach ( $emprestados as $emprestado ):    
