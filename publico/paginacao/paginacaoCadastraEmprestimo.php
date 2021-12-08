@@ -68,4 +68,7 @@
       ];
       }
     }
+  }  
+  if ( isset( $_SESSION['valida'] ) ){  
+    $mensagem = verificaMensagem();
   }   

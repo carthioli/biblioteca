@@ -79,7 +79,7 @@
       <!--PAGINAÇÃO-->
       <div class="text-center">  
           <nav aria-label="Navegação de página exemplo">
-            <form method="POST" action="devolucao.php">
+            <form method="POST" action="devolucaoEmprestimo.php">
               <ul class="pagination">
                 <li class="page-item">
                   <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">

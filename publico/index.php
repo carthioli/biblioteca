@@ -25,7 +25,7 @@
                     </li> 
                     <li>
                         <div class="ml-1 mt-2 mr-1 text-center">
-                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="devolucao/devolucao.php"><button class="button border-0 mt-2">Devolução</button></a>
+                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="devolucao/devolucaoEmprestimo.php"><button class="button border-0 mt-2">Devolução</button></a>
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-0 mt-0">
@@ -64,20 +64,21 @@
             </div>
             <div class="grid-item ml-5 border-right g2">
                 <?php if( $pesquisa == true ): ?>
+                    <?php if( isset( $_POST['pesquisar'] )): ?>
                     <form method="POST" action="index.php">    
                         <button type="submit" name="fechar" class="close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </form>
-                    <?php if( isset( $_POST['pesquisar'] )): ?>
+                    
                     <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
                         <thead>
                             <tr>
-                                <th class="text-center">ID</th>
-                                <th class="text-center">TITULO</th>
-                                <th class="text-center">AUTOR</th>
-                                <th class="text-center">EDITORA</th>
-                                <th class="text-center">EMPRESTAR</th>
+                                <th class="text-center col-1">ID</th>
+                                <th class="text-center col-4">TITULO</th>
+                                <th class="text-center col-2">AUTOR</th>
+                                <th class="text-center col-2">EDITORA</th>
+                                <th class="text-center col-1">EMPRESTAR</th>
                             </tr>  
                         </thead>
                         <tbody>

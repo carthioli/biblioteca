@@ -1,8 +1,14 @@
 <?php
 
     function verificaMensagem(){
-
+      if ( isset( $_SESSION['erro'] ) ){ 
+        $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+        unset($_SESSION['valida']);
+        unset($_SESSION['erro']);
+        echo "{$mensagem_erro}";
+      }return $mensagem_erro;
     }
+
     function mensagensConfirma( $confirma ){
 
       switch ( $confirma ){

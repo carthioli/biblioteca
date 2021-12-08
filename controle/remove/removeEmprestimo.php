@@ -10,14 +10,14 @@
                 $exclui = pg_query( $link, $excluir );  
 
                 if( pg_affected_rows( $exclui ) ){
-                  header('location: ..\\..\\publico\\devolucao\\devolucao.php');
+                  header('location: ..\\..\\publico\\devolucao\\devolucaoEmprestimo.php');
                   $_SESSION['valida'] = 9;
                 }
                 else{
                   return false;
                 }    
             }else{
-              header('location: ..\\..\\publico\\devolucao\\devolucao.php');
+              header('location: ..\\..\\publico\\devolucao\\devolucaoEmprestimo.php');
               $_SESSION['erro'] = 11;
             }
         }

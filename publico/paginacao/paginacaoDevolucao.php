@@ -23,8 +23,5 @@
   ] = 
   pegaEmprestimos( $_SESSION['Id'], isset($_POST['page'] ), $paginacao['linha_inicial'] );  
 
-  function mensagem(){
-    
-  }
 
 ?>

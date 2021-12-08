@@ -36,7 +36,7 @@
                     </li> 
                     <li>
                         <div class="ml-1 mt-2 mr-1 text-center">
-                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="../devolucao/devolucao.php"><button class="button border-0 mt-2">Devolução</button></a>
+                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="../devolucao/devolucaoEmprestimo.php"><button class="button border-0 mt-2">Devolução</button></a>
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-0 mt-0">
