@@ -1,18 +1,11 @@
 <?php
     session_start();  
-
-    include "..\\header\\header.php";   
     include "..\\paginacao\\funPaginacao.php";
-    include "..\\paginacao\\paginacaoCadastraEmprestimo.php";
-    
+    include "..\\paginacao\\paginacaoCadastraEmprestimo.php";  
 ?>
-
   <title>Emprestimo</title>
 </head>
 <body>
-    <header>
-      
-    </header>
     <main>    
       <div class="container">
         <div class="text-center">

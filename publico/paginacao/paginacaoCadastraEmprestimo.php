@@ -1,10 +1,11 @@
 <?php
-
+    include "..\\header\\header.php"; 
     include "..\\..\\config.php"; 
     include "..\\..\\controle\\mensagem.php";
     include CONTROLE . "mostra\\mostraEmprestimo.php";
 
     $link = include "..\\..\\controle\\insere\\conexao.php";
+    
     definePaginacao();
 
     $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;

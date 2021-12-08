@@ -2,13 +2,9 @@
     include "..\\paginacao\\funPaginacao.php";
     include "..\\paginacao\\paginacaoDevolucao.php";
 ?>
-
   <title>Seus emprestimo</title>
 </head>
 <body>
-    <header>
-      
-    </header>
     <main>    
       <div class="container">
         <div class="text-center">

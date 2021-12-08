@@ -9,7 +9,6 @@
     include "telas/topo.php";
     include "..\\pesquisa\\pesquisa.php";
     include "..\\controle\\mostra\\mostraTodosLivros.php";
-    
 
     $link = include "..\\controle\\insere\\conexao.php";    
 
