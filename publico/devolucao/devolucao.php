@@ -1,35 +1,6 @@
 <?php
-
-    session_start();  
-
-    include "..\\..\\config.php";
-    include "..\\header\\header.php";
-    include "..\\..\\controle\\mensagem.php";
     include "..\\paginacao\\funPaginacao.php";
-    include "..\\cadastra\\pegaEmprestimos.php";
-    include CONTROLE . "mostra\\mostraAlunos.php";
-    include CONTROLE . "mostra\\mostraEmprestimo.php";
-
-    $link = include "..\\..\\controle\\insere\\conexao.php";
-
-    definePaginacao();
-
-    $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-    [
-        "emprestados"     => $emprestados,
-        "total_registros" => $total_registros
-    ] = 
-    pegaEmprestimos( $_SESSION['Id'], isset($_POST['page'] ), $linha_inicial );   
-
-    $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
-                              FROM livro
-                              WHERE id in (SELECT id_livro FROM emprestimo_livro)");
-
-
-    $paginacao = verificaPaginas( $pagina_atual, $sqlContador );
-
+    include "..\\paginacao\\paginacaoDevolucao.php";
 ?>
 
   <title>Seus emprestimo</title>
@@ -73,6 +44,7 @@
                 <th class="text-center">DATA EMPRESTIMO</th>
                 <th class="text-center">DATA ENTREGA</th>
                 <th class="text-center">STATUS</th>
+                <th class="text-center col-1">DEVOLVER</th>
               </tr>  
             </thead>
             <tbody>
@@ -86,12 +58,7 @@
                   <td><?php echo $emprestado['autor']?></td>
                   <td class="text-center"><?php echo $emprestado['editora'];?></td>
                   <td class="text-center"><?php echo date("d/m/Y", strtotime( $emprestado['data_emprestimo'] ) ); ?></td>
-                  <td class="text-center">
-                    <?php
-                      $data = date("d/m/Y", strtotime( '+'.$emprestado['dias_emprestimo']. 'days', strtotime($emprestado['data_emprestimo']) ));
-                      echo $data;       
-                    ?>
-                 </td>   
+                  <td class="text-center"><?php echo date("d/m/Y", strtotime( $emprestado['data_devolucao'] ) );?></td>   
                  <td class="text-center">
                  <?php if( $emprestado['msg_devolucao'] == 'em dia' ): ?>  
                     <p class="text-success text-uppercase">   
@@ -103,6 +70,7 @@
                    <?php echo $emprestado['msg_devolucao']?>
                   </p>  
                  </td>
+                 <td class="text-center col-1"><button name="id_livro" value="<?php echo $emprestado['id'];?>" type="submit" class="glyphicon glyphicon-check border-0 bg-transparent"></button></td>
               </tr>
                 <?php endforeach; ?>
             </tbody>

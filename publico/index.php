@@ -1,14 +1,6 @@
-<?php
-        include "telas/topo.php";
-        include "..\\pesquisa\\pesquisa.php";
+<?php   
         include "paginacao\\fechaPaginacao.php";
-        include "paginacao\\paginacao.php";
-        include "..\\controle\\mostra\\mostraTodosLivros.php";
-        
-        session_start();
-        if ( !isset($_SESSION['logado'] ) && !$_SESSION['logado'] == 2 ){
-            header('location: ../publico/login.php'); 
-        }
+        include "paginacao\\paginacaoIndex.php";    
 ?>
 <title>Biblioteca Digital</title>
 <body>
@@ -141,19 +133,19 @@
                                 </button>
                                 </li>
                                 <?php  
-                                for ($i=$range_inicial; $i < $range_final; $i++):   
-                                    $destaque = ($i == $pagina_atual);  
+                                for ($i=$paginacao['range_inicial']; $i < $paginacao['range_final']; $i++):   
+                                    $destaque = ($i == $paginacao['pagina_atual']);  
                                 ?>   
                                     <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
                                 <?php endfor; ?>  
                                 <li class="page-item">
-                                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$proxima_pagina?>" aria-label="proximo">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$paginacao['proxima_pagina']?>" aria-label="proximo">
                                     <span aria-hidden="true">&raquo;</span>
                                     <span class="sr-only">Próximo</span>
                                 </button>
                                 </li>
                                 <li class="page-item">
-                                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$ultima_pagina?>" aria-label="ultima">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$paginacao['ultima_pagina']?>" aria-label="ultima">
                                     <span aria-hidden="true">Ultima</span>
                                 </button>
                                 </li>
@@ -165,20 +157,6 @@
                 <div class="container col-8 p-2">
                     <?php if( empty( $_POST['pesquisar'] ) ) : ?>
                     <?php foreach( $todoslivros AS $livro ): ?>
-                        <form method="POST" action="index.php">
-                            <h4><?php echo $livro['titulo']; ?>, de <?php echo $livro['autor'];?></h4>
-                            <div class="border-bottom">
-                            <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo']; ?>">
-                            <input type="hidden" name="livro">
-                            <div class="mb-1">
-                            <a class="float-right mr-5"><button  type="submit" class="border-0 bg-white">Ver mais...</button></a><br>   
-                            </div>
-                            </div>
-                        </form>
-                    <?php endforeach; ?>
-                    <?php endif; ?>
-                    <?php if( !empty( $_POST['pesquisar'] ) ) : ?>
-                    <?php foreach( $livros AS $livro ): ?>
                         <form method="POST" action="index.php">
                             <h4><?php echo $livro['titulo']; ?>, de <?php echo $livro['autor'];?></h4>
                             <div class="border-bottom">
