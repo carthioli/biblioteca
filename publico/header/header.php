@@ -2,13 +2,8 @@
         if ( !isset($_SESSION['logado'] ) && !$_SESSION['logado'] == 1 ){
             header('location: ..\..\publico\login.php');
         }
-
+        include "../telas/topo.php";
 ?>
-
-<?php
-    include "../telas/topo.php";
-?>
-
 <body>
     <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">

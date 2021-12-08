@@ -16,18 +16,14 @@
                        unset($_SESSION['valida']);
                        echo "{$mensagem_confirma}";
                   }
-            ?>
-          </p> 
-          <p class="text-danger">
-            <?php
                   if ( isset( $_SESSION['erro'] ) ){ 
                        $mensagem_erro = mensagensErro( $_SESSION['erro'] );
                        unset($_SESSION['valida']);
                        unset($_SESSION['erro']);
                        echo "{$mensagem_erro}";
-                  }
+               }
             ?>
-          </p> 
+          </p>
         </div>
         <h4>DEVOLVER EMPRESTIMOS</h4>         
         <table class="table table-striped table-bordered border" id="tabela_livro">
@@ -56,15 +52,9 @@
                   <td class="text-center"><?php echo date("d/m/Y", strtotime( $emprestado['data_emprestimo'] ) ); ?></td>
                   <td class="text-center"><?php echo date("d/m/Y", strtotime( $emprestado['data_devolucao'] ) );?></td>   
                  <td class="text-center">
-                 <?php if( $emprestado['msg_devolucao'] == 'em dia' ): ?>  
-                    <p class="text-success text-uppercase">   
-                 <?php elseif( $emprestado['msg_devolucao'] == 'dia da devolucao' ): ?>
-                    <p class="text-warning text-uppercase">
-                 <?php elseif( $emprestado['msg_devolucao'] == 'atrasado' ): ?>
-                    <p class="text-danger text-uppercase">       
-                 <?php endif; ?>
-                   <?php echo $emprestado['msg_devolucao']?>
-                  </p>  
+                   <p class="text-<?php echo $emprestado['msg_devolucao']['cor'];?> text-uppercase">       
+                      <?php echo $emprestado['msg_devolucao']['status']?>
+                   </p>  
                  </td>
                  <td class="text-center col-1"><button name="id_livro" value="<?php echo $emprestado['id'];?>" type="submit" class="glyphicon glyphicon-check border-0 bg-transparent"></button></td>
               </tr>

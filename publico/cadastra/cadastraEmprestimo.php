@@ -20,8 +20,13 @@
             ?>
           </p> 
           <p class="text-danger">
-            <?php if(isset($mensagem)){ echo $mensagem ;}
-                  
+            <?php 
+                  if ( isset( $_SESSION['erro'] ) ){ 
+                       $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+                       unset($_SESSION['valida']);
+                       unset($_SESSION['erro']);
+                       echo "{$mensagem_erro}";
+                  }    
             ?>
           </p> 
         </div>

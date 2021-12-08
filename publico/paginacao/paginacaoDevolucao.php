@@ -23,5 +23,8 @@
   ] = 
   pegaEmprestimos( $_SESSION['Id'], isset($_POST['page'] ), $paginacao['linha_inicial'] );  
 
+  if ( isset( $_SESSION['erro'] ) ){ 
+    $mensagem_erro = mensagensErro( $_SESSION['erro'] );
+  }
 
 ?>

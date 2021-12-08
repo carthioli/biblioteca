@@ -1,11 +1,25 @@
 <?php
 
   function avaliaDataDevolucao( $data_emprestimo, $data_devolucao ){
-    if( $data_emprestimo > $data_devolucao ) // atrasado
-      return "atrasado";
+    if( $data_emprestimo > $data_devolucao )
+      return [
+              'status' => 'atrasado',
+                 'cor' => 'danger'
+      ];
     if( $data_emprestimo == $data_devolucao ) 
-      return "dia da devolucao";
-    return "em dia";
+      return [
+        'status' => 'dia da devolucao',
+           'cor' => 'warning'
+      ];
+    return [
+        'status' => 'em dia',
+          'cor' => 'success'
+    ];
+  }
+  function verificaCorDevolucao(){
+
+
+
   }
 
   function pegaEmprestimos( $idaluno, $pagina_atual, $linha_inicial ){
