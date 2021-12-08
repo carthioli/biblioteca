@@ -69,6 +69,7 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </form>
+                    <?php if( isset( $_POST['pesquisar'] )): ?>
                     <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
                         <thead>
                             <tr>
@@ -81,9 +82,8 @@
                         </thead>
                         <tbody>
                             <tr>
-                            <?php if( !empty( $_POST['pesquisar'] )): ?>
                             <form method="POST" action="cadastra/cadastraEmprestimo.php">
-                            <?php foreach ( $pesquisados as $livro):    
+                            <?php foreach ( $livros as $livro):    
                             ?>
                                 <td class="text-center"><?php echo $livro['id'];?></td>
                                 <td><?php echo $livro['titulo'];?></td>
@@ -96,23 +96,6 @@
                             </tr>
                             <?php endforeach; ?>
                             </form>
-                            <?php endif; ?>  
-                            <?php if( empty( $_POST['pesquisar'] )): ?> 
-                            <form method="POST" action="cadastra\cadastraEmprestimo.php">    
-                            <?php foreach ( $livrosPagina as $livro):    
-                            ?>
-                                <td class="text-center"><?php echo $livro['id'];?></td>
-                                <td><?php echo $livro['titulo'];?></td>
-                                <td><?php echo $livro['autor'];?></td>
-                                <td><?php echo $livro['editora'];?></td>     
-                                <td class="text-center col-1">
-                                <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo']; ?>">
-                                <button type="submit" class="glyphicon glyphicon-check border-0 bg-transparent"></button>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                            </form>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                     <div class="text-center">
@@ -127,7 +110,7 @@
                                 </button>
                                 </li>
                                 <li class="page-item">
-                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$pagina_anterior?>" aria-label="Anterior">
+                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$paginacao['pagina_anterior']?>" aria-label="Anterior">
                                     <span aria-hidden="true">&laquo;</span>
                                     <span class="sr-only">Anterior</span>
                                 </button>
@@ -153,6 +136,7 @@
                             </form>
                         </nav> 
                       </div>
+                      <?php endif; ?> 
                 <?php endif; ?>
                 <div class="container col-8 p-2">
                     <?php if( empty( $_POST['pesquisar'] ) ) : ?>

@@ -1,5 +1,4 @@
 <?php
-
   function livroPesquisado( $titulo ){
 
     $queryPesquisado = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
@@ -20,5 +19,4 @@
       }
       return $livrosPesquisados;
   }
-
 ?>

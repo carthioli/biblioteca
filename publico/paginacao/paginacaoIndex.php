@@ -13,11 +13,15 @@
     $link = include "..\\controle\\insere\\conexao.php";    
 
     definePaginacao();
+    
+    if( empty( $_POST['pesquisar'] ) ){
+
+    $pesquisa = true;
 
     $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
                              FROM livro 
-                             LIMIT ".QTD_RESGISTROS."");
-    
+                             LIMIT ".QTD_RESGISTROS."");   
+
     $paginacao = verificaPaginas( isset($_POST['page']), $sqlContador );
 
     $sql = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
@@ -25,27 +29,33 @@
                     JOIN autor AS a ON a.id = l.id_autor 
                     JOIN editora AS e ON e.id = l.id_editora
                     LIMIT ".QTD_RESGISTROS." OFFSET {$paginacao['linha_inicial']}");
-    $livrosPagina = [];
+    $livros = [];
 
     while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $livrosPagina[] = [
-        'id'   => $resultado['id'],
+    $livros[] = [
+            'id' => $resultado['id'],
         'titulo' => $resultado['nome'],
-        'autor'  => $resultado['autor'],
-        'editora'=> $resultado['editora']
+         'autor' => $resultado['autor'],
+       'editora' => $resultado['editora']
     ];
     }
-
+    }else{
     
     $pesquisa = false;
 
     if( isset( $_POST['pesquisar'] ) ){
         $titulo = $_POST['pesquisar'];
         $pesquisa = true;
+        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                             FROM livro 
+                             LIMIT ".QTD_RESGISTROS."");   
+
+        $paginacao = verificaPaginas( isset($_POST['page']), $sqlContador );
   
-        $pesquisados = livroPesquisado( $titulo );
+        $livros = livroPesquisado( $titulo );
   
         
       }  
+    }  
 
 ?>
