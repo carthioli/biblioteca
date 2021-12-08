@@ -17,7 +17,7 @@
     if( empty( $_POST['pesquisar'] ) ){
 
     $pesquisa = true;
-
+    
     $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
                              FROM livro 
                              LIMIT ".QTD_RESGISTROS."");   
@@ -29,16 +29,17 @@
                     JOIN autor AS a ON a.id = l.id_autor 
                     JOIN editora AS e ON e.id = l.id_editora
                     LIMIT ".QTD_RESGISTROS." OFFSET {$paginacao['linha_inicial']}");
+                    
     $livros = [];
 
-    while ( $resultado = pg_fetch_assoc( $sql ) ){
-    $livros[] = [
-            'id' => $resultado['id'],
-        'titulo' => $resultado['nome'],
-         'autor' => $resultado['autor'],
-       'editora' => $resultado['editora']
-    ];
-    }
+      while ( $resultado = pg_fetch_assoc( $sql ) ){
+      $livros[] = [
+              'id' => $resultado['id'],
+          'titulo' => $resultado['nome'],
+          'autor' => $resultado['autor'],
+        'editora' => $resultado['editora']
+      ];
+      }
     }else{
     
     $pesquisa = false;

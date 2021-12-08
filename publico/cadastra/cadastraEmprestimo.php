@@ -41,39 +41,21 @@
                 <th class="text-center">EDITORA</th>
               </tr>  
             </thead>
-            <?php if( empty( $_POST['pesquisar'] ) ): ?>
+            
             <tbody>
         <form method="POST" action="..\..\controle\insere\insereEmprestimo.php">
               <tr>
               <input type="hidden" name='id_aluno' value="<?php echo $_SESSION['Id'];?>">
-                <?php foreach ( $emprestados as $emprestado ):    
+                <?php foreach ( $livros as $livro ):    
                 ?>
-                  <td class="text-center"><input type="checkbox" name="id_livro[]" value="<?php echo $emprestado['id'];?>"></td>
-                  <td class="text-center"><?php echo $emprestado['id'];?></td>
-                  <td><?php echo $emprestado['titulo'];?></td>
-                  <td><?php echo $emprestado['autor']?></td>
-                  <td class="text-center"><?php echo $emprestado['editora'];?></td> 
+                  <td class="text-center"><input type="checkbox" name="id_livro[]" value="<?php echo $livro['id'];?>"></td>
+                  <td class="text-center"><?php echo $livro['id'];?></td>
+                  <td><?php echo $livro['titulo'];?></td>
+                  <td><?php echo $livro['autor']?></td>
+                  <td class="text-center"><?php echo $livro['editora'];?></td> 
               </tr>
                 <?php endforeach; ?>
             </tbody>
-            <?php endif; ?>
-            <?php if( !empty( $_POST['pesquisar'] ) ): ?>
-            <tbody>
-            <form method="POST" action="..\..\controle\insere\insereEmprestimo.php">
-              <tr>
-              <input type="hidden" name='id_aluno' value="<?php echo $_SESSION['Id'];?>">
-                <?php foreach ( $pesquisados as $livroPesquisado ):    
-                ?>
-                  <td class="text-center"><input type="checkbox" name="id_livro[]" value="<?php echo $livroPesquisado['id'];?>"></td>
-                  <td class="text-center"><?php echo $livroPesquisado['id'];?></td>
-                  <td><?php echo $livroPesquisado['titulo'];?></td>
-                  <td><?php echo $livroPesquisado['autor']?></td>
-                  <td class="text-center"><?php echo $livroPesquisado['editora'];?></td>   
-                  
-              </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <?php endif; ?>
         </table>     
           <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
