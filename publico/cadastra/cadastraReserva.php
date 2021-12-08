@@ -2,9 +2,9 @@
 
     session_start();  
 
-    include "header.php";
-    include "..\\config.php";
-    include "..\\controle\\mensagem.php";
+    include "..\\header\\header.php";
+    include "..\\..\\config.php";
+    include "..\\..\\controle\\mensagem.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
     include CONTROLE . "insere\\conexao.php";
     
@@ -23,6 +23,7 @@
                      JOIN editora as e ON e.id = l.id_editora
                      JOIN emprestimo_livro as el ON el.id_livro = l.id
                      JOIN emprestimo as em ON em.id = el.id_emprestimo
+                     WHERE l.id not in (SELECT id_livro FROM reserva_livro)
                      LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
 
       $livros = [];
@@ -41,7 +42,7 @@
 
       $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
                                FROM livro 
-                               WHERE id in (SELECT id_livro FROM emprestimo_livro)
+                               WHERE id in (SELECT id_livro FROM reserva_livro)
                                LIMIT ".QTD_RESGISTROS."");
         
       $valor = pg_fetch_assoc( $sqlContador );
@@ -107,7 +108,7 @@
               </tr>  
             </thead>
             <tbody>
-        <form method="POST" action="..\controle\insere\insereReserva.php">
+        <form method="POST" action="..\..\controle\insere\insereReserva.php">
               <tr>
               <input type="hidden" name=id_aluno value="<?php echo $_SESSION['Id'];?>">
               <?php foreach ( $livros as $livro):    

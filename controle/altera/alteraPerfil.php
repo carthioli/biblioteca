@@ -33,35 +33,22 @@
                               $_SESSION['usuarioTelefone'] = $_POST['telefone'];
                               $_SESSION['usuarioUsuario'] = $_POST['usuario'];
   
-                              header('location: ..\\..\\publico\\alteraPerfil.php');
+                              header('location: ..\\..\\publico\\altera\\alteraPerfil.php');
                               $_SESSION['valida'] = 8;
                             } else {
                               echo $nome;
                             } 
                           }else{
-                            header('location: ..\\..\\publico\\alteraPerfil.php');
+                            header('location: ..\\..\\publico\\altera\\alteraPerfil.php');
                             $_SESSION['erroCampo'] = 3;
                           }
-
-                           
-
-                          
-                                           
-
-
-
-
   
-          if( $_POST['senha_nova'] == $_POST['senha_confirma'] ){
-            
-                
-
-          } else{
-            header('location: ..\\..\\publico\\alteraPerfil.php');
+          if( $_POST['senha_nova'] != $_POST['senha_confirma'] ){
+            header('location: ..\\..\\publico\\altera\\alteraPerfil.php');
             $_SESSION['erroCampo'] = 1;
-          }  
+          } 
         }else{
-          header('location: ..\\..\\publico\\alteraPerfil.php');
+          header('location: ..\\..\\publico\\altera\\alteraPerfil.php');
           $_SESSION['erro'] = 9;
         }
 

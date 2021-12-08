@@ -11,7 +11,7 @@
 
   function pegaEmprestimos( $idaluno, $pagina_atual, $linha_inicial ){
 
-    $link = include "..\\controle\\insere\\conexao.php";
+    $link = include "..\\..\\controle\\insere\\conexao.php";
 
     $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo, el.dias_emprestimo, el.data_devolucao
                      FROM emprestimo_livro as el 

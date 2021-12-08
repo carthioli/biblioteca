@@ -97,7 +97,7 @@
           return "Senha não conferem*";
           break;   
         case 3:
-          return "Senhas inválida*";
+          return "Senha inválida*";
           break;    
         case 4:
           return "Campo obrigatório*";

@@ -2,11 +2,11 @@
 
     session_start();  
 
-    include "header.php";
-    include "..\\config.php";
-    include "..\\controle\\mensagem.php";
+    include "..\\header\\header.php";
+    include "..\\..\\config.php";
+    include "..\\..\\controle\\mensagem.php";
     include CONTROLE . "mostra\\mostraEmprestimo.php";
-    $link = include "..\\controle\\insere\\conexao.php";
+    $link = include "..\\..\\controle\\insere\\conexao.php";
     
     
 ?>
@@ -131,7 +131,7 @@
             </thead>
             <?php if( empty( $_POST['pesquisar'] ) ): ?>
             <tbody>
-        <form method="POST" action="..\controle\insere\insereEmprestimo.php">
+        <form method="POST" action="..\..\controle\insere\insereEmprestimo.php">
               <tr>
               <input type="hidden" name='id_aluno' value="<?php echo $_SESSION['Id'];?>">
                 <?php foreach ( $emprestados as $emprestado ):    

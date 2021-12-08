@@ -2,10 +2,10 @@
 
     session_start();  
 
-    include "header.php";
-    include "..\\config.php";
-    include "pegaEmprestimos.php";
-    include "..\\controle\\mensagem.php";
+    include "..\\header\\header.php";
+    include "..\\..\\config.php";
+    include "..\\cadastra\\pegaEmprestimos.php";
+    include "..\\..\\controle\\mensagem.php";
     include CONTROLE . "mostra\\mostraEmprestimo.php";
     include CONTROLE . "mostra\\mostraAlunos.php";
     

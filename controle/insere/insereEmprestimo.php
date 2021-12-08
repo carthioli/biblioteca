@@ -24,14 +24,14 @@
 
               }
                 
-              header('location: ..\\..\\publico\\cadastraEmprestimo.php');
+              header('location: ..\\..\\publico\\cadastra\\cadastraEmprestimo.php');
               $_SESSION['valida'] = 5;
             }   
             else{
               return false;
             } 
         }else{
-          header('location: ..\\..\\publico\\cadastraEmprestimo.php');
+          header('location: ..\\..\\publico\\cadastra\\cadastraEmprestimo.php');
           $_SESSION['erro'] = 5;
         }    
         }

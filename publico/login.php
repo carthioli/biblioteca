@@ -1,18 +1,18 @@
 <?php
-    include "publico\\telas\\topo.php";
-    include "controle\\mensagem.php";
+    include "telas\\topo.php";
+    include "..\\controle\\mensagem.php";
     session_start();
 ?>
 <title>Login</title>
 <body>
     <header>
         <div class="container-fluid bg-light border-bottom mb-5">
-            <p class="navbar-brand text " href="publico/index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</p> 
+            <p class="navbar-brand text " href="index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</p> 
         </div>
     </header>
     <main>
     <div class="container col-4 d-flex justify-content-center border"> 
-    <form action="controle\validacao\validacao.php" method="post">
+    <form action="..\controle\validacao\validacao.php" method="post">
       <fieldset class="w-100 text-center mt-5">
         <legend>Dados de Login</legend>
           <div class="text-center">

@@ -1,8 +1,8 @@
 <?php
     
     session_start();
-    include "..\\controle\\mensagem.php";
-    include "header.php";
+    include "..\\..\\controle\\mensagem.php";
+    include "..\\header\\header.php";
     
 ?>
 
@@ -36,7 +36,7 @@
   </header>
   <main>
       <div class="container col-3  border p-3 rounded">
-        <form method="POST" action="..\controle\altera\alteraPerfil.php">
+        <form method="POST" action="..\..\controle\altera\alteraPerfil.php">
           <div class="d-flex flex-column">
             <?php if( $_SESSION['usuarioNivel'] == 2 ): ?>
             <input type="hidden" name="id" value="<?php echo $_SESSION['Id']?>">

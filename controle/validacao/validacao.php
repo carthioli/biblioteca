@@ -19,7 +19,7 @@
       
 
       if (pg_num_rows($query) != 1) {
-        header('location: ..\\..\\login.php');
+        header('location: ..\\..\\publico\\login.php');
         $_SESSION['erro'] = 7;
     
       } else {
@@ -52,7 +52,7 @@
         
       }
   }else{
-    header('location: ..\\login.html');
+    header('location: ..\\..\\publico\\login.php');
     $_SESSION['erro'] = 8;
   }
     

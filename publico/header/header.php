@@ -1,12 +1,12 @@
 <?php
         if ( !isset($_SESSION['logado'] ) && !$_SESSION['logado'] == 1 ){
-            header('location: ..\..\login.php');
+            header('location: ..\..\publico\login.php');
         }
 
 ?>
 
 <?php
-    include "telas/topo.php";
+    include "../telas/topo.php";
 ?>
 
 <body>
@@ -21,22 +21,22 @@
                 <ul class="navbar-nav mr-auto float-right">
                     <li>
                         <div class="ml-1 mt-2 mr-1 text-center">
-                            <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="index.php"><button class="button border-0 mt-2">Inicio</button></a>
+                            <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="../index.php"><button class="button border-0 mt-2">Inicio</button></a>
                         </div>
                     </li>
                     <li >
                         <div class="ml-1 mt-2 mr-1 text-center">
-                            <a class="text-decoration-none text-body" type="submit" name="emprestar" href="cadastraEmprestimo.php"><button class="button border-0 mt-2">Emprestar<br/>Livro</button></a><br>
+                            <a class="text-decoration-none text-body" type="submit" name="emprestar" href="../cadastra/cadastraEmprestimo.php"><button class="button border-0 mt-2">Emprestar<br/>Livro</button></a><br>
                         </div>
                     </li>
                     <li>
                         <div class="mt-2 mr-2 text-center">
-                            <a class="text-decoration-none text-body" type="submit" name="reservar" href="cadastraReserva.php"><button class="button border-0 mt-2">Reservar<br/>Livro</button></a>
+                            <a class="text-decoration-none text-body" type="submit" name="reservar" href="../cadastra/cadastraReserva.php"><button class="button border-0 mt-2">Reservar<br/>Livro</button></a>
                         </div>
                     </li> 
                     <li>
                         <div class="ml-1 mt-2 mr-1 text-center">
-                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="devolucao.php"><button class="button border-0 mt-2">Devolução</button></a>
+                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="../devolucao/devolucao.php"><button class="button border-0 mt-2">Devolução</button></a>
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-0 mt-0">
@@ -46,8 +46,8 @@
                         </a>
                         <div class="dropdown-menu rounded" aria-labelledby="user">
                             <h5 class="text-center text-danger text-uppercase"><?php echo $_SESSION['usuarioNome'] . "&nbsp;&nbsp" . $_SESSION['usuarioSobrenome'] ?></h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom border-top" href="alteraPerfil.php">PERFIL</a></button>
-                            <form method="POST" action="../controle/validacao/logout.php">
+                            <button class="a" ><a class="a dropdown-item p-4 border-bottom border-top" href="../altera/alteraPerfil.php">PERFIL</a></button>
+                            <form method="POST" action="../../controle/validacao/logout.php">
                                 <div class="ml-1 mt-2 mr-1 mb-3 text-center">
                                     <a class="text-decoration-none text-body mt-1" type="submit" name="sair"><button class="button bg-white border-0 mt-2">SAIR</button></a>
                                 </div>
