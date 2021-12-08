@@ -1,5 +1,8 @@
 <?php
 
+    function verificaMensagem(){
+
+    }
     function mensagensConfirma( $confirma ){
 
       switch ( $confirma ){

@@ -83,7 +83,7 @@
                             <tr>
                             <?php if( !empty( $_POST['pesquisar'] )): ?>
                             <form method="POST" action="cadastra/cadastraEmprestimo.php">
-                            <?php foreach ( $livros as $livro):    
+                            <?php foreach ( $pesquisados as $livro):    
                             ?>
                                 <td class="text-center"><?php echo $livro['id'];?></td>
                                 <td><?php echo $livro['titulo'];?></td>

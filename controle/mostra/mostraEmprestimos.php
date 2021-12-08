@@ -29,7 +29,7 @@
                      
         $sqlContador = pg_query("SELECT COUNT(*) AS total_registros
                                  FROM livro
-                                 WHERE id not in (SELECT id_livro FROM emprestimo_livro) ");
+                                 WHERE id in (SELECT id_livro FROM emprestimo_livro) ");
 
         $valor = pg_fetch_assoc( $sqlContador ); 
       

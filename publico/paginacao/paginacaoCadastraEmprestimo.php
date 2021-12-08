@@ -2,6 +2,7 @@
     include "..\\header\\header.php"; 
     include "..\\..\\config.php"; 
     include "..\\..\\controle\\mensagem.php";
+    include "..\\pesquisa\\livroPesquisado.php";
     include CONTROLE . "mostra\\mostraEmprestimo.php";
 
     $link = include "..\\..\\controle\\insere\\conexao.php";
@@ -42,20 +43,7 @@
       $titulo = $_POST['pesquisar'];
       $pesquisa = true;
 
-      $queryPesquisado = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
-                      FROM livro AS l
-                      JOIN autor AS a ON a.id = l.id_autor
-                      JOIN editora AS e ON e.id = l.id_editora
-                      WHERE l.nome LIKE  '%$titulo%'");
+      $pesquisados = livroPesquisado( $titulo );
 
-      $livrosPesquisados = [];
-
-      while( $resultadoPesquisado = pg_fetch_assoc( $queryPesquisado ) ){
-      $livrosPesquisados[] = [
-          'id' => $resultadoPesquisado['id'],
-      'titulo' => $resultadoPesquisado['nome'],
-      'autor' => $resultadoPesquisado['autor'],
-      'editora' => $resultadoPesquisado['editora']
-      ];
-      }
+      
     }   

@@ -5,9 +5,9 @@
         header('location: ../publico/login.php'); 
     }
     
-    include "funPaginacao.php";
     include "telas/topo.php";
-    include "..\\pesquisa\\pesquisa.php";
+    include "funPaginacao.php";
+    include "pesquisa\\livroPesquisado.php";
     include "..\\controle\\mostra\\mostraTodosLivros.php";
 
     $link = include "..\\controle\\insere\\conexao.php";    
@@ -35,5 +35,17 @@
         'editora'=> $resultado['editora']
     ];
     }
+
+    
+    $pesquisa = false;
+
+    if( isset( $_POST['pesquisar'] ) ){
+        $titulo = $_POST['pesquisar'];
+        $pesquisa = true;
+  
+        $pesquisados = livroPesquisado( $titulo );
+  
+        
+      }  
 
 ?>

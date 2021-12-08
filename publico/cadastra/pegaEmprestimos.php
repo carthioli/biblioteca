@@ -6,7 +6,6 @@
     if( $data_emprestimo == $data_devolucao ) 
       return "dia da devolucao";
     return "em dia";
-
   }
 
   function pegaEmprestimos( $idaluno, $pagina_atual, $linha_inicial ){
@@ -34,14 +33,14 @@
       while ( $resultado = pg_fetch_assoc( $sql ) ){
         if ( isset($resultado['id']) ){
           $emprestados[] = [
-                 'id'  => $resultado['id'],
-             'titulo'  => $resultado['titulo'],
-              'autor'  => $resultado['nome_autor'],
-            'editora'  => $resultado['nome_editora'],
-    'data_emprestimo'  => $resultado['data_emprestimo'],     
-     'data_devolucao'  => $resultado['data_devolucao'],
-    'dias_emprestimo'  => $resultado['dias_emprestimo'],
-      'msg_devolucao'  => avaliaDataDevolucao( $resultado['data_emprestimo'], $resultado['data_devolucao'] ),
+                 'id' => $resultado['id'],
+             'titulo' => $resultado['titulo'],
+              'autor' => $resultado['nome_autor'],
+            'editora' => $resultado['nome_editora'],
+     'data_devolucao' => $resultado['data_devolucao'],
+    'data_emprestimo' => $resultado['data_emprestimo'],      
+    'dias_emprestimo' => $resultado['dias_emprestimo'],
+      'msg_devolucao' => avaliaDataDevolucao( $resultado['data_emprestimo'], $resultado['data_devolucao'] ),
       
           ];
         }

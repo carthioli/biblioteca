@@ -62,7 +62,7 @@
             <form method="POST" action="..\..\controle\insere\insereEmprestimo.php">
               <tr>
               <input type="hidden" name='id_aluno' value="<?php echo $_SESSION['Id'];?>">
-                <?php foreach ( $livrosPesquisados as $livroPesquisado ):    
+                <?php foreach ( $pesquisados as $livroPesquisado ):    
                 ?>
                   <td class="text-center"><input type="checkbox" name="id_livro[]" value="<?php echo $livroPesquisado['id'];?>"></td>
                   <td class="text-center"><?php echo $livroPesquisado['id'];?></td>
