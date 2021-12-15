@@ -1,11 +1,11 @@
 <?php
     session_start();  
 
-    include "..\\header\\header.php";
-    include "..\\..\\config.php";
-    include "..\\..\\controle\\mensagem.php";
-    include CONTROLE . "insere\\conexao.php";
-    include CONTROLE . "mostra\\mostraAlunos.php";
+    include "../header/header.php";
+    include "../../config.php";
+    include "../../controle/mensagem.php";
+    include CONTROLE . "insere/conexao.php";
+    include CONTROLE . "mostra/mostraAlunos.php";
 
     definePaginacao();
 

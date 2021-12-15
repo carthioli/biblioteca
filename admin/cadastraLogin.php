@@ -1,9 +1,9 @@
 <?php
     
     session_start();
-    include "..\\controle\\mensagem.php";
-    include "..\\controle\\mostra\\mostraAlunos.php";
-    include "..\\controle\\mostra\\mostraLogin.php";
+    include "../controle/mensagem.php";
+    include "../controle/mostra/mostraAlunos.php";
+    include "../controle/mostra/mostraLogin.php";
     include "header.php";
 ?>
 <?php

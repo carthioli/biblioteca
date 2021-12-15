@@ -2,8 +2,8 @@
     session_start();
         try
             {
-              $link = include "..\insere\conexao.php";
-                      include "..\\validacao\\validar.php";
+              $link = include "../insere/conexao.php";
+                      include "../validacao/validar.php";
               
         if ( !empty( $_POST['id'] ) && 
                !empty( $_POST['nome'] ) && 

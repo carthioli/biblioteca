@@ -1,11 +1,11 @@
 <?php 
-    include "..\\..\\config.php"; 
-    include "..\\header\\header.php";
-    include "..\\pesquisa\\livroPesquisado.php";
-    include "..\\..\\controle\\mensagem.php";
-    include CONTROLE . "mostra\\mostraEmprestimo.php";
+    include "../../config.php"; 
+    include "../header/header.php";
+    include "../pesquisa/livroPesquisado.php";
+    include "../../controle/mensagem.php";
+    include CONTROLE . "mostra/mostraEmprestimo.php";
   
-    $link = include "..\\..\\controle\\insere\\conexao.php";
+    $link = include "../../controle/insere/conexao.php";
     
     definePaginacao();
 
@@ -68,7 +68,4 @@
       ];
       }
     }
-  }  
-  if ( isset( $_SESSION['valida'] ) ){  
-    $mensagem = verificaMensagem();
-  }   
+  }     

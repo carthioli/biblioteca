@@ -1,19 +1,18 @@
 <?php
-        include "..\publico\\telas\\topo.php";
-        include "..\controle\mostra\mostraLivros.php";
+        include "../publico/telas/topo.php";
+        include "../controle/mostra/mostraLivros.php";
 
         session_start();
         if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 1 ){
             
         }else{
-            header('location: ..\\publico\\login.php'); 
+            header('location: ../publico/login.php'); 
             $_SESSION['erro'] = 12;
         }
-?>
-<?php
 
-    include "..\\config.php";
-    $link =  include CONTROLE . "insere\\conexao.php";
+
+    include "../config.php";
+    $link =  include CONTROLE . "insere/conexao.php";
     if( isset( $_POST['pesquisar'] ) ){
         $titulo = $_POST['pesquisar'];
     }

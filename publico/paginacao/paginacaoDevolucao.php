@@ -2,12 +2,12 @@
 
     session_start(); 
     
-    include "..\\..\\config.php";
-    include "..\\header\\header.php";
-    include "..\\..\\controle\\mensagem.php";
-    include "..\\cadastra\\pegaEmprestimos.php";
-    include CONTROLE . "mostra\\mostraAlunos.php";
-    include CONTROLE . "mostra\\mostraEmprestimo.php";
+    include "../../config.php";
+    include "../header/header.php";
+    include "../../controle/mensagem.php";
+    include "../cadastra/pegaEmprestimos.php";
+    include CONTROLE . "mostra/mostraAlunos.php";
+    include CONTROLE . "mostra/mostraEmprestimo.php";
 
     definePaginacao();
 

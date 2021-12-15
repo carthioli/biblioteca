@@ -1,7 +1,7 @@
 <?php
     session_start();  
-    include "..\\paginacao\\funPaginacao.php";
-    include "..\\paginacao\\paginacaoCadastraEmprestimo.php";  
+    include "../paginacao/funPaginacao.php";
+    include "../paginacao/paginacaoCadastraEmprestimo.php";  
 ?>
   <title>Emprestimo</title>
 </head>

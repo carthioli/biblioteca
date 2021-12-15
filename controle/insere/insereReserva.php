@@ -21,14 +21,14 @@
 
               }
                
-              header('location: ..\\..\\publico\\cadastra\\cadastraReserva.php');
+              header('location: ../../publico/cadastra/cadastraReserva.php');
               $_SESSION['valida'] = 10;
             }
             else{
               return false;
             }    
         }else{
-          header('location: ..\\..\\publico\\cadastra\\cadastraReserva.php');
+          header('location: ../../publico/cadastra/cadastraReserva.php');
           $_SESSION['erro'] = 10;
         }
         }

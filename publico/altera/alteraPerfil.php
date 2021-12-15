@@ -1,8 +1,8 @@
 <?php
     
     session_start();
-    include "..\\..\\controle\\mensagem.php";
-    include "..\\header\\header.php";
+    include "../../controle/mensagem.php";
+    include "../header/header.php";
     
 ?>
 

@@ -2,7 +2,7 @@
 
     session_start();
 
-    $link = include "..\insere\conexao.php";
+    $link = include "../insere/conexao.php";
 
     if ( !empty( $_POST['usuario'] ) || !empty( $_POST['senha'] )){
 

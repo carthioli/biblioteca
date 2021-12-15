@@ -2,7 +2,7 @@
 
   function mostraEmprestimo(){  
    
-    $link = include "..\\insere\\conexao.php";
+    $link = include "../insere/conexao.php";
 
     $query = pg_query("SELECT id, data_emprestimo
                        FROM emprestimo

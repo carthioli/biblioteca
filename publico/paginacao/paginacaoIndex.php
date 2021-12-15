@@ -7,10 +7,10 @@
     
     include "telas/topo.php";
     include "funPaginacao.php";
-    include "pesquisa\\livroPesquisado.php";
-    include "..\\controle\\mostra\\mostraTodosLivros.php";
+    include "pesquisa/livroPesquisado.php";
+    include "../controle/mostra/mostraTodosLivros.php";
 
-    $link = include "..\\controle\\insere\\conexao.php";    
+    $link = include "../controle/insere/conexao.php";    
 
     definePaginacao();
     

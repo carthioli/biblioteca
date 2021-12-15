@@ -1,6 +1,6 @@
 <?php
-    include "..\\paginacao\\funPaginacao.php";
-    include "..\\paginacao\\paginacaoDevolucao.php";
+    include "../paginacao/funPaginacao.php";
+    include "../paginacao/paginacaoDevolucao.php";
 ?>
   <title>Seus emprestimo</title>
 </head>

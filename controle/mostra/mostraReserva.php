@@ -1,12 +1,12 @@
 <?php
 
-      $link = include "..\insere\conexao.php";
+      $link = include "../insere/conexao.php";
       
       
     
       function mostraReserva(){  
    
-        $link = include "..\\insere\\conexao.php";
+        $link = include "../insere/conexao.php";
     
         $query = pg_query("SELECT id, id_aluno 
                            FROM reserva

@@ -1,6 +1,6 @@
 <?php
 
-    $link = include "..\\controle\\insere\\conexao.php";
+    $link = include "../controle/insere/conexao.php";
 
     $usuario = $_SESSION['usuarioId'];
 

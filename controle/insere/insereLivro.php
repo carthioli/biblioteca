@@ -12,14 +12,14 @@
             $inseriu = pg_query( $link, $inserir );  
             
             if( pg_affected_rows( $inseriu ) ){
-              header('location: ..\\..\\admin\\cadastraLivro.php');
+              header('location: ../../admin/cadastraLivro.php');
               $_SESSION['valida'] = 3;
             }
             else{
               return false;
             }    
         }else{
-          header('location: ..\\..\\admin\\cadastraLivro.php');
+          header('location: ../../admin/cadastraLivro.php');
           $_SESSION['erro'] = 3;
         }
         }

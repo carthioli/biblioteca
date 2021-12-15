@@ -21,18 +21,18 @@ session_start();
               $inseriu = pg_query( $link, $inserir );   
                   
               if( pg_affected_rows( $inseriu ) ){
-                header('location: ..\\..\\admin\\cadastraLogin.php');
+                header('location: ../../admin/cadastraLogin.php');
                 $_SESSION['valida'] = 6;
               }
               else{
                 return false;
               } 
             } else {
-                header('location: ..\\..\\admin\\cadastraLogin.php');
+                header('location: ../../admin/cadastraLogin.php');
                 $_SESSION['erroCampo'] = 8;
             }  
           }else{
-            header('location: ..\\..\\admin\\cadastraLogin.php');
+            header('location: ../../admin/cadastraLogin.php');
             $_SESSION['erro'] = 6;
           }
           }

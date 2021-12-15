@@ -1,6 +1,6 @@
 <?php
-    include "telas\\topo.php";
-    include "..\\controle\\mensagem.php";
+    include "telas/topo.php";
+    include "../controle/mensagem.php";
     session_start();
 ?>
 <title>Login</title>

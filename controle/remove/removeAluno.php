@@ -1,7 +1,7 @@
 <?php
     session_start();
         try{
-            $link = include "..\\insere\\conexao.php";
+            $link = include "../insere/conexao.php";
     
             if( isset( $_POST['id_excluir'] ) ){
 
@@ -12,15 +12,15 @@
 
 
                 if( pg_affected_rows( $exclui ) ){
-                  header('location: ..\\..\\admin\\cadastraAluno.php');
+                  header('location: ../../admin/cadastraAluno.php');
                   $_SESSION['valida'] = 7;
                 }
                 else{
-                  header('location: ..\\..\\admin\\cadastraAluno.php');
+                  header('location: ../../admin/cadastraAluno.php');
                   $_SESSION['erro'] = 7;
                 }    
             }else{
-              header('location: ..\\..\\admin\\cadastraAluno.php');
+              header('location: ../../admin/cadastraAluno.php');
               $_SESSION['erro'] = 7;
             }
         }

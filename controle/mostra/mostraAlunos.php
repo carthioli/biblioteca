@@ -1,6 +1,6 @@
 <?php
 
-$link = include "..\\..\\controle\\insere\\conexao.php";
+$link = include "../../controle/insere/conexao.php";
     
     $query = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
                        FROM aluno");

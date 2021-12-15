@@ -1,6 +1,6 @@
 <?php
-    include "..\\paginacao\\funPaginacao.php";
-    include "..\\paginacao\\paginacaoCadastraReserva.php";
+    include "../paginacao/funPaginacao.php";
+    include "../paginacao/paginacaoCadastraReserva.php";
 ?>
   <title>Reserva</title>
 </head>

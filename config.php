@@ -1,3 +1,3 @@
 <?php
-    const CONTROLE = __DIR__ . "\\controle\\";
+    const CONTROLE = __DIR__ . "/controle/";
 ?>

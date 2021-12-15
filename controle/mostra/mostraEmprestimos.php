@@ -1,11 +1,11 @@
 <?php
     
     session_start();
-    include "..\..\publico\\telas\\topoAdmin.php";
-    include "..\\..\\admin\\headerMostra.php";
-    include "..\insere\conexao.php";
+    include "../../publico/telas/topoAdmin.php";
+    include "../../admin/headerMostra.php";
+    include "../insere/conexao.php";
         if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 2 ){
-            header('location: ..\\..\\publico\\index.php');
+            header('location: ../../publico/index.php');
         }
 ?>
 
@@ -17,7 +17,7 @@
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
 
-    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=postgres password=@1234bf");
+    $link = new PDO("pgsql:host=127.0.0.1 port=5432 dbname=biblioteca user=carlos password=12345");
 
     $sql = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo, el.dias_emprestimo
                      FROM livro as l
@@ -104,7 +104,7 @@
               </tr>  
             </thead>
             <tbody>
-        <form method="POST" action="..\controle\insere\insereEmprestimo.php">
+        <form method="POST" action="../controle/insere/insereEmprestimo.php">
               <tr>
                 <?php foreach ( $emprestados as $emprestado ):    
                 ?>

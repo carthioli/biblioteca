@@ -1,14 +1,5 @@
 <?php
 
-    function verificaMensagem(){
-      if ( isset( $_SESSION['erro'] ) ){ 
-        $mensagem_erro = mensagensErro( $_SESSION['erro'] );
-        unset($_SESSION['valida']);
-        unset($_SESSION['erro']);
-        echo "{$mensagem_erro}";
-      }return $mensagem_erro;
-    }
-
     function mensagensConfirma( $confirma ){
 
       switch ( $confirma ){
@@ -85,7 +76,7 @@
           return "Livro não devolvido*";
           break;
         case 12:
-          return "NÍVEL DE ACESSO NEGADO*";
+          return "LOGIN NECESSÁRIO*";
           break;
         case 13:
           return "O ALUNO NÃO PODE SER REMOVIDO*";

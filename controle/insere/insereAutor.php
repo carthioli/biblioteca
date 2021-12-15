@@ -15,14 +15,14 @@
             $inseriu = pg_query( $link, $inserir );  
             
             if( pg_affected_rows( $inseriu ) ){
-              header('location: ..\\..\\admin\\cadastraAutor.php');
+              header('location: ../../admin/cadastraAutor.php');
               $_SESSION['valida'] = 1;
             }
             else{
               return false;
             }    
         }else{
-          header('location: ..\\..\\admin\\cadastraAutor.php');
+          header('location: ../../admin/cadastraAutor.php');
           $_SESSION['erro'] = 1;
         }
         }

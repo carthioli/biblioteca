@@ -1,6 +1,6 @@
 <?php
 
-    $link = include "..\\controle\\insere\\conexao.php";
+    $link = include "../controle/insere/conexao.php";
 
     $query = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo
                       FROM livro as l

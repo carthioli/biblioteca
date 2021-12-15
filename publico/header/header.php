@@ -1,6 +1,6 @@
 <?php
         if ( !isset($_SESSION['logado'] ) && !$_SESSION['logado'] == 1 ){
-            header('location: ..\..\publico\login.php');
+            header('location: ../../publico/login.php');
         }
         include "../telas/topo.php";
 ?>

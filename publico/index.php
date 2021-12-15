@@ -1,6 +1,6 @@
 <?php   
-        include "paginacao\\fechaPaginacao.php";
-        include "paginacao\\paginacaoIndex.php";    
+        include "paginacao/fechaPaginacao.php";
+        include "paginacao/paginacaoIndex.php";    
 ?>
 <title>Biblioteca Digital</title>
 <body>

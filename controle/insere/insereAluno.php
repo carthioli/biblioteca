@@ -19,14 +19,14 @@
             $inseriu = pg_query( $link, $inserir );  
             
             if( pg_affected_rows( $inseriu ) ){
-              header('location: ..\\..\\admin\\cadastraAluno.php');
+              header('location: ../../admin/cadastraAluno.php');
               $_SESSION['valida'] = 4;
             }
             else{
               return false;
             }    
         }else{
-          header('location: ..\\..\\admin\\cadastraAluno.php');
+          header('location: ../../admin/cadastraAluno.php');
           $_SESSION['erro'] = 4;
         }
         }

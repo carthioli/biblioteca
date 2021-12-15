@@ -1,6 +1,6 @@
 <?php
 
-    $link = include "..\\controle\\insere\\conexao.php";
+    $link = include "../controle/insere/conexao.php";
 
     $query = pg_query("SELECT id, nivel, id_usuario, nome
                        FROM login   

@@ -1,6 +1,6 @@
 <?php
-    include "..\\config.php";
-    $link =  include CONTROLE . "insere\\conexao.php";
+    include "../config.php";
+    $link =  include CONTROLE . "insere/conexao.php";
     
     $querytodos = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
                             FROM livro AS l

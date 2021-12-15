@@ -1,7 +1,7 @@
 <?php
     session_start();
         try{
-            $link = include "..\\insere\\conexao.php";
+            $link = include "../insere/conexao.php";
     
             if( isset( $_POST['id_livro'] ) ){
 
@@ -10,14 +10,14 @@
                 $exclui = pg_query( $link, $excluir );  
 
                 if( pg_affected_rows( $exclui ) ){
-                  header('location: ..\\..\\publico\\devolucao\\devolucaoEmprestimo.php');
+                  header('location: ../../publico/devolucao/devolucaoEmprestimo.php');
                   $_SESSION['valida'] = 9;
                 }
                 else{
                   return false;
                 }    
             }else{
-              header('location: ..\\..\\publico\\devolucao\\devolucaoEmprestimo.php');
+              header('location: ../../publico/devolucao/devolucaoEmprestimo.php');
               $_SESSION['erro'] = 11;
             }
         }
