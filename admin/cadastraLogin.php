@@ -115,7 +115,7 @@
             </div> 
             <div class="text-center">  
               <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-              <input type="button" onclick="cancelarLogin()" value="CANCELAR" class="mt-2"><a href="cadastraAluno.php" ></a>
+              <input type="button" onclick="cancelar('nivel', 'id_usuario', 'usuario', 'senha', 'confirma_senha')" value="CANCELAR" class="mt-2"><a href="cadastraAluno.php" ></a>
             </div>   
           </div>
         </form>        
@@ -140,7 +140,7 @@
                 <td><?php echo $login['nome_usuario'];?></td>
                 <td><?php echo $login['usuario'];?></td>   
                 <td class="d-flex justify-content-center border-bottom-0">
-                  <form method="POST" action="../controle/remove/removelogin.php">
+                  <form method="POST" action="../controle/remove/removeLogin.php">
                     <input type="hidden" name="id_excluir" value="<?php echo $login['id'];?>"/>
                     <input class="float-left" name="excluir" onclick="excluir()" type="image" src="..//img/excluir.png" width="20px">
                   </form>

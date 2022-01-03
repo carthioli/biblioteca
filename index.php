@@ -1,3 +1,3 @@
 <?php
-    header('location: publico\login.php');
+    header('location: publico/login.php');
 ?>

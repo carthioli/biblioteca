@@ -6,8 +6,8 @@
 ?>
 <?php
 
-    define('QTD_RESGISTROS', 5);
     define('RANGE_PAGINAS', 1);
+    define('QTD_RESGISTROS', 5);
     $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
@@ -23,7 +23,7 @@
                 'id'  => $resultado['id'],
               'nome'  => $resultado['nome'],
         'sobrenome'  => $resultado['sobrenome'],
-              'cpf'  => $resultado['cpf'],
+              'cpf'  => $resultado['cpf']
     ];
     }
         
@@ -90,7 +90,7 @@
           </div>
           <div class="text-center">  
             <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-            <input type="button" onclick="cancelarAutor()" value="CANCELAR" class="mt-2"><a href="cadastraAutor.php" ></a>
+            <input type="button" onclick="cancelar('nome', 'sobrenome', 'cpf')" value="CANCELAR" class="mt-2"><a href="cadastraAutor.php" ></a>
           </div>     
           </div>
         </form>

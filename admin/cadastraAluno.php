@@ -118,7 +118,7 @@
             </div> 
             <div class="text-center">  
               <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-              <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2">
+              <input type="button" onclick="cancelar('nome', 'sobrenome', 'cpf', 'telefone')" value="CANCELAR" class="mt-2">
             </div>   
           </div>
         </form>        

@@ -1,5 +1,5 @@
 <?php
 
-  header('location: ..\\acesso\\index.php');
+  header('location: ../acesso/index.php');
 
 ?>

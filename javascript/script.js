@@ -1,31 +1,9 @@
-function cancelar(){
+function cancelar(campo1, campo2, campo3, campo4, campo5){
 
-    document.getElementById('nome').value = "";
-    document.getElementById('sobrenome').value = "";
-    document.getElementById('telefone').value = "";
-    document.getElementById('cpf').value = "";
-
-}
-function cancelarAutor(){
-
-    document.getElementById('nome').value = "";
-    document.getElementById('sobrenome').value = "";
-    document.getElementById('cpf').value = "";
+    document.getElementById(campo1).value = "";
+    document.getElementById(campo2).value = "";
+    document.getElementById(campo3).value = "";
+    document.getElementById(campo4).value = "";
+    document.getElementById(campo5).value = "";
 
 }
-function cancelarLogin(){
-
-    document.getElementById('id_usuario').value = "SELECIONE UM ALUNO...";
-    document.getElementById('nivel').value = "SELECIONE UM NÍVEL...";
-    document.getElementById('usuario').value = "";
-    document.getElementById('senha').value = "";
-    document.getElementById('confirma_senha').value = "";
-
-}
-function cancelarLivro(){
-
-    document.getElementById('titulo').value = "";
-    document.getElementById('id_autor').value = "SELECIONE UM AUTOR...";
-    document.getElementById('id_editora').value = "SELECIONE UMA EDITORA...";
-}
-

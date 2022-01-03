@@ -86,7 +86,7 @@
           </div>  
           <div class="text-center">  
             <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-            <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraEditora.php" ></a>
+            <input type="button" onclick="cancelar('nome', 'telefone')" value="CANCELAR" class="mt-2"><a href="cadastraEditora.php" ></a>
           </div>        
         </div>
        </form>

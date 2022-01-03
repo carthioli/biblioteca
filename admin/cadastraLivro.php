@@ -8,8 +8,9 @@
     include "../controle/mostra/mostraLivros.php";
 ?>
 <?php
-    define('QTD_RESGISTROS', 5);
+    
     define('RANGE_PAGINAS', 1);
+    define('QTD_RESGISTROS', 5);
     $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
 
     $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
@@ -19,7 +20,6 @@
                        JOIN autor AS a ON a.id = l.id_autor
                        JOIN editora AS e ON e.id = l.id_editora
                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-
     $livros = [];
 
     while ( $resultado = pg_fetch_assoc( $query ) ){
@@ -108,7 +108,7 @@
         </div>
         <div class="text-center">  
           <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-          <input type="button" onclick="cancelarLivro()" value="CANCELAR" class="mt-2"><a href="cadastraLivro.php" ></a>
+          <input type="button" onclick="cancelar('titulo', 'id_autor', 'id_editora')" value="CANCELAR" class="mt-2"><a href="cadastraLivro.php" ></a>
         </div>          
         </form>
   </main>
