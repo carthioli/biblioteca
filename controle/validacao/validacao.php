@@ -1,6 +1,8 @@
 <?php
 
-    session_start();
+    alert($_POST['usuario']);
+
+    session_start();/*
 
     $link = include "../insere/conexao.php";
 
@@ -54,6 +56,6 @@
   }else{
     header('location: ..\\..\\publico\\login.php');
     $_SESSION['erro'] = 8;
-  }
+  }*/
     
 ?>
