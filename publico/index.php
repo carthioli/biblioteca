@@ -1,9 +1,63 @@
 <?php   
+        include "telas/topo.php";
         include "header/headerP.php";  
-        include "paginacao/fechaPaginacao.php";
-        include "paginacao/paginacaoIndex.php";  
+        include "../vendor/autoload.php";
+
+        use Carlos\Biblioteca\App\Conexao;
+
+        $link = new Conexao;
+
+        define('RANGE_PAGINAS', 1);
+        define('QTD_RESGISTROS', 5);
+        $pagina_atual = ( isset( $_GET['page']) && is_numeric( $_GET['page'] ) ) ? $_GET['page'] : 1;
+    
+        $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
+    
+        $query = pg_query("SELECT l.id, l.nome AS titulo, a.nome AS nome_autor, e.nome AS nome_editora
+                           FROM livro AS l 
+                           JOIN autor AS a ON a.id = l.id_autor
+                           JOIN editora AS e ON e.id = l.id_editora
+                           LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
+        $livros = [];
+    
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+            $livros[] = [
+                  'id'  => $resultado['id'],
+              'titulo'  => $resultado['titulo'],
+               'autor'  => $resultado['nome_autor'],
+             'editora'  => $resultado['nome_editora']
+        ];
+        }
+            
+        $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
+                                 FROM livro");
+    
+        $valor = pg_fetch_assoc( $sqlContador ); 
+    
+        $primeira_pagina = 1;
+    
+        $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
+    
+        $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
+    
+        $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
+    
+        $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
+    
+        $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
+    
+        $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
+    
+        $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
+    
+
+
+
+
+
+        
 ?>
-<title>Biblioteca Digital</title>
+    <title>Biblioteca Digital</title>
 <body>
     <main>
         <div class="container">
@@ -11,113 +65,73 @@
             </div>
         </div>
         <div class="grid">
-            <div class="grid-item ml-5 mr-5 border-left g1">
-                <div class="d-flex justify-content-center mt-5 rounded">
-                    <form method="POST" action="index.php">
-                        <input class="p-1 float-left" type="text" name="pesquisar" placeholder="Pesquisar livros...">
-                        <a class="text-decoration-none text-body" type="submit"><button class="glyphicon glyphicon-search col-1 b border-0 mt-2 float-left"></button></a>
-                    </form>
-                </div><br>  
-            </div>
-            <div class="grid-item ml-5 border-right g2">
-                <?php if( $pesquisa == true ): ?>
-                    <?php if( isset( $_POST['pesquisar'] )): ?>
-                    <form method="POST" action="index.php">    
-                        <button type="submit" name="fechar" class="close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </form>
-                    
-                    <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
-                        <thead>
-                            <tr>
-                                <th class="text-center col-1">ID</th>
-                                <th class="text-center col-4">TITULO</th>
-                                <th class="text-center col-2">AUTOR</th>
-                                <th class="text-center col-2">EDITORA</th>
-                                <th class="text-center col-1">EMPRESTAR</th>
-                            </tr>  
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <form method="POST" action="cadastra/cadastraEmprestimo.php">
-                            <?php foreach ( $livros as $livro):    
-                            ?>
-                                <td class="text-center"><?php echo $livro['id'];?></td>
-                                <td><?php echo $livro['titulo'];?></td>
-                                <td><?php echo $livro['autor'];?></td>
-                                <td><?php echo $livro['editora'];?></td>  
-                                <td class="text-center col-1">
-                                <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo']; ?>">
-                                <button type="submit" class="glyphicon glyphicon-check border-0 bg-transparent"></button>
-                                </td>  
-                            </tr>
-                            <?php endforeach; ?>
-                            </form>
-                        </tbody>
-                    </table>
-                    <div class="text-center">
-                        <nav aria-label="Navegação de página exemplo">
-                            <form method="POST" action="index.php">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                <input type="hidden" name="livro">
-                                <input type="hidden" name="pesquisar">    
-                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$primeira_pagina?>" aria-label="primeira">
-                                    <span aria-hidden="true">Primeira</span>
-                                </button>
-                                </li>
-                                <li class="page-item">
-                                <button class="float-left page-link box-navegacao <?=$exibir_botao_inicio?>" type="submit" name="page" value="<?=$paginacao['pagina_anterior']?>" aria-label="Anterior">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Anterior</span>
-                                </button>
-                                </li>
-                                <?php  
-                                for ($i=$paginacao['range_inicial']; $i < $paginacao['range_final']; $i++):   
-                                    $destaque = ($i == $paginacao['pagina_atual']);  
-                                ?>   
-                                    <li class="page-item"><button class='float-left bg-white m-1 border-light text-primary box-numero <?=$destaque?>' name="page" type="submit" value="<?=$i?>"><?=$i?></button></li>
-                                <?php endfor; ?>  
-                                <li class="page-item">
-                                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" type="submit" name="page" value="<?=$paginacao['proxima_pagina']?>" aria-label="proximo">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Próximo</span>
-                                </button>
-                                </li>
-                                <li class="page-item">
-                                <button class="float-left page-link box-navegacao <?=$exibir_botao_final?>" name="page" type="submit" value="<?=$paginacao['ultima_pagina']?>" aria-label="ultima">
-                                    <span aria-hidden="true">Ultima</span>
-                                </button>
-                                </li>
-                            </ul>
-                            </form>
-                        </nav> 
-                      </div>
-                      <?php endif; ?> 
-                <?php endif; ?>
-                <div class="container col-8 p-2">
-                    <?php if( empty( $_POST['pesquisar'] ) ) : ?>
-                    <?php foreach( $todoslivros AS $livro ): ?>
-                        <form method="POST" action="index.php">
-                            <h4><?php echo $livro['titulo']; ?>, de <?php echo $livro['autor'];?></h4>
-                            <div class="border-bottom">
-                            <input type="hidden" name="pesquisar" value="<?php echo $livro['titulo']; ?>">
-                            <input type="hidden" name="livro">
-                            <div class="mb-1">
-                            <a class="float-right mr-5"><button  type="submit" class="border-0 bg-white">Ver mais...</button></a><br>   
-                            </div>
-                            </div>
-                        </form>
-                    <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
+          <div class="grid-item ml-5 mr-5 border-left g1">
+            <div class="d-flex justify-content-center mt-5 rounded">
+              <form>
+                <input class="p-1 float-left" type="text" name="pesquisar" id="txPesquisar" placeholder="Pesquisar livros...">
+                <button class="text-decoration-none text-body glyphicon glyphicon-search col-1 b border-0 mt-2 float-left" id="pesquisar"></button>
+              </form>
             </div>
           </div>
+          <div class="grid-item ml-5 border-right g2">
+            <table id="tabela" class="d-none">
+                <button type="button" name="fechar" class="close d-none"><span aria-hidden="true">&times;</span></button>
+                <thead>
+                    <th class="center">ID</th>
+                    <th>TITULO</th>
+                    <th>AUTOR</th>
+                    <th>EDITORA</th>
+                </thead>
+                <tbody id="mostrar">
+
+                </tbody>
+            </table>
+
+
+            <div class="d-none" id="paginacao">   
+              <nav aria-label="Navegação de página exemplo">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraAluno.php?page=<?=$primeira_pagina?>" aria-label="primeira">
+                      <span aria-hidden="true">Primeira</span>
+                    </a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraAluno.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Anterior</span>
+                    </a>
+                  </li>
+                  
+                      <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraAluno.php?page=">1</a> </li>
+                  
+                  <li class="page-item">
+                    <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraAluno.php?page=<?=$proxima_pagina?>" aria-label="proximo">
+                      <span aria-hidden="true">&raquo;</span>
+                      <span class="sr-only">Próximo</span>
+                    </a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraAluno.php?page=<?=$ultima_pagina?>" aria-label="ultima">
+                      <span aria-hidden="true">Ultima</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav> 
+            <div>   
+
+
+
+
+
+
+            
+          </div>
         </div>
-      </div>
     </main>
+
     <script src="../javascript/script.js"></script>
+
 </body>
 </html>
    

@@ -1,14 +1,8 @@
 <?php
 
-    session_start();
-    if ( !isset($_SESSION['logado'] ) && !$_SESSION['logado'] == 2 ){
-        header('location: ../publico/login.php'); 
-    }
-    
-    include "telas/topo.php";
     include "funPaginacao.php";
     include "pesquisa/livroPesquisado.php";
-    include "../controle/mostra/mostraTodosLivros.php";
+    
 
     $link = include "../controle/insere/conexao.php";    
 

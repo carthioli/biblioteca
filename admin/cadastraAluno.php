@@ -163,38 +163,38 @@
         </table>
    </nav> 
    <div class="text-center">   
-   <nav aria-label="Navegação de página exemplo">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraAluno.php?page=<?=$primeira_pagina?>" aria-label="primeira">
-                <span aria-hidden="true">Primeira</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraAluno.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Anterior</span>
-              </a>
-            </li>
-            <?php  
-              for ($i=$range_inicial; $i < $range_final; $i++):   
-                $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
-            ?>   
-                <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraAluno.php?page=<?=$i?>"><?=$i?></a> </li>
-            <?php endfor; ?>  
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraAluno.php?page=<?=$proxima_pagina?>" aria-label="proximo">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Próximo</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraAluno.php?page=<?=$ultima_pagina?>" aria-label="ultima">
-                <span aria-hidden="true">Ultima</span>
-              </a>
-            </li>
-          </ul>
-        </nav> 
+      <nav aria-label="Navegação de página exemplo">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraAluno.php?page=<?=$primeira_pagina?>" aria-label="primeira">
+              <span aria-hidden="true">Primeira</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link box-navegacao <?=$exibir_botao_inicio?>" href="cadastraAluno.php?page=<?=$pagina_anterior?>" aria-label="Anterior">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Anterior</span>
+            </a>
+          </li>
+          <?php  
+            for ($i=$range_inicial; $i < $range_final; $i++):   
+              $destaque = ($i == $pagina_atual) ? 'destaque' : '' ;  
+          ?>   
+              <li class="page-item"><a class='box-numero <?=$destaque?>' href="cadastraAluno.php?page=<?=$i?>"><?=$i?></a> </li>
+          <?php endfor; ?>  
+          <li class="page-item">
+            <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraAluno.php?page=<?=$proxima_pagina?>" aria-label="proximo">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Próximo</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link box-navegacao <?=$exibir_botao_final?>" href="cadastraAluno.php?page=<?=$ultima_pagina?>" aria-label="ultima">
+              <span aria-hidden="true">Ultima</span>
+            </a>
+          </li>
+        </ul>
+      </nav> 
     <div>     
   <footer>
 
