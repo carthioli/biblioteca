@@ -24,6 +24,21 @@ $("#acessar").click(function(){
 
 
 })
+$("#sair").click(function(){
+    $.ajax({
+		url: '../controle/validacao/logout.php',
+		type: 'post',
+		dataType: 'json',
+		data: {
+			'sair' : true       
+		}
+	}).success(function(data){
+        if(data.sair){
+            $(location).attr('href', 'index.php')
+        }
+        
+	})
+})
 function cancelar(campo1, campo2, campo3, campo4, campo5){
 
     document.getElementById(campo1).value = "";

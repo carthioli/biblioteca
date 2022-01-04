@@ -374,11 +374,9 @@
                         </div>
                     </li>
                     <li>
-                        <form method="POST" action="../controle/validacao/logout.php">
-                            <div class="ml-1 mt-2 mr-1 text-center">
-                                <a class="text-decoration-none text-body mt-1" type="submit" name="sair"><button class="button border-0 mt-2">Sair</button></a>
-                            </div>
-                        </form>
+                        <div class="ml-1 mt-2 mr-1 text-center">
+                            <a class="text-decoration-none text-body mt-1" type="submit" name="sair" id="sair"><button class="button border-0 mt-2">Sair</button></a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -836,6 +834,7 @@
         </div>
       </div>
     </main>
+    <script src="../javascript/script.js"></script>
 </body>
 </html>
    
