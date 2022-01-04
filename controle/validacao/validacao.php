@@ -23,6 +23,7 @@
         $msg = (new Mensagem)->mensagensErro(7);
         echo json_encode(array('message' => $msg, 'color' => 'red'));
       }
+      
 
     }else{
       $msg = (new Mensagem)->mensagensErro(8);
