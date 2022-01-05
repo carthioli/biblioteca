@@ -1,6 +1,9 @@
 <?php
-    include "../config.php";
-    $link =  include CONTROLE . "insere/conexao.php";
+    include "../../vendor/autoload.php";
+
+    use Carlos\Biblioteca\App\Conexao;
+
+    $link = new Conexao;
     
     $querytodos = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
                             FROM livro AS l
@@ -16,5 +19,6 @@
     'editora'=> $resultado['editora']
     ];
     }
+    echo json_encode($todoslivros);
     
 ?>

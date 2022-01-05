@@ -40,28 +40,62 @@ $("#sair").click(function(){
 	})
 })
 $("#pesquisar").click(function(){
-    event.preventDefault()
+    
+	mostraEscondidos()
+	criaAjax('nome')	
+	$("#txPesquisar").val('')
+})
+$("#close").click(function(){
+	$("#close").attr('class', 'd-none')
+	$("#tabela").attr('class', 'd-none')
+	$("#paginacao").attr('class', 'd-none')
+})
+function criaAjax(campo){
 	$.ajax({
 		url: 'pesquisa/pesquisar.php',
+		type: 'post',
+		dataType: 'json',
+		data: {
+			'titulo' : $("#txPesquisar").val(),   
+			 'campo' : campo	
+		}
+	}).success(function(data){
+		paginacao(data)
+	})
+}
+function verMais(titulo){
+	$("#txPesquisar").val(titulo)
+	mostraEscondidos()
+	criaAjax('nome')
+	$("#txPesquisar").val('')
+}
+$(function(){
+
+	$.ajax({
+		url: '../controle/mostra/mostraTodosLivros.php',
 		type: 'post',
 		dataType: 'json',
 		data: {
 			'titulo' : $("#txPesquisar").val()   
 		}
 	}).success(function(data){
-        console.log(data)
-
-
-		var arr = data
-		let mostrar = document.getElementById('mostrar')
 		
-		$(".close").attr('class', 'close')
-		$("#tabela").attr('class', 'table table-bordered')
-		$("#paginacao").attr('class', 'text-center')
+		mostraTodosLivros(data)
+	})
+})
+function paginacao(data){
+	var arr = data
+	let mostrar = document.getElementById('mostrar')
 
-		mostrar.innerText = ""
+	mostrar.innerText = ""
 
-		for (let i = 0; i < data.length; i++) {
+	var tamanhoPagina = 5;
+	var pagina = 0;
+
+	function paginar() {
+		$('table > tbody > tr').remove();
+
+		for (var i = pagina * tamanhoPagina; i < arr.length && i < (pagina + 1) *  tamanhoPagina; i++) {
 
 			let tr = mostrar.insertRow()
 
@@ -85,19 +119,48 @@ $("#pesquisar").click(function(){
 			td_autor.innerText = data[i]['autor']
 			td_editora.innerText = data[i]['editora']
 		
-	
 			td_id.classList.add('center')
-	
-		}        
-	})
-})
-$(".close").click(function(){
-	$(".close").attr('class', 'd-none')
-	$("#tabela").attr('class', 'd-none')
-	$("#paginacao").attr('class', 'd-none')
-})
 
+		}
+		$('#numeracao').text((pagina + 1));
+	}
+	function ajustarBotoes() {
+		$('#proximo').prop('disabled', arr.length <= tamanhoPagina || pagina > arr.length / tamanhoPagina - 1);
+		$('#anterior').prop('disabled', arr.length <= tamanhoPagina || pagina == 0);
+	}
+	$(function() {
+		$('#proximo').click(function() {
+			if (pagina < arr.length / tamanhoPagina - 1) {
+				pagina++;
+				paginar();
+				ajustarBotoes();
+			}
+		});
+		$('#anterior').click(function() {
+			if (pagina > 0) {
+				pagina--;
+				paginar();
+				ajustarBotoes();
+			}
+		});
+		paginar();
+		ajustarBotoes();
+	});  
+}
+function mostraEscondidos(){
+	$("#close").attr('class', 'close text-body')
+	$("#tabela").attr('class', 'table table-bordered')
+	$("#paginacao").attr('class', 'text-center')
+}
+function mostraTodosLivros(data){
+	var mostraLivros = $("#todosLivros")
 
+	var arr = data
+		for (var i = 0; i < arr.length; i++) {
+			var titulo = arr[i]['titulo']
+			mostraLivros.append('<p class="border-bottom">' + arr[i]['titulo'] + ',  ' + arr[i]['autor'] + "<button class='float-right text-decoration-none' onclick='verMais("  + '"' + titulo + '"' + ")' >" + 'Ver mais' + '</button>' + "</p><br>")
+		}
+}
 function cancelar(campo1, campo2, campo3, campo4, campo5){
 
     document.getElementById(campo1).value = "";

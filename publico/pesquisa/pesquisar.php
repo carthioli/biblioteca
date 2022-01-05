@@ -2,29 +2,12 @@
 
     include "../../vendor/autoload.php";
 
-    use Carlos\Biblioteca\App\Conexao;
+    use Carlos\Biblioteca\App\Pesquisar;
 
-    $link = new Conexao;
+    $campo = $_POST['campo'];
+    $livro = $_POST['titulo'];
 
-    $titulo = $_POST['titulo'];
+    $livros = (new Pesquisar)->livroPesquisado($campo, $livro);
 
-    $queryPesquisado = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora
-                        FROM livro AS l
-                        JOIN autor AS a ON a.id = l.id_autor
-                        JOIN editora AS e ON e.id = l.id_editora
-                        WHERE l.nome LIKE  '%$titulo%'");
-
-        $livrosPesquisados = [];
-
-        while( $resultadoPesquisado = pg_fetch_assoc( $queryPesquisado ) ){
-        $livrosPesquisados[] = [
-            'id' => $resultadoPesquisado['id'],
-        'titulo' => $resultadoPesquisado['nome'],
-        'autor' => $resultadoPesquisado['autor'],
-        'editora' => $resultadoPesquisado['editora']
-        ];
-        }
-        
-        echo json_encode($livrosPesquisados);
-
+    echo json_encode($livros)
 ?>

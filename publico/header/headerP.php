@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <a class="navbar-brand text " href="index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</a>
