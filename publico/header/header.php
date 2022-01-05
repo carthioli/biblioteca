@@ -1,6 +1,8 @@
 <?php
         include "../telas/topo.php";
 ?>
+    <link rel="stylesheet" href="../../css/estilo.css"> 
+</head>
 <body>
     <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">

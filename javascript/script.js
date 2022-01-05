@@ -34,30 +34,30 @@ $("#sair").click(function(){
 		}
 	}).success(function(data){
         if(data.sair){
-            $(location).attr('href', 'index.php')
+            $(location).attr('href', '../index.php')
         }
         
 	})
 })
 $("#pesquisar").click(function(){
-    
 	mostraEscondidos()
-	criaAjax('nome')	
+	criaAjax()	
 	$("#txPesquisar").val('')
+	$("#todosLivros").attr('class', 'd-none')
 })
 $("#close").click(function(){
 	$("#close").attr('class', 'd-none')
 	$("#tabela").attr('class', 'd-none')
 	$("#paginacao").attr('class', 'd-none')
+	$("#todosLivros").attr('class', 'container col-8 p-2')
 })
-function criaAjax(campo){
+function criaAjax(){
 	$.ajax({
 		url: 'pesquisa/pesquisar.php',
 		type: 'post',
 		dataType: 'json',
 		data: {
-			'titulo' : $("#txPesquisar").val(),   
-			 'campo' : campo	
+			'titulo' : $("#txPesquisar").val()
 		}
 	}).success(function(data){
 		paginacao(data)
@@ -65,9 +65,10 @@ function criaAjax(campo){
 }
 function verMais(titulo){
 	$("#txPesquisar").val(titulo)
-	mostraEscondidos()
-	criaAjax('nome')
+	mostraEscondidosVerMais()
+	criaAjax()
 	$("#txPesquisar").val('')
+	$("#todosLivros").attr('class', 'd-none')
 }
 $(function(){
 
@@ -147,6 +148,10 @@ function paginacao(data){
 		ajustarBotoes();
 	});  
 }
+function mostraEscondidosVerMais(){
+	$("#close").attr('class', 'close text-body')
+	$("#tabela").attr('class', 'table table-bordered')
+}
 function mostraEscondidos(){
 	$("#close").attr('class', 'close text-body')
 	$("#tabela").attr('class', 'table table-bordered')
@@ -157,8 +162,8 @@ function mostraTodosLivros(data){
 
 	var arr = data
 		for (var i = 0; i < arr.length; i++) {
-			var titulo = arr[i]['titulo']
-			mostraLivros.append('<p class="border-bottom">' + arr[i]['titulo'] + ',  ' + arr[i]['autor'] + "<button class='float-right text-decoration-none' onclick='verMais("  + '"' + titulo + '"' + ")' >" + 'Ver mais' + '</button>' + "</p><br>")
+			var titulo = arr[i]['id']
+			mostraLivros.append('<p class="border-bottom text-uppercase">' + arr[i]['titulo'] + ',  ' + arr[i]['autor'] + "<button class='float-right btn p-1' onclick='verMais("  + '"' + titulo + '"' + ")' >" + 'Ver mais' + '</button>' + "</p><br>")
 		}
 }
 function cancelar(campo1, campo2, campo3, campo4, campo5){

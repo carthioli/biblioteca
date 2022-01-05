@@ -1,9 +1,13 @@
 <?php   
+        
+        
         include "telas/topo.php";
         include "header/headerP.php";  
         include "../vendor/autoload.php";         
 ?>       
+    <link rel="stylesheet" href="../css/estilo.css"> 
     <title>Biblioteca Digital</title>
+</head>
 <body>
     <main>
         <div class="container">

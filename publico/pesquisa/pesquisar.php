@@ -4,10 +4,15 @@
 
     use Carlos\Biblioteca\App\Pesquisar;
 
-    $campo = $_POST['campo'];
     $livro = $_POST['titulo'];
 
-    $livros = (new Pesquisar)->livroPesquisado($campo, $livro);
+    if ( is_numeric($livro) ){
+        $livros = (new Pesquisar)->livroPesquisadoId($livro);
+    }else{
+        $livros = (new Pesquisar)->livroPesquisadoNome($livro);
+    }
+    
 
+    
     echo json_encode($livros)
 ?>

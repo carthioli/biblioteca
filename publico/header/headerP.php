@@ -1,7 +1,12 @@
-<?php session_start(); ?>
+<?php 
+    session_start();
+    if(!isset($_SESSION['usuarioNivel'])){
+        header('location: login.php');
+    } 
+?>
 <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <a class="navbar-brand text " href="index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</a>
+            <a class="navbar-brand text "><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
