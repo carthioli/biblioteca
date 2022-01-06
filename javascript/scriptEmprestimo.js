@@ -46,17 +46,19 @@ function paginacao(data){
 			autor = arr[i]['autor']
 			editora = arr[i]['editora']
 
+			td_idCheck.innerHTML = "<input type=checkbox class='livroId' id='" + data[i]['id'] + "'>"
 			td_id.innerText = data[i]['id']
 			td_titulo.innerText = data[i]['titulo']
 			td_autor.innerText = data[i]['autor']
 			td_editora.innerText = data[i]['editora']
 		
+			td_idCheck.classList.add('check','text-center')
 			td_id.classList.add('text-center')
-      td_idCheck.classList.add('check','text-center')
+			td_titulo.classList.add('text-capitalize')
+			td_autor.classList.add('text-capitalize')
+			td_editora.classList.add('text-capitalize')
 
 		}
-		$(".check").append("<input type='checkbox'>") 
-
 		$('#numeracao').text((pagina +1));
 	}
 	function ajustarBotoes() {
@@ -98,12 +100,11 @@ function paginacao(data){
 		ajustarBotoes();
 	});  
 }
-function mostraEscondidosVerMais(){
-	$("#close").attr('class', 'close text-body')
-	$("#tabela").attr('class', 'table table-bordered')
-}
-function mostraEscondidos(){
-	$("#close").attr('class', 'close text-body')
-	$("#tabela").attr('class', 'table table-bordered')
-	$("#paginacao").attr('class', 'text-center')
-}
+$("#finalizar").click(function(){
+	var dias = $("#dias").val()
+	alert(dias)
+})
+
+
+
+

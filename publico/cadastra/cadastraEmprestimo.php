@@ -24,7 +24,7 @@
             <tbody id="mostrar">
         
             </tbody>
-        </table>    
+        </table> 
         <div id="paginacao" class="text-center mb-4">
           <button id="primeiro" class="btn border text-danger" disabled>Primeira</button>
           <button id="anterior" class="btn border text-danger" disabled>&lsaquo;</button>
@@ -42,7 +42,7 @@
                 </button>
               </div>
               <div class="modal-body text-center">  
-              <select  name="dias_devolucao" class="mt-2 p-1 w-75">
+              <select  name="dias_devolucao" id="dias" class="mt-2 p-1 w-75">
                 <option selected disabled>SELECIONE UMA DATA...</option>
                 <option>3</option>
                 <option>5</option>
@@ -53,7 +53,7 @@
               </div>
               <div class="modal-footer">
                 <button href="cadastraEmprestimo.php" class="btn-danger border-0 p-2 rounded">CANCELAR</button>
-                <button type="submit" class="btn-primary border-0 p-2 rounded">FINALIZAR</button>
+                <button type="btn" id="finalizar" class="btn-primary border-0 p-2 rounded">FINALIZAR</button>
               </div>
             </div>
           </div>
