@@ -12,20 +12,5 @@
     $resultado = pg_fetch_assoc( $query );
     return $resultado;
 
-    /*
-    $emprestimos = [];
-  
-    while ( $resultado = pg_fetch_assoc( $query ) ){
-      $emprestimos[] = [
-          'id'   => $resultado['id']
-      ];
-    }
-
-    foreach ( $emprestimos as $emprestimo){
-      
-    }
-    
-    return $emprestimo['id'];
-    */
   } 
 ?>

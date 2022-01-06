@@ -70,20 +70,6 @@ function verMais(titulo){
 	$("#txPesquisar").val('')
 	$("#todosLivros").attr('class', 'd-none')
 }
-$(function(){
-
-	$.ajax({
-		url: '../controle/mostra/mostraTodosLivros.php',
-		type: 'post',
-		dataType: 'json',
-		data: {
-			'titulo' : $("#txPesquisar").val()   
-		}
-	}).success(function(data){
-		
-		mostraTodosLivros(data)
-	})
-})
 function paginacao(data){
 	var arr = data
 	let mostrar = document.getElementById('mostrar')
@@ -156,15 +142,6 @@ function mostraEscondidos(){
 	$("#close").attr('class', 'close text-body')
 	$("#tabela").attr('class', 'table table-bordered')
 	$("#paginacao").attr('class', 'text-center')
-}
-function mostraTodosLivros(data){
-	var mostraLivros = $("#todosLivros")
-
-	var arr = data
-		for (var i = 0; i < arr.length; i++) {
-			var titulo = arr[i]['id']
-			mostraLivros.append('<p class="border-bottom text-uppercase">' + arr[i]['titulo'] + ',  ' + arr[i]['autor'] + "<button class='float-right btn p-1' onclick='verMais("  + '"' + titulo + '"' + ")' >" + 'Ver mais' + '</button>' + "</p><br>")
-		}
 }
 function cancelar(campo1, campo2, campo3, campo4, campo5){
 
