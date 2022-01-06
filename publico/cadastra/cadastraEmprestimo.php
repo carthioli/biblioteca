@@ -7,10 +7,8 @@
 <body>
     <main>  
       <div class="container">
-        <div class="text-center">
-          <p class="text-success"></p> 
-        </div>
         <h4>EMPRESTIMOS DE LIVROS</h4>
+        <input type='hidden' id='userId' value="<?php echo $_SESSION['Id']; ?>">
         <table class="table table-striped table-bordered border" id="tabela" class="d-none">
             <thead>
               <tr>
@@ -25,6 +23,8 @@
         
             </tbody>
         </table> 
+
+
         <div id="paginacao" class="text-center mb-4">
           <button id="primeiro" class="btn border text-danger" disabled>Primeira</button>
           <button id="anterior" class="btn border text-danger" disabled>&lsaquo;</button>
@@ -53,7 +53,7 @@
               </div>
               <div class="modal-footer">
                 <button href="cadastraEmprestimo.php" class="btn-danger border-0 p-2 rounded">CANCELAR</button>
-                <button type="btn" id="finalizar" class="btn-primary border-0 p-2 rounded">FINALIZAR</button>
+                <button type="btn" id="finalizar" class="btn-primary border-0 p-2 rounded" onclick="check()">FINALIZAR</button>
               </div>
             </div>
           </div>
@@ -64,8 +64,9 @@
       </div>        
     </main>
     <script src="../../javascript/scriptEmprestimo.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <footer>
-  
+
 </footer>
 </body>
 </html>

@@ -1,8 +1,6 @@
-
 $(function(){
-
 	$.ajax({
-		url: '../../controle/mostra/mostraTodosLivros.php',
+		url: '../../controle/mostra/mostraEmprestimo.php',
 		type: 'post',
 		dataType: 'json',
 		data: {
@@ -46,7 +44,7 @@ function paginacao(data){
 			autor = arr[i]['autor']
 			editora = arr[i]['editora']
 
-			td_idCheck.innerHTML = "<input type=checkbox class='livroId' id='" + data[i]['id'] + "'>"
+			td_idCheck.innerHTML = "<input type='checkbox' class='teste' name='check' id='" + data[i]['id'] + "' value='" + data[i]['id'] + "'>"
 			td_id.innerText = data[i]['id']
 			td_titulo.innerText = data[i]['titulo']
 			td_autor.innerText = data[i]['autor']
@@ -102,9 +100,29 @@ function paginacao(data){
 }
 $("#finalizar").click(function(){
 	var dias = $("#dias").val()
-	alert(dias)
+	var userId = $("#userId").val()
+	var checked = check()
+
+	$.ajax({
+		url: '../../controle/insere/insereEmprestimo.php',
+		type: 'post',
+		dataType: 'json',
+		data: {
+			'id_aluno' : userId,
+			'id_livro' : checked,
+			'dias_devolucao' : dias
+		}
+	}).success(function(data){
+		console.log(data)
+	})
+	
 })
+function check(){
+	var checados = [];
+			$.each($("input[name='check']:checked"), function(){            
+					checados.push($(this).val());
+			});
+			return checados;
 
-
-
+}
 
