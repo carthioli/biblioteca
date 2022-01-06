@@ -1,34 +1,16 @@
 <?php
     session_start();  
     include "../paginacao/funPaginacao.php";
-    include "../paginacao/paginacaoCadastraEmprestimo.php";  
+    include "../header/header.php";
 ?>
+
   <title>Emprestimo</title>
 </head>
 <body>
     <main>    
       <div class="container">
         <div class="text-center">
-          <p class="text-success">
-            <?php
-                  if ( isset( $_SESSION['valida'] ) ){  
-                       $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
-                       unset($_SESSION['erro']);
-                       unset($_SESSION['valida']);
-                       echo "{$mensagem_confirma}";
-                  }
-            ?>
-          </p> 
-          <p class="text-danger">
-            <?php 
-                  if ( isset( $_SESSION['erro'] ) ){ 
-                       $mensagem_erro = mensagensErro( $_SESSION['erro'] );
-                       unset($_SESSION['valida']);
-                       unset($_SESSION['erro']);
-                       echo "{$mensagem_erro}";
-                  }    
-            ?>
-          </p> 
+          <p class="text-success"></p> 
         </div>
         <h4>EMPRESTIMOS DE LIVROS</h4>         
         <table class="table table-striped table-bordered border" id="tabela_livro">
@@ -43,20 +25,45 @@
             </thead>
             
             <tbody>
-        <form method="POST" action="..\..\controle\insere\insereEmprestimo.php">
-              <tr>
-              <input type="hidden" name='id_aluno' value="<?php echo $_SESSION['Id'];?>">
-                <?php foreach ( $livros as $livro ):    
-                ?>
-                  <td class="text-center"><input type="checkbox" name="id_livro[]" value="<?php echo $livro['id'];?>"></td>
-                  <td class="text-center"><?php echo $livro['id'];?></td>
-                  <td><?php echo $livro['titulo'];?></td>
-                  <td><?php echo $livro['autor']?></td>
-                  <td class="text-center"><?php echo $livro['editora'];?></td> 
-              </tr>
-                <?php endforeach; ?>
+        
             </tbody>
-        </table>     
+        </table>    
+        
+        
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
           <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -87,16 +94,7 @@
         <div class="text-center">  
           <button onclick="emprestar()" class="btn-danger border-0 p-2 rounded" data-toggle="modal" data-target="#usuario">EMPRESTAR</button>            
         </div>          
-      </div>
-      <!--PAGINAÇÃO-->
-      <div class="text-center">
-        <nav aria-label="Navegação de página exemplo">
-            <form method="POST" action="cadastraEmprestimo.php">
-                  <?php require "../paginacao/paginacao.php"; ?>
-            </form>
-        </nav> 
-      </div>
-      <!--FIM PAGINAÇÃO-->                
+      </div>        
     </main>
 <footer>
   
