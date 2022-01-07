@@ -6,6 +6,7 @@
 </head>
 <body>
     <main>  
+      <div id='message'></div>
       <div class="container">
         <h4>EMPRESTIMOS DE LIVROS</h4>
         <input type='hidden' id='userId' value="<?php echo $_SESSION['Id']; ?>">

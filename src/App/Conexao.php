@@ -15,11 +15,11 @@
 
         private $link = null;
 
-        public function __construct(  $host = 'localhost', 
+        public function __construct(  $host = '127.0.0.1', 
                                       $port = "5432",
                                       $dbname = "biblioteca",
-                                      $user = "postgres",
-                                      $password = "@1234bf"  ){
+                                      $user = "carlos",
+                                      $password = "12345"  ){
 
           $this->host = $host;
           $this->dbname = $dbname;
@@ -47,6 +47,20 @@
               {
                 echo $e->getMessage();
               }
-        }       
+        } 
+        public function ultimoIdEmprestimo(  )
+        {
+            $query = pg_query("SELECT id, data_emprestimo
+                              FROM emprestimo
+                              ORDER BY 1 DESC");
+            $result = pg_fetch_assoc( $query );
+
+            if( $result ){
+              return $result;
+            }
+            else {
+              return false;
+            }
+        }              
     }
 ?>

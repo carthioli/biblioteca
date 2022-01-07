@@ -67,7 +67,7 @@
                 return "Usuário ou senha inválida*";
                 break; 
               case 8:
-                return "Campos não preenchidos*";
+                return "Campos obrigatórios não preenchidos*";
                 break;
               case 10:
                 return "Reserva não realizada*";

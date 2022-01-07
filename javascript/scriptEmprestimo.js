@@ -1,3 +1,28 @@
+$("#finalizar").click(function(){
+	var dias = $("#dias").val()
+	var userId = $("#userId").val()
+	var checked = check()
+
+	$.ajax({
+		url: '../../controle/insere/insereEmprestimo.php',
+		type: 'post',
+		dataType: 'json',
+		data: {
+			'id_aluno' : userId,
+			'id_livro' : checked,
+			'dias_devolucao' : dias
+		}
+	}).success(function(data){
+		if(data.erro == false){
+			$('#message').attr('class', 'd-flex justify-content-center text-success')
+		}else{
+			$('#message').attr('class', 'd-flex justify-content-center text-danger')
+		}
+		$("#message").html(data.message)
+		console.log(data.message)
+	})
+	$(".close").click()
+})
 $(function(){
 	$.ajax({
 		url: '../../controle/mostra/mostraEmprestimo.php',
@@ -19,7 +44,7 @@ function paginacao(data){
 	var tamanhoPagina = 5;
 	var pagina = 0;
 	var paginaInicial = pagina 
-  var paginaFinal = arr.length / tamanhoPagina - 1;
+  	var paginaFinal = arr.length / tamanhoPagina - 1;
   
 	function paginar() {
 		$('table > tbody > tr').remove();
@@ -63,7 +88,7 @@ function paginacao(data){
 		$('#primeiro').prop('disabled', arr.length <= tamanhoPagina || pagina == 0);
 		$('#anterior').prop('disabled', arr.length <= tamanhoPagina || pagina == 0);
 		$('#proximo').prop('disabled', pagina >= arr.length / tamanhoPagina - 1);
-    $('#ultimo').prop('disabled', pagina >= arr.length / tamanhoPagina - 1);
+    	$('#ultimo').prop('disabled', pagina > arr.length / tamanhoPagina - 1);
 	}
 	$(function() {
 		$('#primeiro').click(function() {
@@ -98,25 +123,6 @@ function paginacao(data){
 		ajustarBotoes();
 	});  
 }
-$("#finalizar").click(function(){
-	var dias = $("#dias").val()
-	var userId = $("#userId").val()
-	var checked = check()
-
-	$.ajax({
-		url: '../../controle/insere/insereEmprestimo.php',
-		type: 'post',
-		dataType: 'json',
-		data: {
-			'id_aluno' : userId,
-			'id_livro' : checked,
-			'dias_devolucao' : dias
-		}
-	}).success(function(data){
-		console.log(data)
-	})
-	
-})
 function check(){
 	var checados = [];
 			$.each($("input[name='check']:checked"), function(){            
