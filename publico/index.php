@@ -1,6 +1,4 @@
-<?php   
-        
-        
+<?php           
         include "telas/topo.php";
         include "header/headerP.php";  
         include "../vendor/autoload.php";         

@@ -19,11 +19,15 @@ $("#finalizar").click(function(){
 			$('#message').attr('class', 'd-flex justify-content-center text-danger')
 		}
 		$("#message").html(data.message)
-		console.log(data.message)
+		mostrarLivros()
+		$("#dias").prop('selectedIndex',0);
 	})
 	$(".close").click()
 })
 $(function(){
+	mostrarLivros()
+})
+function mostrarLivros(){
 	$.ajax({
 		url: '../../controle/mostra/mostraEmprestimo.php',
 		type: 'post',
@@ -34,7 +38,7 @@ $(function(){
 	}).success(function(data){
 		paginacao(data)
 	})
-})
+}
 function paginacao(data){
 	var arr = data
 	let mostrar = document.getElementById('mostrar')
@@ -88,7 +92,7 @@ function paginacao(data){
 		$('#primeiro').prop('disabled', arr.length <= tamanhoPagina || pagina == 0);
 		$('#anterior').prop('disabled', arr.length <= tamanhoPagina || pagina == 0);
 		$('#proximo').prop('disabled', pagina >= arr.length / tamanhoPagina - 1);
-    	$('#ultimo').prop('disabled', pagina > arr.length / tamanhoPagina - 1);
+    	$('#ultimo').prop('disabled', pagina >= arr.length / tamanhoPagina - 1);
 	}
 	$(function() {
 		$('#primeiro').click(function() {

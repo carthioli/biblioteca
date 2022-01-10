@@ -10,8 +10,6 @@
                       JOIN emprestimo as em ON em.id = el.id_emprestimo
                       ORDER BY 1 ASC");
 
-    
-
     $livros = [];
 
     while ( $resultado = pg_fetch_assoc( $query ) ){
