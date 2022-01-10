@@ -1,5 +1,4 @@
 <?php
-    session_start();  
     include "../header/header.php";
 ?>
   <title>Emprestimo</title>
@@ -24,8 +23,6 @@
         
             </tbody>
         </table> 
-
-
         <div id="paginacao" class="text-center mb-4">
           <button id="primeiro" class="btn border text-danger" disabled>Primeira</button>
           <button id="anterior" class="btn border text-danger" disabled>&lsaquo;</button>

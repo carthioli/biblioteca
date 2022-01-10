@@ -1,4 +1,5 @@
 <?php
+        session_start();  
         include "../telas/topo.php";
 ?>
     <link rel="stylesheet" href="../../css/estilo.css"> 

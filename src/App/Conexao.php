@@ -50,13 +50,27 @@
         } 
         public function ultimoIdEmprestimo(  )
         {
-            $query = pg_query("SELECT id, data_emprestimo
+            $query = pg_query("SELECT id, data_livro
                               FROM emprestimo
                               ORDER BY 1 DESC");
             $result = pg_fetch_assoc( $query );
 
             if( $result ){
               return $result;
+            }
+            else {
+              return false;
+            }
+        }   
+        public function ultimoIdReserva(  )
+        {
+            $query = pg_query("SELECT id
+                              FROM reserva
+                              ORDER BY 1 DESC");
+            $result = pg_fetch_assoc( $query );
+
+            if( $result ){
+              return $result['id'];
             }
             else {
               return false;

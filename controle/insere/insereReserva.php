@@ -1,43 +1,45 @@
 <?php
+
     session_start();
-        try
-            {
-              $link = include "conexao.php";
-              include "../mostra/mostraReserva.php";
-              include "insereReserva_livro.php";
-              
-        if ( !empty( $_POST['id_aluno'] ) ) {
- 
-            $inserir = "INSERT INTO reserva(id_aluno) VALUES ('{$_POST['id_aluno']}')";
-            $inseriu = pg_query( $link, $inserir );  
+    require "../../vendor/autoload.php";
+    use Carlos\Biblioteca\App\{
+                                Reserva,
+                                Conexao
+                              };
+    use Carlos\Biblioteca\Mensagem\Mensagem;      
+
+    if( isset( $_POST['id_livros'] ) ){
+      $id_livro = $_POST['id_livros'];
+    }
+    if( isset( $_POST['id_livro'] ) ){
+      $id_livro = $_POST['id_livro'];
+    }
+
+    if ( !empty( $_POST['id_aluno'] ) &&
+            !empty( $id_livro ) &&
+                is_numeric( $_POST['id_aluno'] ) ) {
+        
+       $id_aluno = $_POST['id_aluno'];           
+
+        $reserva = (new Reserva)->inserirReserva($id_aluno);
+          
+        if( $reserva == true ){
+
+          $ultimaReserva = (new Conexao)->ultimoIdReserva();
+          
+         /* foreach($_POST['id_livro'] as $livro){
             
-            if( pg_affected_rows( $inseriu ) ){
+            $emprestimoLivro = (new Emprestimo)->inserirEmprestimoLivro($livro, $ultimoEmprestimo['id'], $_POST['dias_devolucao'], $ultimoEmprestimo['data_emprestimo']);
+             
+          } */
+          
+         $msg = (new Mensagem)->mensagensConfirma(5);
+         echo json_encode(array('ultimoId' => $ultimaReserva, 'id_livro' => $id_livro, 'message' => $msg, 'erro' => false));
 
-              $ultimoReserva = mostraReserva();
-
-              foreach( $_POST['id_livro'] AS $livro ){  
-
-                insereReservaLivro($livro, $ultimoReserva['id'] );
-
-              }
-               
-              header('location: ../../publico/cadastra/cadastraReserva.php');
-              $_SESSION['valida'] = 10;
-            }
-            else{
-              return false;
-            }    
-        }else{
-          header('location: ../../publico/cadastra/cadastraReserva.php');
-          $_SESSION['erro'] = 10;
         }
-        }
-        catch( Exception $e )
-        {
-          echo $e->getMessage();
-        }
-        catch( Error $e )
-        {
-          echo $e->getMessage();
-        }
+    }else{
+      $msg = (new Mensagem)->mensagensErro(5);
+      echo json_encode(array('livro' => $id_livro, 'message' => $msg, 'erro' => true));
+    }    
+    
 ?>
