@@ -26,12 +26,12 @@
         if( $reserva == true ){
           
           $ultimoId = (new Conexao)->ultimoId( 'reserva' );
-          echo json_encode(array('id_livro' => $livro, 'erro' => false));
-          foreach($id_livro AS $livro){
-             // $reservaLivro = (new Reserva)->inserirReservaLivros( $livro, $ultimoId['id'] );
-              
+          
+          foreach($_POST['id_livros'] AS $livro){
+            $reservaLivro = (new Reserva)->inserirReservaLivro( $livro, $ultimoId['id'] );
+            echo json_encode(array('livro' => $reservaLivro, 'erro' => false));
           }
-       
+          
           
           
         }
