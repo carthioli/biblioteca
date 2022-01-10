@@ -22,10 +22,10 @@
        $id_aluno = $_POST['id_aluno'];           
 
         $reserva = (new Reserva)->inserirReserva($id_aluno);
-          
+        echo json_encode(array( 'id_livro' => $id_livro, 'erro' => false));
         if( $reserva == true ){
 
-          $ultimaReserva = (new Conexao)->ultimoIdReserva();
+          $ultimoId = (new Conexao)->ultimoId();
           
          /* foreach($_POST['id_livro'] as $livro){
             
@@ -33,13 +33,11 @@
              
           } */
           
-         $msg = (new Mensagem)->mensagensConfirma(5);
-         echo json_encode(array('ultimoId' => $ultimaReserva, 'id_livro' => $id_livro, 'message' => $msg, 'erro' => false));
+         
 
         }
     }else{
-      $msg = (new Mensagem)->mensagensErro(5);
-      echo json_encode(array('livro' => $id_livro, 'message' => $msg, 'erro' => true));
+      echo json_encode(array('livro' => $id_livro, 'erro' => true));
     }    
     
 ?>
