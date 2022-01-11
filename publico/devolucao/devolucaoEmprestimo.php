@@ -38,7 +38,7 @@
         </div>      
       </div>  
     </main>
-    <script src="../../javascript/scriptDevolucao.js"></script>
+    <script src="../../javascript/scriptDevolucaoo.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <footer>
   
