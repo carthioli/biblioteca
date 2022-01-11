@@ -12,8 +12,12 @@ function reservas(livro){
 			'id_livro'  : livro
 		}
 	}).success(function(data){
-		console.log(data)
-		//$("#message").html(data.message)
+		if(data.erro == false){
+			$('#message').attr('class', 'd-flex justify-content-center text-success')
+		}else{
+			$('#message').attr('class', 'd-flex justify-content-center text-danger')
+		}
+		$("#message").html(data.message)
 		mostrarLivros()
 	})
 }

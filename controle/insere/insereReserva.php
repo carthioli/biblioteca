@@ -8,15 +8,12 @@
                               };
     use Carlos\Biblioteca\Mensagem\Mensagem;      
 
-    if( isset( $_POST['id_livros'] ) ){
+   /* if( isset( $_POST['id_livros'] ) ){
       $id_livro[] = $_POST['id_livros'];
-    }
-    if( isset( $_POST['id_livro'] ) ){
-      $id_livro[] = $_POST['id_livro'];
-    }
+    }*/
+    
 
     if ( !empty( $_POST['id_aluno'] ) &&
-            !empty( $id_livro ) &&
                 is_numeric( $_POST['id_aluno'] ) ) {
         
        $id_aluno = $_POST['id_aluno'];           
@@ -27,16 +24,31 @@
           
           $ultimoId = (new Conexao)->ultimoId( 'reserva' );
           
-          foreach($_POST['id_livros'] AS $livro){
-            $reservaLivro = (new Reserva)->inserirReservaLivro( $livro, $ultimoId['id'] );
-            echo json_encode(array('livro' => $reservaLivro, 'erro' => false));
+          if( isset( $_POST['id_livros'] ) ){
+            $id_livro = $_POST['id_livros'];
+            foreach($id_livro AS $livro){
+              $reservaLivro = (new Reserva)->inserirReservaLivro( $livro, $ultimoId['id'] );
+            }
+          }
+
+          if( isset( $_POST['id_livro'] ) ){
+            $id_livro[] = $_POST['id_livro'];
+            foreach($id_livro AS $livro){
+              $reservaLivro = (new Reserva)->inserirReservaLivro( $livro, $ultimoId['id'] );
+            }
           }
           
+          $msg = (new Mensagem)->mensagensConfirma(5);
+          echo json_encode(array('message' => $msg, 'erro' => false));
           
           
         }
     }else{
-      echo json_encode(array('livro' => $id_livro, 'erro' => true));
-    }    
+      $msg = (new Mensagem)->mensagensErro(5);
+      echo json_encode(array('message' => $msg, 'erro' => true));
+    }   
+    function inserirDados($id_livro){
+      
+    } 
     
 ?>
