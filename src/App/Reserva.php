@@ -27,7 +27,7 @@
           $inseriu = pg_query( $link->conecta(), $inserir ); 
 
           if( pg_affected_rows( $inseriu ) ){
-            return '4444';
+            return true;
           }
       }
     }

@@ -10,7 +10,7 @@
         <h4 class="float-left">DEVOLVER EMPRESTIMOS</h4>     
         <input type='hidden' id='userId' value="<?php echo $_SESSION['Id']; ?>">    
         <div class="text-center float-right">  
-          <button onclick="devolver()" class="btn-danger border-0 p-2 rounded" type="submit">DEVOLVER</button>            
+          <button onclick="devolucao()" class="btn-danger border-0 p-2 rounded" type="submit">DEVOLVER</button>            
         </div>       
         <table class="table table-striped table-bordered border" id="tabela_livro">
             <thead>
@@ -18,7 +18,7 @@
                 <th class="text-center col-1">#</th>
                 <th class="text-center col-2">TITULO</th>
                 <th class="text-center col-2">AUTOR</th>
-                <th class="text-center col-1">EDITORA</th>
+                <th class="text-center col-2">EDITORA</th>
                 <th class="text-center col-2">DATA EMPRESTIMO</th>
                 <th class="text-center col-2">DATA ENTREGA</th>
                 <th class="text-center col-1">STATUS</th>
@@ -38,7 +38,7 @@
         </div>      
       </div>  
     </main>
-    <script src="../../javascript/scriptDevolucaoo.js"></script>
+    <script src="../../javascript/scriptDevolucao.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <footer>
   

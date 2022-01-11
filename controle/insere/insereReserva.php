@@ -9,7 +9,7 @@
     use Carlos\Biblioteca\Mensagem\Mensagem;      
 
     if ( !empty( $_POST['id_aluno'] ) &&
-                is_numeric( $_POST['id_aluno'] ) ) {
+           is_numeric( $_POST['id_aluno'] ) ) {
         
        $id_aluno = $_POST['id_aluno'];           
        
@@ -33,13 +33,13 @@
             }
           }
           
-          $msg = (new Mensagem)->mensagensConfirma(5);
+          $msg = (new Mensagem)->mensagensConfirma(10);
           echo json_encode(array('message' => $msg, 'erro' => false));
           
           
         }
     }else{
-      $msg = (new Mensagem)->mensagensErro(5);
+      $msg = (new Mensagem)->mensagensErro(10);
       echo json_encode(array('message' => $msg, 'erro' => true));
     }   
     function inserirDados($id_livro){

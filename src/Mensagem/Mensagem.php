@@ -69,11 +69,11 @@
               case 8:
                 return "Campos obrigatórios não preenchidos*";
                 break;
+              case 9:
+                return "Livro não devolvido*";
+                break;
               case 10:
                 return "Reserva não realizada*";
-                break;
-              case 11:
-                return "Livro não devolvido*";
                 break;
               case 12:
                 return "LOGIN NECESSÁRIO*";

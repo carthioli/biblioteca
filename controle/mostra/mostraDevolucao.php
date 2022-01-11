@@ -39,6 +39,7 @@
         }
         echo json_encode($todoslivros);
     }return mostraEmprestimo();
+    
     function avaliaDataDevolucao( $data_devolucao ){
       $dataAtual = date('d/m/Y');
       if( $dataAtual > $data_devolucao )

@@ -1,4 +1,27 @@
+function devolucao(livro){
+  var checked = check()
+  var userId = $("#userId").val()
 
+  $.ajax({
+		url: '../../controle/insere/realizaDevolucao.php',
+		type: 'post',
+		dataType: 'json',
+		data: {
+			'id_aluno'  : userId,
+			'id_livros' : checked,
+			'id_livro'  : livro
+		}
+	}).success(function(data){
+		if(data.erro == false){
+			$('#message').attr('class', 'd-flex justify-content-center text-success')
+		}else{
+			$('#message').attr('class', 'd-flex justify-content-center text-danger')
+		}
+		$("#message").html(data.message)
+    //console.log(data)
+		mostrarLivros()
+	})
+}
 $(function(){
 	mostrarLivros()
 })
@@ -123,4 +146,7 @@ function check(){
 			});
 			return checados;
 
+}
+function devolve(id){
+  devolucao(id)
 }
