@@ -20,6 +20,7 @@
                 <th class="text-center col-2">TITULO</th>
                 <th class="text-center col-3">AUTOR</th>
                 <th class="text-center col-3">EDITORA</th>
+                <th class="text-center col-1">EMPRESTAR</th>
               </tr>  
             </thead>
             <tbody id="mostrar">
@@ -54,14 +55,14 @@
               </div>
               <div class="modal-footer">
                 <button href="cadastraEmprestimo.php" class="btn-danger border-0 p-2 rounded">CANCELAR</button>
-                <button type="btn" id="finalizar" class="btn-primary border-0 p-2 rounded" onclick="check()">FINALIZAR</button>
+                <button type="btn" id="finalizar" class="btn-primary border-0 p-2 rounded" onclick="finalizar()">FINALIZAR</button>
               </div>
             </div>
           </div>
         </div>         
       </div>        
     </main>
-    <script src="../../javascript/scriptEmprestimo.js"></script>
+    <script src="../../javascript/scriptEmprestimoo.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <footer>
 

@@ -18,7 +18,7 @@ function devolucao(livro){
 			$('#message').attr('class', 'd-flex justify-content-center text-danger')
 		}
 		$("#message").html(data.message)
-    //console.log(data)
+    console.log(livro)
 		mostrarLivros()
 	})
 }

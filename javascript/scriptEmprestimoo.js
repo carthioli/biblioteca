@@ -1,15 +1,16 @@
-$("#finalizar").click(function(){
+function finalizar(livro){
 	var dias = $("#dias").val()
 	var userId = $("#userId").val()
 	var checked = check()
-
+	console.log(livro)
 	$.ajax({
 		url: '../../controle/insere/insereEmprestimo.php',
 		type: 'post',
 		dataType: 'json',
 		data: {
 			'id_aluno' : userId,
-			'id_livro' : checked,
+			'id_livros' : checked,
+			'id_livro' : livro,
 			'dias_devolucao' : dias
 		}
 	}).success(function(data){
@@ -19,11 +20,12 @@ $("#finalizar").click(function(){
 			$('#message').attr('class', 'd-flex justify-content-center text-danger')
 		}
 		$("#message").html(data.message)
+		console.log(data.message)
 		mostrarLivros()
 		$("#dias").prop('selectedIndex',0);
 	})
 	$(".close").click()
-})
+}
 $(function(){
 	mostrarLivros()
 })
@@ -59,22 +61,26 @@ function paginacao(data){
 			let td_titulo = tr.insertCell()
 			let td_autor = tr.insertCell()
 			let td_editora = tr.insertCell()
+			let td_emprestar = tr.insertCell()
 
 			arr.id = (i + 1);
 			arr.titulo = (i + 1);
 			arr.autor = (i + 1);
 			arr.editora = (i + 1);
+			arr.emprestar = (i + 1);
 	
 			id = arr[i]['id']
 			titulo = arr[i]['titulo']  
 			autor = arr[i]['autor']
 			editora = arr[i]['editora']
+			emprestar = arr[i]['id']
 
 			td_idCheck.innerHTML = "<input type='checkbox' class='teste' name='check' id='" + data[i]['id'] + "' value='" + data[i]['id'] + "'>"
 			td_id.innerText = data[i]['id']
 			td_titulo.innerText = data[i]['titulo']
 			td_autor.innerText = data[i]['autor']
 			td_editora.innerText = data[i]['editora']
+			td_emprestar.innerHTML = "<button class='text-decoration-none bg-transparent text-danger glyphicon glyphicon-check col-1 b border-0 mt-2 reservar' data-toggle='modal' data-target='#usuario' id='" + data[i]['id'] + "' onclick=empresta('" + data[i]['id'] + "')></button>"
 		
 			td_idCheck.classList.add('check','text-center')
 			td_id.classList.add('text-center')
@@ -132,4 +138,3 @@ function check(){
 			return checados;
 
 }
-
