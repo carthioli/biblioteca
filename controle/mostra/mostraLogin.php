@@ -6,8 +6,6 @@
                        FROM login   
                        ORDER BY 1 ASC");
 
-    
-
     $logins = [];
 
     while ( $resultado = pg_fetch_assoc( $query ) ){

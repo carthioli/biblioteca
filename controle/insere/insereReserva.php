@@ -8,11 +8,6 @@
                               };
     use Carlos\Biblioteca\Mensagem\Mensagem;      
 
-   /* if( isset( $_POST['id_livros'] ) ){
-      $id_livro[] = $_POST['id_livros'];
-    }*/
-    
-
     if ( !empty( $_POST['id_aluno'] ) &&
                 is_numeric( $_POST['id_aluno'] ) ) {
         

@@ -7,8 +7,11 @@
     <main>  
       <div id='message'></div>
       <div class="container">
-        <h4>EMPRESTIMOS DE LIVROS</h4>
+        <h4 class="float-left">EMPRESTIMOS DE LIVROS</h4>
         <input type='hidden' id='userId' value="<?php echo $_SESSION['Id']; ?>">
+        <div class="text-center">  
+          <button class="btn-danger border-0 p-2 rounded float-right" data-toggle="modal" data-target="#usuario">EMPRESTAR</button>            
+        </div> 
         <table class="table table-striped table-bordered border" id="tabela" class="d-none">
             <thead>
               <tr>
@@ -55,10 +58,7 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="text-center">  
-          <button class="btn-danger border-0 p-2 rounded" data-toggle="modal" data-target="#usuario">EMPRESTAR</button>            
-        </div>          
+        </div>         
       </div>        
     </main>
     <script src="../../javascript/scriptEmprestimo.js"></script>

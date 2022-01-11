@@ -1,9 +1,16 @@
 <?php
+    session_start();
+
+    
+
     include "../../vendor/autoload.php";
 
     use Carlos\Biblioteca\App\Conexao;
 
     function mostraEmprestimo(){
+      
+        $aluno = $_SESSION['Id'];
+
         $link = new Conexao;
 
         $query = pg_query("SELECT l.id, l.nome, a.nome AS autor, e.nome AS editora, el.data_devolucao
@@ -13,9 +20,8 @@
                             JOIN emprestimo_livro AS el ON el.id_livro = l.id
                             WHERE l.id IN (SELECT el.id_livro 
                                            FROM emprestimo_livro AS el
-                                           JOIN livro AS l ON l.id = el.id_livro
-                                           WHERE l.id NOT IN (SELECT id_livro 
-                                                              FROM reserva_livro))
+                                           JOIN emprestimo AS e ON e.id = el.id_emprestimo
+                                           WHERE e.id_aluno = $aluno)
                             ORDER BY 1 ASC");
         $todoslivros = [];
 
@@ -25,9 +31,27 @@
         'titulo' => $resultado['nome'],
         'autor'  => $resultado['autor'],
         'editora'=> $resultado['editora'],
-        'data_devolucao'=> date("d/m/Y", strtotime($resultado['data_devolucao']))
+        'data_devolucao'=> date("d/m/Y", strtotime($resultado['data_devolucao'])),
+        'msg_devolucao' => avaliaDataDevolucao( $resultado['data_devolucao'] )
         ];
         }
         echo json_encode($todoslivros);
     }return mostraEmprestimo();
+    function avaliaDataDevolucao( $data_devolucao ){
+      $dataAtual = date('d/m/Y');
+      if( $dataAtual > $data_devolucao )
+        return [
+                'status' => 'atrasado',
+                   'cor' => 'danger'
+        ];
+      if( $dataAtual == $data_devolucao ) 
+        return [
+          'status' => 'dia da devolucao',
+             'cor' => 'warning'
+        ];
+      return [
+          'status' => 'em dia',
+            'cor' => 'success'
+      ];
+    }
 ?>
