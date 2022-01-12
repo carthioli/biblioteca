@@ -1,8 +1,9 @@
-function finalizar(livro){
+function finalizar(){
 	var dias = $("#dias").val()
 	var userId = $("#userId").val()
 	var checked = check()
-	console.log(livro)
+	var id_livro = $("#idLivroUnico").val()
+
 	$.ajax({
 		url: '../../controle/insere/insereEmprestimo.php',
 		type: 'post',
@@ -10,7 +11,7 @@ function finalizar(livro){
 		data: {
 			'id_aluno' : userId,
 			'id_livros' : checked,
-			'id_livro' : livro,
+			'id_livro' : id_livro,
 			'dias_devolucao' : dias
 		}
 	}).success(function(data){
@@ -23,6 +24,7 @@ function finalizar(livro){
 		console.log(data.message)
 		mostrarLivros()
 		$("#dias").prop('selectedIndex',0);
+		$("#idLivroUnico").val(null)
 	})
 	$(".close").click()
 }
@@ -137,4 +139,7 @@ function check(){
 			});
 			return checados;
 
+}
+function empresta(id){
+	$("#idLivroUnico").val(id)
 }

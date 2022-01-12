@@ -19,6 +19,12 @@
           
           $ultimoId = (new Conexao)->ultimoId( 'emprestimo' );
           
+          if( !empty( $_POST['id_livro'] ) ){
+            $id_livro[] = $_POST['id_livro'];
+            foreach($id_livro AS $livro){
+              $emprestimoLivro = (new Emprestimo)->inserirEmprestimoLivro($livro, $ultimoId['id'], $_POST['dias_devolucao'], $ultimoId['data_livro']);
+            }
+          }
           if( isset( $_POST['id_livros'] ) ){
             $id_livro = $_POST['id_livros'];
             foreach($id_livro AS $livro){

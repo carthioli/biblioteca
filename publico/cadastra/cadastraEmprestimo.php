@@ -9,6 +9,7 @@
       <div class="container">
         <h4 class="float-left">EMPRESTIMOS DE LIVROS</h4>
         <input type='hidden' id='userId' value="<?php echo $_SESSION['Id']; ?>">
+        <input type='hidden' id='idLivroUnico' value="">
         <div class="text-center">  
           <button class="btn-danger border-0 p-2 rounded float-right" data-toggle="modal" data-target="#usuario">EMPRESTAR</button>            
         </div> 
