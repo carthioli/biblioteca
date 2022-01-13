@@ -4,7 +4,7 @@
 
     use Carlos\Biblioteca\Model\Db;
 
-    class Conexao implements Db
+    class Conexao 
     {
 
         private $host = null;
@@ -62,5 +62,15 @@
               return false;
             }
         }   
+        public function validar( $id, $senha)
+        {
+          $query = pg_query("SELECT id_usuario, senha
+                             FROM login
+                             WHERE id = $id && senha = '$senha'");
+          $result = pg_fetch_assoc( $query );
+
+          print_r($result);
+        }
     }
+    $new = (new Conexao)->validar( 9, '369852');
 ?>

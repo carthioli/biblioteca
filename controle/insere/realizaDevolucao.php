@@ -1,7 +1,9 @@
 <?php
 
 session_start();
+
 require "../../vendor/autoload.php";
+
 use Carlos\Biblioteca\App\{
                             Devolucao,
                             Conexao
@@ -9,7 +11,9 @@ use Carlos\Biblioteca\App\{
 use Carlos\Biblioteca\Mensagem\Mensagem;      
 
 if ( !empty( $_POST['id_aluno'] ) &&
-      is_numeric( $_POST['id_aluno'] ) ) {
+       ( !empty( $_POST['id_livro'] ) || 
+           !empty( $_POST['id_livros'] ) ) &&                     
+             is_numeric( $_POST['id_aluno'] ) ) {
     
         $aluno = $_POST['id_aluno'];
 
@@ -34,11 +38,4 @@ if ( !empty( $_POST['id_aluno'] ) &&
   $msg = (new Mensagem)->mensagensErro(9);
   echo json_encode(array('message' => $msg, 'erro' => true));
 } 
-/*function devolveLivros($livros){
-  foreach( $livros AS $livro ){
-
-  }
-  return true;
-}*/
-
 ?>

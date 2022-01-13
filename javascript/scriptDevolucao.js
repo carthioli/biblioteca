@@ -104,7 +104,7 @@ function paginacao(data){
 		$('#primeiro').prop('disabled', arr.length <= tamanhoPagina || pagina == 0);
 		$('#anterior').prop('disabled', arr.length <= tamanhoPagina || pagina == 0);
 		$('#proximo').prop('disabled', pagina >= arr.length / tamanhoPagina - 1);
-    	$('#ultimo').prop('disabled', pagina >= arr.length / tamanhoPagina - 1);
+    $('#ultimo').prop('disabled', pagina >= arr.length / tamanhoPagina - 1);
 	}
 	$(function() {
 		$('#primeiro').click(function() {

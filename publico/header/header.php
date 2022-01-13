@@ -35,7 +35,7 @@
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-0 mt-0">
-                        <div class="mt-2">
+                    <div class="mt-2">
                         <a class="nav-link" id="user" role="button" data-toggle="dropdown" >
                             <button class="glyphicon glyphicon-user border-0 bg-danger rounded-circle p-3 text-white mt-1 ml-4"></button>
                         </a>
@@ -48,7 +48,7 @@
                                 </div>
                             </form>    
                         </div>
-                        </div>
+                    </div>
                     </li>
                 </ul>
             </div>

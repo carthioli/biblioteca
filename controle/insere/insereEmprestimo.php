@@ -10,7 +10,7 @@
     use Carlos\Biblioteca\Mensagem\Mensagem;                          
     
     
-    if ( !empty( $_POST['id_aluno'] ) &&
+    if ( !empty( $_POST['id_aluno'] ) &&                     
               is_numeric( $_POST['id_aluno'] ) ) {
 
         $emprestimo = (new Emprestimo)->inserirEmprestimo($_POST['id_aluno']); 
