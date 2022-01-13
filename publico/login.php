@@ -20,7 +20,7 @@
           </div>
           <div>  
           <label class="mt-3 mr-4" for="txSenha">Senha:</label>
-            <input type="password" name="senha" id="txSenha"/>
+            <input type="password" name="senha" autocomplete="on" id="txSenha"/>
           </div>
           <div class=" mt-5 mb-3">
             <button class="bg-danger text-white border-0 rounded p-2 w-50" type="button" id="acessar">ACESSAR</button>
@@ -33,7 +33,7 @@
     </div>
     </main>   
       
-    <script src="../javascript/script.js"></script>
+    <script src="../javascript/script1.js"></script>
 </body>
 </html>
    

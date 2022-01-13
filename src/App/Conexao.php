@@ -66,11 +66,15 @@
         {
           $query = pg_query("SELECT id_usuario, senha
                              FROM login
-                             WHERE id = $id && senha = '$senha'");
+                             WHERE id_usuario = ($id) AND (senha = '".$senha."')");
           $result = pg_fetch_assoc( $query );
 
-          print_r($result);
+          if( $result == true ){
+            return true;
+          }else{
+            return false;
+          }
+          
         }
     }
-    $new = (new Conexao)->validar( 9, '369852');
 ?>
