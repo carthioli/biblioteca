@@ -10,6 +10,7 @@
       </div>
   </header>
   <main>
+      <div id='message'></div>
       <div class="container col-3  border p-3 rounded">
         <form>
           <div class="d-flex flex-column">

@@ -75,6 +75,9 @@
               case 10:
                 return "Reserva não realizada*";
                 break;
+              case 11:
+                return "ERRO AO ATUALIZAR PERFIL*";
+                break;    
               case 12:
                 return "LOGIN NECESSÁRIO*";
                 break;
@@ -94,13 +97,13 @@
                 return "As senhas não conferem*";  
                 break;
               case 2:
-                return "Senha não conferem*";
+                return "Senhas não conferem*";
                 break;   
               case 3:
                 return "Senha inválida*";
                 break;    
               case 4:
-                return "Campo obrigatório*";
+                return "Campo obrigatório não preenchido*";
                 break;    
             }
           }

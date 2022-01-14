@@ -41,14 +41,15 @@
                          WHERE id_usuario = ($id)";
         $alterouLogin = pg_query( $link->conecta(), $alterarLogin );   
 
-        if( pg_affected_rows( $alterou ) ){
-          $_SESSION['usuarioUsuario'] = $_POST['usuario'];
+        if( pg_affected_rows( $alterouLogin ) ){
+          $_SESSION['usuarioUsuario'] = $usuario;
   
               $dados[] = [
-                'usuario' => $usuario,
-                         ];
+                'usuario' => $usuario   
+              ];
+
             return $dados;
-        }
+          }
       }     
     }
                

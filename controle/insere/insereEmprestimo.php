@@ -36,7 +36,7 @@
           
           
           $msg = (new Mensagem)->mensagensConfirma(5);
-            echo json_encode(array('message' => $msg, 'erro' => false));
+          echo json_encode(array('message' => $msg, 'erro' => false));
         }
     }else{
       $msg = (new Mensagem)->mensagensErro(5);

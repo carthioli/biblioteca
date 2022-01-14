@@ -23,6 +23,31 @@ $("#salvar").click(function(){
 'senha_confirma' : senha_confirma        
     }
   }).success(function(data){
+    if(data.erro == false){
+      $("#message").attr('class', 'text-center text-success')
+      $("#nome").val(data.aluno[0]['nome'])
+      $("#sobrenome").val(data.aluno[0]['sobrenome'])
+      $("#telefone").val(data.aluno[0]['telefone'])
+      $("#usuario").val(data.perfil[0]['usuario'])
+      $("#message").html(data.message)
+      limpaCamposSenha()
+    }else{
+      $("#message").attr('class', 'text-center text-danger')
+      $("#message").html(data.message)
+      limpaCamposSenha()
+    }
+
+    
+
     console.log(data)
+
   })
 })
+function limpaCamposSenha(){
+  $("#senha_atual").val('')
+  $("#senha_nova").val('')
+  $("#senha_confirma").val('')
+}
+function cancelar(){
+  console.log($("#message"))
+}
