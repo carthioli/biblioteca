@@ -11,8 +11,5 @@
     }else{
         $livros = (new Pesquisar)->livroPesquisadoNome($livro);
     }
-    
-
-    
     echo json_encode($livros)
 ?>

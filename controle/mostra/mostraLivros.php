@@ -1,8 +1,12 @@
 <?php
 
-    $link = include "../controle/insere/conexao.php";
+    require '../vendor/autoload.php';
 
-    $query = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_emprestimo
+    use Carlos\Biblioteca\App\Conexao;
+
+    $link = new Conexao;
+
+    $query = pg_query("SELECT l.id, l.nome as titulo, a.nome as nome_autor, e.nome as nome_editora, em.data_livro
                       FROM livro as l
                       JOIN autor AS a ON a.id = l.id_autor
                       JOIN editora as e ON e.id = l.id_editora
@@ -18,7 +22,7 @@
       'titulo'   => $resultado['titulo'],
       'autor'    => $resultado['nome_autor'],
       'editora'  => $resultado['nome_editora'],
-      'data_emprestimo' => $resultado['data_emprestimo']
+      'data_livro' => $resultado['data_livro']
     ];
     }
  

@@ -5,10 +5,9 @@ $(function(){
 		type: 'post',
 		dataType: 'json',
 		data: {
-			'titulo' : $("#txPesquisar").val()   
+			'livros' : true  
 		}
 	}).success(function(data){
-		
 		mostraTodosLivros(data)
 	})
 })
