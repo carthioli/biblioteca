@@ -38,7 +38,7 @@
         </form>        
   </main>     
   
-        <script src="../../javascript/scriptAlteraPerfil.js"></script>      
+        <script src="../../javascript/scriptAlteraPerfilll.js"></script>      
   <footer>
 
   </footer>
