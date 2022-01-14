@@ -36,11 +36,6 @@ $("#salvar").click(function(){
       $("#message").html(data.message)
       limpaCamposSenha()
     }
-
-    
-
-    console.log(data)
-
   })
 })
 function limpaCamposSenha(){

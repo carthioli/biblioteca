@@ -42,11 +42,9 @@
                         <div class="dropdown-menu rounded" aria-labelledby="user">
                             <h5 class="text-center text-danger text-uppercase"><?php echo $_SESSION['usuarioNome'] . "&nbsp;&nbsp" . $_SESSION['usuarioSobrenome'] ?></h5>
                             <button class="a" ><a class="a dropdown-item p-4 border-bottom border-top" href="../altera/alteraPerfil.php">PERFIL</a></button>
-                            <form method="POST" action="../../controle/validacao/logout.php">
-                                <div class="ml-1 mt-2 mr-1 mb-3 text-center">
-                                    <a class="text-decoration-none text-body mt-1" type="submit" name="sair"><button class="button bg-white border-0 mt-2">SAIR</button></a>
-                                </div>
-                            </form>    
+                            <div class="ml-1 mt-2 mr-1 mb-3 text-center">
+                                <a class="text-decoration-none text-body mt-1" type="submit" name="sair" id="sair"><button class="button bg-white border-0 mt-2">SAIR</button></a>
+                            </div> 
                         </div>
                     </div>
                     </li>
@@ -54,3 +52,4 @@
             </div>
         </nav>
     </header>
+    <script src="../../javascript/scriptHeader.js"></script>  
