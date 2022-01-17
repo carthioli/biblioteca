@@ -1,95 +1,22 @@
 <?php
-    
-    session_start();
-    include "../controle/mensagem.php";
-    include "../controle/mostra/mostraAlunos.php";
-    include "../controle/mostra/mostraLogin.php";
-    include "header.php";
-?>
-<?php
-    define('QTD_RESGISTROS', 5);
-    define('RANGE_PAGINAS', 1);
-    $pagina_atual = ( isset( $_POST['page']) && is_numeric( $_POST['page'] ) ) ? $_POST['page'] : 1;
-
-    $linha_inicial = ( $pagina_atual - 1 ) * QTD_RESGISTROS;
-
-    $query = pg_query("SELECT l.id, l.nivel, a.nome AS nome_usuario, l.nome AS usuario
-                        FROM login AS l 
-                        JOIN aluno AS a ON a.id = l.id_usuario
-                        LIMIT ".QTD_RESGISTROS." OFFSET {$linha_inicial}");
-
-    $logins = [];
-
-    while ( $resultado = pg_fetch_assoc( $query ) ){
-        $logins[] = [
-             'id'  => $resultado['id'],
-          'nivel'  => $resultado['nivel'],
-   'nome_usuario'  => $resultado['nome_usuario'],
-        'usuario'  => $resultado['usuario']
-    ];
-    }
-        
-    $sqlContador = pg_query("SELECT COUNT(id) AS total_registros
-                             FROM login");
-
-    $valor = pg_fetch_assoc( $sqlContador ); 
-
-    $primeira_pagina = 1;
-
-    $ultima_pagina = ceil( $valor['total_registros'] / QTD_RESGISTROS);
-
-    $pagina_anterior = ( $pagina_atual > 1 ) ? $pagina_atual - 1 : '';
-
-    $proxima_pagina = ( $pagina_atual < $ultima_pagina ) ? $pagina_atual + 1 : '';
-
-    $range_inicial = ( ( $pagina_atual - RANGE_PAGINAS ) >= 1 ) ? $pagina_atual - RANGE_PAGINAS : 1;
-
-    $range_final = ( ( $pagina_atual - RANGE_PAGINAS ) <= $ultima_pagina ) ? $pagina_atual + RANGE_PAGINAS : $ultima_pagina;
-
-    $exibir_botao_inicial = ( $range_inicial < $pagina_atual ) ? 'mostrar' : 'esconder';
-
-    $exibir_botao_final = ( $range_final > $pagina_atual ) ? 'mostrar' : 'esconder';
-
+    include "../header/header.php";
 ?>
   <title>Cadastra Login</title>
 </head>
 <body>
   <header>
-      <p class="text-success text-center">
-        <?php
-              if ( isset( $_SESSION['valida'] ) ){  
-                    $mensagem_confirma = mensagensConfirma( $_SESSION['valida'] );
-                    unset($_SESSION['erro']);
-                    unset($_SESSION['valida']);
-                    echo "{$mensagem_confirma}";
-              }
-        ?>
-      </p> 
-      <p class="text-danger text-center">
-        <?php
-              if ( isset( $_SESSION['erro'] ) ){ 
-                    $mensagem_erro = mensagensErro( $_SESSION['erro'] );
-                    unset($_SESSION['valida']); 
-                    unset($_SESSION['erro']);        
-                    echo "{$mensagem_erro}";
-              }
-        ?>
-      </p> 
+      <div id="message"></div>
       <div class="container col-6 text-center">
         <h4>CADASTRAR LOGIN</h4>
       </div>
   </header>
   <main>
       <div class="container col-3  border p-3 rounded">
-        <form method="POST" action="..\controle\insere\insereLogin.php">
+        <form>
           <div class="d-flex flex-column">
             <label>NOME:</label>
             <select id="id_usuario" name="id_usuario" class="p-1" >
                <option selected disabled>SELECIONE UM ALUNO...</option>
-               <?php foreach ( $alunos as $aluno ) :    
-             ?>
-               <option value="<?php echo $aluno['id'];?>"><?php echo $aluno['nome'];?></option>
-             <?php endforeach; ?>
             </select>  
             <label class="mt-3 mb-0">NÍVEL:</label>
             <select id="nivel" name="nivel" class="mt-2 p-1">
@@ -99,15 +26,6 @@
             </select>  
             <label class="mt-3 mb-2">USUARIO:</label> 
             <input type="text" class="form-control-dark mb-1" id="usuario" name="usuario">    
-            <p class="text-danger text-center">
-            <?php
-                  if ( isset( $_SESSION['erroCampo'] ) ){   
-                    
-                    $mensagem_erro = mensagensErroCampo( $_SESSION['erroCampo'] );
-                    echo "{$mensagem_erro}";
-                  }
-            ?>
-            </p>     
             <label class="mt-3 mb-2">SENHA:</label>
             <input type="password" class="form-control-dark mb-2" id="senha" name="senha"> 
             <label class="mt-3 mb-2">CONFIRMAR SENHA:</label>

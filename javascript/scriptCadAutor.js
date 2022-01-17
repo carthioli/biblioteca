@@ -1,16 +1,14 @@
 $("#salvar").click(function(){
   var nome = $("#nome").val()
-  var sobrenome = $("#sobrenome").val()
-  var cpf = $("#cpf").val()
+  var telefone = $("#telefone").val()
 
   $.ajax({
-    url: '../../controle/insere/insereAutor.php',
+    url: '../../controle/insere/insereEditora.php',
     type: 'post',
     dataType: 'json',
     data: {
           'nome' : nome,
-     'sobrenome' : sobrenome,
-           'cpf' : cpf
+     'telefone' : telefone
     }
   }).success(function(data){
     if(data.erro == false){
@@ -20,13 +18,12 @@ $("#salvar").click(function(){
       $("#message").attr('class', 'text-center text-danger')
     }  
       $("#message").html(data.message)
-      
+      console.log(data)
   })
 })
 function limpaCampos(){
   $("#nome").val(null)
-  $("#sobrenome").val(null)
-  $("#cpf").val(null)
+  $("#telefone").val(null)
   $("#message").html('')
 }
 function cancelar(){
