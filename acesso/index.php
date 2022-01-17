@@ -1,6 +1,5 @@
 <?php
         include "../publico/telas/topo.php";
-        include "../controle/mostra/mostraLivros.php";
         require '../vendor/autoload.php';
 ?>
 <link rel="stylesheet" href="../css/style.css"></link>
@@ -17,13 +16,13 @@
                 <ul class="navbar-nav mr-auto float-right">
                     <li class="nav-item active dropleft p-0 mt-0">
                         <a class="nav-link dropdown-toggle" id="admin" role="button" data-toggle="dropdown" >Cadastrar</a>
-                        <div class="dropdown-menu rounded" aria-labelledby="admin">
-                            <h5 class="text-center text-danger">CADASTRAR</h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom border-top" href="../admin/cadastra/cadastraAluno.php">ALUNO</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastra/cadastraAutor.php">AUTOR</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastra/cadastraEditora.php">EDITORA</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastra/cadastraLivro.php">LIVRO</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4" href="../admin/cadastra/cadastraLogin.php">LOGIN</a></button>
+                        <div class="dropdown-menu rounded text-center " aria-labelledby="admin">
+                            <h5 class="text-danger">CADASTRAR</h5>
+                            <a class="a dropdown-item p-4 border-bottom border-top" href="../admin/cadastra/cadastraAluno.php">ALUNO</a>
+                            <a class="a dropdown-item p-4 border-bottom" href="../admin/cadastra/cadastraAutor.php">AUTOR</a>
+                            <a class="a dropdown-item p-4 border-bottom" href="../admin/cadastra/cadastraEditora.php">EDITORA</a>
+                            <a class="a dropdown-item p-4 border-bottom" href="../admin/cadastra/cadastraLivro.php">LIVRO</a>
+                            <a class="a dropdown-item p-4" href="../admin/cadastra/cadastraLogin.php">LOGIN</a>
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-0 mt-0">

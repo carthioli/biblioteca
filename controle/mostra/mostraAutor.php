@@ -1,20 +1,28 @@
 <?php
 
-    $link = include "../controle/insere/conexao.php";
+    require "../../vendor/autoload.php";
 
-    $query = pg_query("SELECT id, nome, sobrenome, cpf 
-                       FROM autor
-                      ");
+    use Carlos\Biblioteca\App\Conexao;
 
-    $autores = [];
+    function mostraAutor(){
 
-    while ( $resultado = pg_fetch_assoc( $query ) ){
-    $autores[] = [
-        'id'   => $resultado['id'],
-        'nome' => $resultado['nome'],
-        'sobrenome' => $resultado['sobrenome'],
-        'cpf'  => $resultado['cpf'] 
-    ];
-    }
+        $link = new Conexao;
+
+        $query = pg_query("SELECT id, nome, sobrenome, cpf 
+                          FROM autor
+                          ORDER BY 1 ASC");
+
+        $autores = [];
+
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+        $autores[] = [
+            'id'   => $resultado['id'],
+            'nome' => $resultado['nome'],
+            'sobrenome' => $resultado['sobrenome'],
+            'cpf'  => $resultado['cpf'] 
+        ];
+        }
+        echo json_encode($autores);
+    }return mostraAutor();
       
 ?>

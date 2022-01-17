@@ -3,7 +3,7 @@
         include "header/headerP.php";  
         include "../vendor/autoload.php";         
 ?>       
-    <link rel="stylesheet" href="../css/estilo.css"> 
+    <link rel="stylesheet" href="../css/style.css"> 
     <title>Biblioteca Digital</title>
 </head>
 <body>

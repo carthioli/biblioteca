@@ -1,19 +1,27 @@
 <?php
 
-    $link = include "../controle/insere/conexao.php";
+    require "../../vendor/autoload.php";  
+    
+    use Carlos\Biblioteca\App\Conexao;
 
-    $query = pg_query("SELECT id, nome, telefone 
-                       FROM editora
-                      ");
+    function mostraEditoras(){
+            
+        $link = new Conexao;
 
-    $editoras = [];
+        $query = pg_query("SELECT id, nome, telefone 
+                        FROM editora
+                        ");
 
-    while ( $resultado = pg_fetch_assoc( $query ) ){
-    $editoras[] = [
-        'id'   => $resultado['id'],
-        'nome' => $resultado['nome'],
-        'telefone' => $resultado['telefone']
-    ];
-    }
+        $editoras = [];
+
+        while ( $resultado = pg_fetch_assoc( $query ) ){
+        $editoras[] = [
+            'id'   => $resultado['id'],
+            'nome' => $resultado['nome'],
+            'telefone' => $resultado['telefone']
+        ];
+        }
+        echo json_encode($editoras);
+    }return mostraEditoras();
       
 ?>

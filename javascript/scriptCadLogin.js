@@ -54,7 +54,6 @@ function buscaNomes(){
 function montaOption(data){
   var arr = data
   
-  console.log(data)
   for( i=1; i<arr.length; i++){
     $('#id_usuario').append('<option class="usuario_id text-capitalize" value="' + data[i]['id'] + '">' + data[i]['nome'] + '</option>')  
   }

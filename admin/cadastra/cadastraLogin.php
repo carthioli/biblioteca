@@ -32,8 +32,8 @@
             <input type="password" class="form-control-dark mb-2" id="confirma_senha" name="confirma_senha">     
             </div> 
             <div class="text-center">  
-              <input type="button" id="salvar" name="salvar" value="SALVAR" class="mt-3">  
-              <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2"><a href="cadastraAluno.php" ></a>
+              <input type="button" id="salvar" name="salvar" value="SALVAR" class="mt-3 btn-primary rounded border-0 p-2">  
+              <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2 btn-danger rounded border-0 p-2"><a href="cadastraAluno.php" ></a>
             </div>   
           </div>
         </form>        

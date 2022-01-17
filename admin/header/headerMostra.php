@@ -1,3 +1,12 @@
+<?php
+        session_start();
+        include "../../publico/telas/topo.php";
+        if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 2 ){
+            header('location: ../../publico/index.php');
+        }
+?>
+<link rel="stylesheet" href="../../css/style.css"> 
+</head>
 <body>
     <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">

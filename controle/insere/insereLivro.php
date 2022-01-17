@@ -1,26 +1,34 @@
 <?php
-    session_start();
+    
+        require "../../vendor/autoload.php";
+
+        use Carlos\Biblioteca\App\Conexao;
+        use Carlos\Biblioteca\Mensagem\Mensagem;
+
+        session_start();
+
         try
             {
-              $link = include "conexao.php";
+              $link = new Conexao;
               
         if ( !empty( $_POST['titulo'] ) && 
-            !empty($_POST['id_autor']) && 
-            !empty( $_POST['id_editora'] ) ) {
+              !empty($_POST['id_autor']) && 
+               !empty( $_POST['id_editora'] ) ) {
 
             $inserir = "INSERT INTO livro(nome, id_autor, id_editora) VALUES ('{$_POST['titulo']}', '{$_POST['id_autor']}', '{$_POST['id_editora']}')";
-            $inseriu = pg_query( $link, $inserir );  
+            $inseriu = pg_query( $link->conecta(), $inserir );  
             
             if( pg_affected_rows( $inseriu ) ){
-              header('location: ../../admin/cadastraLivro.php');
-              $_SESSION['valida'] = 3;
+              $msg = (new Mensagem)->mensagensConfirma(3);
+              echo json_encode(array( 'message' => $msg, 'erro' => false ));
             }
             else{
-              return false;
+              $msg = (new Mensagem)->mensagensErro(3);
+              echo json_encode(array( 'message' => $msg, 'erro' => true ));
             }    
         }else{
-          header('location: ../../admin/cadastraLivro.php');
-          $_SESSION['erro'] = 3;
+          $msg = (new Mensagem)->mensagensErro(8);
+          echo json_encode(array( 'message' => $msg, 'erro' => true ));
         }
         }
         catch( Exception $e )

@@ -5,7 +5,7 @@
         }
         include "../telas/topo.php";
 ?>
-    <link rel="stylesheet" href="../../css/estilo.css"> 
+    <link rel="stylesheet" href="../../css/style.css"> 
 </head>
 <body>
     <header>

@@ -12,7 +12,7 @@
   </header>
   <main>
       <div class="container col-3 border p-3 rounded">
-        <form method="POST" action="..\controle\insere\insereLivro.php">
+        <form>
           <div class="d-flex flex-column">
             <label class="mb-0">TITULO:</label>
             <input type="text" class="form-control-dark mb-1" id="titulo" name="titulo">
@@ -28,8 +28,8 @@
           </div>  
         </div>
         <div class="text-center">  
-          <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-          <input type="button" onclick="cancelar('titulo', 'id_autor', 'id_editora')" value="CANCELAR" class="mt-2"><a href="cadastraLivro.php" ></a>
+          <input type="button" id="salvar" name="salvar" value="SALVAR" class="mt-3 btn-primary rounded border-0 p-2">  
+          <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2 btn-danger rounded border-0 p-2">
         </div>          
         </form>
   </main>
@@ -50,6 +50,7 @@
         </table>-->
         
   <footer>
+    <script src="../../javascript/scriptCadLivro.js"></script>
   </footer>
 </body>
 </html>
