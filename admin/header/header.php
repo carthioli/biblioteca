@@ -18,7 +18,7 @@
                 <ul class="navbar-nav mr-auto float-right">
                     <li>
                         <div class="ml-1 mt-2 mr-1 text-center">
-                         <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="../controle/index.php"><button class="button border-0 mt-2">Inicio</button></a>
+                         <a class="text-decoration-none text-body mt-1" type="button" name="inicio" href="../../controle/index.php"><button class="button border-0 mt-2">Inicio</button></a>
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-o mt-0">

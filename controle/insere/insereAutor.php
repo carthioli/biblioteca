@@ -1,8 +1,15 @@
 <?php
+    
+    require "../../vendor/autoload.php";
+
+    use Carlos\Biblioteca\App\Conexao;
+    use Carlos\Biblioteca\Mensagem\Mensagem;
+
     session_start();
         try
-            {
-              $link = include "conexao.php";
+        {
+
+          $link = new Conexao;
               
         if ( !empty( $_POST['nome'] ) && 
             !empty($_POST['sobrenome']) && 
@@ -12,18 +19,19 @@
             is_numeric( $_POST['cpf'] ) ) {
 
             $inserir = "INSERT INTO autor(nome, sobrenome, cpf) VALUES ('{$_POST['nome']}', '{$_POST['sobrenome']}', '{$_POST['cpf']}')";
-            $inseriu = pg_query( $link, $inserir );  
+            $inseriu = pg_query( $link->conecta(), $inserir );  
             
             if( pg_affected_rows( $inseriu ) ){
-              header('location: ../../admin/cadastraAutor.php');
-              $_SESSION['valida'] = 1;
+              $msg = (new Mensagem)->mensagensConfirma(1);
+              echo json_encode(array( 'message' => $msg, 'erro' => false ));
             }
             else{
-              return false;
+              $msg = (new Mensagem)->mensagensErro(1);
+              echo json_encode(array( 'message' => $msg, 'erro' => true ));
             }    
         }else{
-          header('location: ../../admin/cadastraAutor.php');
-          $_SESSION['erro'] = 1;
+          $msg = (new Mensagem)->mensagensErro(8);
+          echo json_encode(array( 'message' => $msg, 'erro' => true ));
         }
         }
         catch( Exception $e )

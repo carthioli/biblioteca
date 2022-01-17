@@ -29,7 +29,8 @@
               echo json_encode(array( 'message' => $msg, 'erro' => false ));
             }
           else{
-            return false;
+            $msg = (new Mensagem)->mensagensErro(4);
+            echo json_encode(array( 'message' => $msg, 'erro' => true ));
           }    
         }else{
           $msg = (new Mensagem)->mensagensErro(8);
