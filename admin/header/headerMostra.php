@@ -26,11 +26,11 @@
                         <a class="nav-link dropdown-toggle" id="admin" role="button" data-toggle="dropdown" >Cadastrar</a>
                         <div class="dropdown-menu rounded" aria-labelledby="admin">
                             <h5 class="text-center text-danger">CADASTRAR</h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom border-top" href="../../admin/cadastraAluno.php">ALUNO</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../../admin/cadastraAutor.php">AUTOR</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../../admin/cadastraEditora.php">EDITORA</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../../admin/cadastraLivro.php">LIVRO</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4" href="../../admin/cadastraLogin.php">LOGIN</a></button>
+                            <a class="a dropdown-item p-4 border-bottom border-top" href="../cadastra/cadastraAluno.php">ALUNO</a>
+                            <a class="a dropdown-item p-4 border-bottom" href="../cadastra/cadastraAutor.php">AUTOR</a>
+                            <a class="a dropdown-item p-4 border-bottom" href="../cadastra/cadastraEditora.php">EDITORA</a>
+                            <a class="a dropdown-item p-4 border-bottom" href="../cadastra/cadastraLivro.php">LIVRO</a>
+                            <a class="a dropdown-item p-4" href="../cadastra/cadastraLogin.php">LOGIN</a>
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-0 mt-0">

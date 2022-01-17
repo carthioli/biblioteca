@@ -29,8 +29,8 @@
                         <a class="nav-link dropdown-toggle" id="vizualizar" role="button" data-toggle="dropdown" >Visualizar</a>
                         <div class="dropdown-menu rounded" aria-labelledby="vizualizar">
                             <h5 class="text-center text-danger">VIZUALIZAR</h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="../controle/mostra/mostraEmprestimos.php">EMPRESTIMOS</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4  border-top" href="../controle/mostra/mostraReservas.php">RESERVAS</a></button>    
+                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="../admin/mostra/mostraEmprestimos.php">EMPRESTIMOS</a></button>
+                            <button class="a" ><a class="a dropdown-item p-4  border-top" href="../admin/mostra/mostraReservas.php">RESERVAS</a></button>    
                         </div>
                     </li>
                     <li>
