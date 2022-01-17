@@ -31,14 +31,14 @@
             <input type="password" class="form-control-dark mb-2" id="senha_confirma" name="senha_confirma" autocomplete="on">
             </div> 
             <div class="text-center">  
-              <input type="button" id="salvar" value="SALVAR" class="mt-3">  
-              <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2">
+              <input type="button" id="salvar" value="SALVAR" class="mt-3 btn-primary rounded border-0 p-2">  
+              <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2 btn-danger rounded border-0 p-2">
             </div>   
           </div>
         </form>        
   </main>     
   
-        <script src="../../javascript/scriptAlteraPerfilll.js"></script>      
+        <script src="../../javascript/scriptAlteraPerfil.js"></script>      
   <footer>
 
   </footer>

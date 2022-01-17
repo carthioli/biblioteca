@@ -1,3 +1,9 @@
+.form-group .glyphicon-eye-open {
+  pointer-events: auto;
+}
+.form-group .glyphicon-eye-open:hover {
+  cursor: pointer;
+}
 /*GRID*/
 .grid{
   display: grid;

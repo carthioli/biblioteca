@@ -1,35 +1,36 @@
 <?php
     include "../header/header.php";
 ?>
-
     <title>Cadastra Aluno</title>
   </head>
   <body>
     <header>
+        <div id="message"></div>
         <div class="container col-6 text-center">
           <h4>CADASTRAR ALUNO</h4>
         </div>
     </header>
     <main>
       <div class="container col-3  border p-3 rounded">
-        <form method="POST" action="..\controle\insere\insereAluno.php">
+        <form>
           <div class="d-flex flex-column">
             <label class="mb-0 float-left">NOME:</label>
-            <input type="text" class="form-control-dark mb-2" id="nome" name="nome">
+            <input type="text" class="form-control-dark mb-2 text-capitalize" id="nome" name="nome">
             <label class="mb-0">SOBRENOME:</label>
-            <input type="text" class="form-control-dark mb-2" id="sobrenome" name="sobrenome">
+            <input type="text" class="form-control-dark mb-2 text-capitalize" id="sobrenome" name="sobrenome">
             <label class="mb-0">CPF:</label>
             <input type="text" class="form-control-dark mb-2" id="cpf" name="cpf"> 
             <label class="mb-0">TELEFONE:</label>
             <input type="text" class="form-control-dark mb-2" id="telefone" name="telefone"> 
           </div> 
           <div class="text-center">  
-            <input type="submit" name="salvar" value="SALVAR" class="mt-3">  
-            <input type="button" onclick="cancelar('nome', 'sobrenome', 'cpf', 'telefone')" value="CANCELAR" class="mt-2">
+            <input type="button" id="salvar" name="salvar" value="SALVAR" class="mt-3">  
+            <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2">
           </div>   
         </form>   
       </div>       
     </main>
+
     <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
       <thead>
         <tr>
@@ -54,7 +55,7 @@
       <button id="ultimo" class="btn border text-danger" disabled>Ultima</button>
     </div> 
     <footer>
-
+      <script src="../../javascript/scriptCadAluno.js"></script>
     </footer>
   </body>
 </html>

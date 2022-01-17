@@ -55,7 +55,7 @@
               </select>      
               </div>
               <div class="modal-footer">
-                <button href="cadastraEmprestimo.php" class="btn-danger border-0 p-2 rounded">CANCELAR</button>
+                <button id="cancelar" class="btn-danger border-0 p-2 rounded">CANCELAR</button>
                 <button type="btn" id="finalizar" class="btn-primary border-0 p-2 rounded" onclick="finalizar()">FINALIZAR</button>
               </div>
             </div>
@@ -63,7 +63,7 @@
         </div>         
       </div>        
     </main>
-    <script src="../../javascript/scriptEmprestimoo.js"></script>
+    <script src="../../javascript/scriptEmprestimo.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <footer>
 

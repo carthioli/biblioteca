@@ -44,5 +44,5 @@ function limpaCamposSenha(){
   $("#senha_confirma").val('')
 }
 function cancelar(){
-  console.log($("#message"))
+  limpaCamposSenha()
 }

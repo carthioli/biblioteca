@@ -49,7 +49,7 @@
         </div>
     </main>
 
-    <script src="../javascript/script1.js"></script>
+    <script src="../javascript/script.js"></script>
     <script src="../javascript/scriptLivros.js"></script>
     
 </body>

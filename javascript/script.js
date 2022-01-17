@@ -5,11 +5,12 @@ $("#acessar").click(function(){
   dataType: 'json',
   data: {
     'usuario' : $("#txUsuario").val(),
-            'senha' : $("#txSenha").val()        
+      'senha' : $("#txSenha").val()        
   }
 }).success(function(data){
       if (data.erro != true){
     $('#mostrar').attr('class', 'd-flex justify-content-center text-danger')
+    $("#txSenha").val(null)
   }
       if (data.status == 1){
           $(location).attr('href', '../acesso/index.php')
@@ -19,7 +20,6 @@ $("#acessar").click(function(){
           }
       }
       $("#mostrar").html(data.message)
-      console.log(data.message)
 })
 
 

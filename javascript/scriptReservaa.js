@@ -143,4 +143,6 @@ function check(){
 function reserva(id){
   reservas(id)
 }
-
+$("#cancelar").click(function(){
+	$(".close").click()
+})

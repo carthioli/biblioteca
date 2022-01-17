@@ -5,6 +5,7 @@
             header('location: ../../publico/index.php');
         }
 ?>
+<link rel="stylesheet" href="../../css/style.css"> 
 <body>
     <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -20,24 +21,36 @@
                          <a class="text-decoration-none text-body mt-1" type="submit" name="inicio" href="../controle/index.php"><button class="button border-0 mt-2">Inicio</button></a>
                         </div>
                     </li>
+                    <li class="nav-item active dropleft p-o mt-0">
+                        <a class="nav-link dropdown-toggle" id="alterar" role="button" data-toggle="dropdown">Alterar</a>
+                        <div class="text-center dropdown-menu rounded" aria-labelledby="alterar">
+                            <h5 class="text-danger">ALTERAR</h5>
+                            <button class="a dropdown-item p-4 border-bottom border-top" >ALUNO</button>
+                            <button class="a dropdown-item p-4 border-bottom" >AUTOR</button>
+                            <button class="a dropdown-item p-4 border-bottom" >EDITORA</button>
+                            <button class="a dropdown-item p-4 border-bottom" >LOGIN</button>
+                            <button class="a dropdown-item p-4" >LIVRO</button>
+                            
+                        </div>
+                    </li>
                     <li class="nav-item active dropleft p-0 mt-0">
                         <a class="nav-link dropdown-toggle" id="cadastrar" role="button" data-toggle="dropdown" >Cadastrar</a>
-                        <div class="dropdown-menu rounded" aria-labelledby="cadastrar">
-                            <h5 class="text-center text-danger">CADASTRAR</h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom border-top" href="../admin/cadastraAluno.php">ALUNO</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraAutor.php">AUTOR</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraEditora.php">EDITORA</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 border-bottom" href="../admin/cadastraLogin.php">LOGIN</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4 " href="../admin/cadastraLivro.php">LIVRO</a></button>
+                        <div class="dropdown-menu rounded text-center" aria-labelledby="cadastrar">
+                            <h5 class="text-danger">CADASTRAR</h5>
+                            <button class="a dropdown-item p-4 border-bottom border-top">ALUNO</button>
+                            <button class="a dropdown-item p-4 border-bottom" >AUTOR</button>
+                            <button class="a dropdown-item p-4 border-bottom" >EDITORA</button>
+                            <button class="a dropdown-item p-4 border-bottom" >LOGIN</button>
+                            <button class="a dropdown-item p-4" >LIVRO</button>
                             
                         </div>
                     </li>
                     <li class="nav-item active dropleft p-0 mt-0">
                         <a class="nav-link dropdown-toggle" id="vizualizar" role="button" data-toggle="dropdown" >Visualizar</a>
-                        <div class="dropdown-menu rounded" aria-labelledby="vizualizar">
+                        <div class="text-center dropdown-menu rounded" aria-labelledby="vizualizar">
                             <h5 class="text-center text-danger">VIZUALIZAR</h5>
-                            <button class="a" ><a class="a dropdown-item p-4 border-top" href="../controle/mostra/mostraEmprestimos.php">EMPRESTIMOS</a></button>
-                            <button class="a" ><a class="a dropdown-item p-4  border-top" href="../controle/mostra/mostraReservas.php">RESERVAS</a></button>    
+                            <button class="a dropdown-item p-4 border-top">EMPRESTIMOS</button>
+                            <button class="a dropdown-item p-4  border-top">RESERVAS</button>    
                         </div>
                     </li>
                     <li>

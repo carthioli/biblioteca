@@ -143,3 +143,6 @@ function check(){
 function empresta(id){
 	$("#idLivroUnico").val(id)
 }
+$("#cancelar").click(function(){
+	$(".close").click()
+})
