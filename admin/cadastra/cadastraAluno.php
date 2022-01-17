@@ -24,14 +24,14 @@
             <input type="text" class="form-control-dark mb-2" id="telefone" name="telefone"> 
           </div> 
           <div class="text-center">  
-            <input type="button" id="salvar" name="salvar" value="SALVAR" class="mt-3">  
-            <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2">
+            <input type="button" id="salvar" name="salvar" value="SALVAR" class="mt-3 btn-primary rounded border-0 p-2">  
+            <input type="button" onclick="cancelar()" value="CANCELAR" class="mt-2 btn-danger rounded border-0 p-2">
           </div>   
         </form>   
       </div>       
     </main>
 
-    <table class="table table-striped table-bordered border mt-5" id="tabela_livro">
+    <!--<table class="table table-striped table-bordered border mt-5" id="tabela_livro">
       <thead>
         <tr>
           <th class="text-center">#</th>
@@ -47,13 +47,14 @@
 
       </tbody>
     </table>
+
     <div id="paginacao" class="text-center mb-4">
       <button id="primeiro" class="btn border text-danger" disabled>Primeira</button>
       <button id="anterior" class="btn border text-danger" disabled>&lsaquo;</button>
       <span id="numeracao" class="btn border text-danger"></span>
       <button id="proximo" class="btn border text-danger" disabled> &rsaquo;</button>
       <button id="ultimo" class="btn border text-danger" disabled>Ultima</button>
-    </div> 
+    </div> -->
     <footer>
       <script src="../../javascript/scriptCadAluno.js"></script>
     </footer>
