@@ -1,6 +1,5 @@
 <?php
         include "../publico/telas/topo.php";
-        require '../vendor/autoload.php';
 ?>
 <link rel="stylesheet" href="../css/style.css"></link>
 <title>Biblioteca Digital</title>
@@ -14,6 +13,17 @@
                 </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto float-right">
+                <li class="nav-item active dropleft p-o mt-0">
+                        <a class="nav-link dropdown-toggle" id="alterar" role="button" data-toggle="dropdown">Alterar</a>
+                        <div class="text-center dropdown-menu rounded" aria-labelledby="alterar">
+                            <h5 class="text-danger">ALTERAR</h5>
+                            <button class="a btn dropdown-item p-4 border-bottom border-top">ALUNO</button>
+                            <button class="a dropdown-item p-4 border-bottom" >AUTOR</button>
+                            <button class="a dropdown-item p-4 border-bottom" >EDITORA</button>
+                            <button class="a dropdown-item p-4 border-bottom" >LIVRO</button>
+                            <button class="a dropdown-item p-4" >LOGIN</button>                            
+                        </div>
+                    </li>
                     <li class="nav-item active dropleft p-0 mt-0">
                         <a class="nav-link dropdown-toggle" id="admin" role="button" data-toggle="dropdown" >Cadastrar</a>
                         <div class="dropdown-menu rounded text-center " aria-labelledby="admin">
@@ -69,19 +79,19 @@
                     </form>
                 </div>
             </div>
-            <div class="grid-item ml-5 border-right g2">
+            <div class="grid-item ml-5 border-right g2" id="tabel">
             <table id="tabela" class="d-none">
-                <button type="button" name="fechar" class="d-none" id="close"><span aria-hidden="true">&times;</span></button>
-                <thead>
-                    <th class="text-center col-1">ID</th>
-                    <th class="text-center col-3">TITULO</th>
-                    <th class="text-center col-3">AUTOR</th>
-                    <th class="text-center col-3">EDITORA</th>
-                </thead>
-                <tbody id="mostrar">
+              <button type="button" name="fechar" class="d-none" id="close"><span aria-hidden="true">&times;</span></button>
+              <thead>
+                  <th class="text-center col-1">ID</th>
+                  <th class="text-center col-3">TITULO</th>
+                  <th class="text-center col-3">AUTOR</th>
+                  <th class="text-center col-3">EDITORA</th>
+              </thead>
+              <tbody id="mostrar">
 
-                </tbody>
-                </table>
+              </tbody>
+            </table>
                 <div id="paginacao" class="text-center d-none mb-4">
                     <button id="primeiro" class="btn border text-danger" disabled>Primeira</button>
                     <button id="anterior" class="btn border text-danger" disabled>&lsaquo;</button>
@@ -99,7 +109,7 @@
             </div>
         </main>
 
-        <script src="../javascript/scriptIndexAdm.js"></script>
+        <script src="../javascript/scriptIndexAd.js"></script>
         <script src="../javascript/scriptLivros.js"></script>
         
     </body>
