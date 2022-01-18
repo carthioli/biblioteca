@@ -11,24 +11,32 @@
         <table class="table table-striped table-bordered border" id="tabela_livro">
             <thead>
               <tr>
-                <th class="text-center">ID</th>
-                <th class="text-center">TITULO</th>
-                <th class="text-center">AUTOR</th>
-                <th class="text-center">EDITORA</th>
-                <th class="text-center">DATA EMPRESTIMO</th>
-                <th class="text-center">DATA ENTREGA</th>
-                <th class="text-center">STATUS</th>
+                <th class="text-center col-1">ID</th>
+                <th class="text-center col-2">TITULO</th>
+                <th class="text-center col-2">AUTOR</th>
+                <th class="text-center col-2">EDITORA</th>
+                <th class="text-center col-1">DATA EMPRESTIMO</th>
+                <th class="text-center col-1">DATA ENTREGA</th>
+                <th class="text-center col-1">STATUS</th>
+                <th class="text-center col-2">ALUNO</th>
               </tr>  
             </thead>
             <tbody id="mostrar">
 
             </tbody>
-        </table>      
+        </table>   
+        <div id="paginacao" class="text-center mb-4">
+          <button id="primeiro" class="btn border text-danger" disabled>Primeira</button>
+          <button id="anterior" class="btn border text-danger" disabled>&lsaquo;</button>
+          <span id="numeracao" class="btn border text-danger"></span>
+          <button id="proximo" class="btn border text-danger" disabled> &rsaquo;</button>
+          <button id="ultimo" class="btn border text-danger" disabled>Ultima</button>
+        </div>        
       </div>
 
     </main>
 <footer>
-  <script src="../../javascript/scriptMstEmprestimos.js"></script>      
+  <script src="../../javascript/scriptMstEmprestimooos.js"></script>      
 </footer>
 </body>
 </html>
