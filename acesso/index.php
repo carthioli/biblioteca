@@ -82,11 +82,8 @@
             <div class="grid-item ml-5 border-right g2" id="tabel">
             <table id="tabela" class="d-none">
               <button type="button" name="fechar" class="d-none" id="close"><span aria-hidden="true">&times;</span></button>
-              <thead>
-                  <th class="text-center col-1">ID</th>
-                  <th class="text-center col-3">TITULO</th>
-                  <th class="text-center col-3">AUTOR</th>
-                  <th class="text-center col-3">EDITORA</th>
+              <thead id="montarTabela">
+
               </thead>
               <tbody id="mostrar">
 
@@ -109,7 +106,7 @@
             </div>
         </main>
 
-        <script src="../javascript/scriptIndexAd.js"></script>
+        <script src="../javascript/scriptIndexAdmm.js"></script>
         <script src="../javascript/scriptLivros.js"></script>
         
     </body>

@@ -40,6 +40,7 @@
     
     function avaliaDataDevolucao( $data_devolucao ){
       $dataAtual = date('d/m/Y');
+      $data_devolucao = date("d/m/Y", strtotime($data_devolucao));
       if( $dataAtual > $data_devolucao )
         return [
                 'status' => 'atrasado',
