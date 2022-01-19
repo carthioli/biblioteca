@@ -75,6 +75,7 @@ function paginacao(data, tabela){
 function mostraEscondidosVerMais(){
   $("#close").attr('class', 'close text-body')
   $("#tabela").attr('class', 'table table-bordered')
+  criaAjax('livro')	
 }
 function mostraEscondidos(){
   $("#close").attr('class', 'close text-body')
