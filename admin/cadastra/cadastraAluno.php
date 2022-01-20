@@ -31,10 +31,10 @@
       </div>       
     </main>
     
-      <div class="container mt-3 d-flex justify-content-center">
-        <button id="ver" class="botoes text-uppercase border float-left rounded bg-transparent text-primary" data-toggle="modal" data-target="#tabelaEdita">Ver </br> cadastros</button>
-      </div>
-      <div class="modal fade" id="tabelaEdita" tabindex="-1" role="dialog" aria-labelledby="tabelaEdita" aria-hidden="true">
+    <div class="container mt-3 d-flex justify-content-center">
+      <button id="ver" class="botoes text-uppercase border float-left rounded bg-transparent text-primary" data-toggle="modal" data-target="#tabelaEdita">Ver </br> cadastros</button>
+    </div>
+    <div class="modal fade" id="tabelaEdita" tabindex="-1" role="dialog" aria-labelledby="tabelaEdita" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
