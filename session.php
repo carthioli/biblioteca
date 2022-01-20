@@ -1,4 +1,4 @@
 <?php
 
   session_start();
-  echo $_SESSION['Id'];
+  print_r($_SESSION);

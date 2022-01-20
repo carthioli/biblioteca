@@ -10,6 +10,7 @@
     
     $query = pg_query("SELECT id, nome, sobrenome, cpf, telefone 
                        FROM aluno
+                       WHERE id > 0
                        ORDER BY 1 ASC");
 
     $alunos = [];

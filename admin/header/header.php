@@ -1,15 +1,12 @@
 <?php
         session_start();
         include "../../publico/telas/topo.php";
-        if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 2 ){
-            header('location: ../../publico/index.php');
-        }
 ?>
 <link rel="stylesheet" href="../../css/style.css"> 
 <body>
     <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <a class="navbar-brand text " href="../index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</a>
+            <a class="navbar-brand text " href="../index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;&nbsp;Biblioteca Digital</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -20,7 +17,7 @@
                          <a class="text-decoration-none text-body mt-1" type="button" name="inicio" href="../../controle/index.php"><button class="button border-0 mt-2">Inicio</button></a>
                         </div>
                     </li>
-                    <li class="nav-item active dropleft p-o mt-0">
+                    <!--<li class="nav-item active dropleft p-o mt-0">
                         <a class="nav-link dropdown-toggle" id="alterar" role="button" data-toggle="dropdown">Alterar</a>
                         <div class="text-center dropdown-menu rounded" aria-labelledby="alterar">
                             <h5 class="text-danger">ALTERAR</h5>
@@ -30,7 +27,7 @@
                             <button class="a dropdown-item p-4 border-bottom" >LIVRO</button>
                             <button class="a dropdown-item p-4" >LOGIN</button>                            
                         </div>
-                    </li>
+                    </li>-->
                     <li class="nav-item active dropleft p-0 mt-0">
                         <a class="nav-link dropdown-toggle" id="cadastrar" role="button" data-toggle="dropdown" >Cadastrar</a>
                         <div class="dropdown-menu rounded text-center" aria-labelledby="cadastrar">

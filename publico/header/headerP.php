@@ -1,7 +1,7 @@
 <?php 
     session_start();
-    if(!isset($_SESSION['usuarioNivel'])){
-        header('location: login.php');
+    if(isset($_SESSION['logado'] ) && $_SESSION['logado'] == 1 || !isset($_SESSION['usuarioNivel'])){
+        header('location: ../acesso/index.php');
     } 
 ?>
 <header>

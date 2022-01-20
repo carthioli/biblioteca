@@ -1,29 +1,34 @@
 <?php
+       session_start();
+       if ( isset($_SESSION['logado'] ) && $_SESSION['logado'] == 2 || !isset($_SESSION['logado']) ){
+            header('location: ../publico/index.php');
+        }
         include "../publico/telas/topo.php";
 ?>
-<link rel="stylesheet" href="../css/style.css"></link>
+<link rel="stylesheet" href="../css/stylee.css"></link>
 <title>Biblioteca Digital</title>
 <body>
     <header>
         <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <a class="navbar-brand text " href="index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;  &nbsp;Biblioteca Digital</a>
+            <a class="navbar-brand text " href="index.php"><span class="glyphicon glyphicon-book text-danger"></span>&nbsp;&nbsp;Biblioteca Digital</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto float-right">
-                <li class="nav-item active dropleft p-o mt-0">
-                        <a class="nav-link dropdown-toggle" id="alterar" role="button" data-toggle="dropdown">Alterar</a>
+                    <!--<li class="nav-item active dropleft p-0 mt-0">
+                        <a class="nav-link dropdown-toggle rounded" id="alterar" role="button" data-toggle="dropdown">Alterar</a>
                         <div class="text-center dropdown-menu rounded" aria-labelledby="alterar">
                             <h5 class="text-danger">ALTERAR</h5>
                             <button class="a btn dropdown-item p-4 border-bottom border-top">ALUNO</button>
+                            
                             <button class="a dropdown-item p-4 border-bottom" >AUTOR</button>
                             <button class="a dropdown-item p-4 border-bottom" >EDITORA</button>
                             <button class="a dropdown-item p-4 border-bottom" >LIVRO</button>
                             <button class="a dropdown-item p-4" >LOGIN</button>                            
                         </div>
-                    </li>
+                    </li>-->
                     <li class="nav-item active dropleft p-0 mt-0">
                         <a class="nav-link dropdown-toggle" id="admin" role="button" data-toggle="dropdown" >Cadastrar</a>
                         <div class="dropdown-menu rounded text-center " aria-labelledby="admin">
@@ -63,15 +68,15 @@
                 <div class="d-flex justify-content-center mt-5 rounded">
                     <form">
                         <div>
-                            <label for="aluno">ALUNO</label>
+                            <label id="label" for="aluno">ALUNO</label>
                             <input type="checkbox" id="aluno" class="check" name="check" value="aluno">
-                            <label for="autor">AUTOR</label>
+                            <label id="label" for="autor">AUTOR</label>
                             <input type="checkbox" id="autor" class="check" name="check" value="autor">
-                            <label for="editora">EDITORA</label>
+                            <label id="label" for="editora">EDITORA</label>
                             <input type="checkbox" id="editora" class="check" name="check" value="editora">
-                            <label for="livro">LIVRO</label>
+                            <label id="label" for="livro">LIVRO</label>
                             <input type="checkbox" id="livro" class="check" name="check" value="livro"> 
-                            <label for="login">LOGIN</label>
+                            <label id="label" for="login">LOGIN</label>
                             <input type="checkbox" id="login" class="check" name="check" value="login">
                         </div>
                         <input class="p-1 float-left" type="text" name="pesquisar" id="txPesquisar" placeholder="Pesquisar livros...">

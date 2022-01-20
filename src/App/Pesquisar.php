@@ -182,8 +182,8 @@
     {
         $link = new Conexao;
     
-        $queryPesquisado = pg_query("SELECT l.id, l.nome, l.id_usuario, l.nivel
-                                     FROM login AS l
+        $queryPesquisado = pg_query("SELECT l.id, l.nome AS user, l.id_usuario, l.nivel, al.nome AS nome
+                                     JOIN aluno AS al ON al.id = l.id_aluno
                                      WHERE l.id IN ('$login')
                                      ORDER BY 1 ASC");
     
@@ -191,10 +191,10 @@
 
         while( $resultadoPesquisado = pg_fetch_assoc( $queryPesquisado ) ){
         $loginsPesquisados[] = [
-             'id' => $resultadoPesquisado['id'],
-           'nome' => $resultadoPesquisado['nome'],
-          'nivel' => $resultadoPesquisado['nivel'],
-     'id_usuario' => $resultadoPesquisado['id_usuario']
+             'id' => $resultadoPesquisado['id_usuario'],
+           'nome' => $resultadoPesquisado['user'],
+     'nome_aluno' => $resultadoPesquisado['nome'],
+          'nivel' => $resultadoPesquisado['nivel']
         ];
         }
             
@@ -204,8 +204,9 @@
     {
         $link = new Conexao;
     
-        $queryPesquisado = pg_query("SELECT l.id, l.nome, l.id_usuario, l.nivel
+        $queryPesquisado = pg_query("SELECT l.id, l.nome AS user, l.id_usuario, l.nivel, al.nome AS nome
                                      FROM login AS l
+                                     JOIN aluno AS al ON al.id = l.id_usuario
                                      WHERE l.nome LIKE ('%$login%')
                                      ORDER BY 1 ASC");
     
@@ -213,10 +214,10 @@
 
         while( $resultadoPesquisado = pg_fetch_assoc( $queryPesquisado ) ){
         $loginsPesquisados[] = [
-            'id' => $resultadoPesquisado['id'],
-          'nome' => $resultadoPesquisado['nome'],
-         'nivel' => $resultadoPesquisado['nivel'],
-    'id_usuario' => $resultadoPesquisado['id_usuario']
+            'id' => $resultadoPesquisado['id_usuario'],
+          'nome' => $resultadoPesquisado['user'],
+    'nome_aluno' => $resultadoPesquisado['nome'],
+         'nivel' => $resultadoPesquisado['nivel']
         ];
         }
             

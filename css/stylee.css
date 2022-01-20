@@ -1,3 +1,6 @@
+.check:hover{
+  color: #dc3545;
+}
 .form-group .glyphicon-eye-open {
   pointer-events: auto;
 }
@@ -56,10 +59,8 @@
   border: none;
   width: 100%;
 }
-/*IMAGEM LIVRO*/
-img{
-  height: 50%;
-  width: 50%;
+.botoes:hover{
+  color: white;
 }
 /*FORMULARIO*/
 .lineinput{

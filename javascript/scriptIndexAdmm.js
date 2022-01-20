@@ -8,6 +8,21 @@ $("#pesquisar").click(function(){
   $("#txPesquisar").val('')
   $("#todosLivros").attr('class', 'd-none')
 })
+$("#sair").click(function(){
+  $.ajax({
+  url: '../controle/validacao/logout.php',
+  type: 'post',
+  dataType: 'json',
+  data: {
+    'sair' : true       
+  }
+}).success(function(data){
+      if(data.sair){
+          $(location).attr('href', '../index.php')
+      }
+      
+})
+})
 $("#close").click(function(){
   $("#close").attr('class', 'd-none')
   $("#tabela").attr('class', 'd-none')
@@ -94,6 +109,11 @@ var arr = data
 let mostrar = document.getElementById('mostrar')
 mostrar.innerText = ""
 
+var tabela = document.getElementById("montarTabela");
+tabela.innerHTML = [
+  "<tr><th class='col-1 text-center'>ID</th><th class='col-3 text-center'>NOME</th><th class='col-2 text-center'>SOBRENOME</th><th class='col-2 text-center'>TELEFONE</th></tr>"
+]
+
 var tamanhoPagina = 5;
 var pagina = 0;
 var paginaInicial = pagina 
@@ -174,7 +194,12 @@ function montarAutor(data){
     var arr = data
     let mostrar = document.getElementById('mostrar')
     mostrar.innerText = ""
-    
+
+    var tabela = document.getElementById("montarTabela");
+    tabela.innerHTML = [
+      "<tr><th class='col-1 text-center'>ID</th><th class='col-3 text-center'>NOME</th><th class='col-2 text-center'>SOBRENOME</th></tr>"
+    ]
+      
     var tamanhoPagina = 5;
     var pagina = 0;
     var paginaInicial = pagina 
@@ -204,6 +229,7 @@ function montarAutor(data){
         td_sobrenome.innerText = data[i]['sobrenome']
       
         td_id.classList.add('text-center')
+        td_nome.classList.add('text-capitalize')
     
       }
       $('#numeracao').text((pagina + 1));
@@ -251,6 +277,11 @@ function montarEditora(data){
   var arr = data
   let mostrar = document.getElementById('mostrar')
   mostrar.innerText = ""
+
+  var tabela = document.getElementById("montarTabela");
+  tabela.innerHTML = [
+    "<tr><th class='col-1 text-center'>ID</th><th class='col-4 text-center'>NOME</th><th class='col-4 text-center'>TELEFONE</th></tr>"
+  ]
   
   var tamanhoPagina = 5;
   var pagina = 0;
@@ -328,6 +359,11 @@ function montarLivro(data){
   var arr = data
   let mostrar = document.getElementById('mostrar')
   mostrar.innerText = ""
+
+  var tabela = document.getElementById("montarTabela");
+  tabela.innerHTML = [
+    "<tr><th class='col-1 text-center'>ID</th><th class='col-4 text-center'>TITULO</th><th class='col-3 text-center'>AUTOR</th><th class='col-3 text-center'>EDITORA</th></tr>"
+  ]
   
   var tamanhoPagina = 5;
   var pagina = 0;
@@ -406,14 +442,19 @@ function montarLivro(data){
     });  
 }
 function montarLogin(data){
-var arr = data
-let mostrar = document.getElementById('mostrar')
-mostrar.innerText = ""
+  var arr = data
+  let mostrar = document.getElementById('mostrar')
+  mostrar.innerText = ""
 
-var tamanhoPagina = 5;
-var pagina = 0;
-var paginaInicial = pagina 
-var paginaFinal = Math.ceil(arr.length / tamanhoPagina - 1);
+  var tabela = document.getElementById("montarTabela");
+  tabela.innerHTML = [
+    "<tr><th class='col-1 text-center'>ID</th><th class='col-3 text-center'>NOME</th><th class='col-2 text-center'>USER</th><th class='col-1 text-center'>NIVEL</th></tr>"
+  ]
+
+  var tamanhoPagina = 5;
+  var pagina = 0;
+  var paginaInicial = pagina 
+  var paginaFinal = Math.ceil(arr.length / tamanhoPagina - 1);
 
 function paginar() {
   $('table > tbody > tr').remove();
@@ -423,26 +464,28 @@ function paginar() {
     let tr = mostrar.insertRow()
 
     let td_id = tr.insertCell()
+    let td_nome_aluno = tr.insertCell()
     let td_nome = tr.insertCell()
-    let td_id_usuario = tr.insertCell()
     let td_nivel = tr.insertCell()
 
     arr.id = (i + 1);
+    arr.nome_usuario = (i + 1);
     arr.nome = (i + 1);
-    arr.id_usuario = (i + 1);
     arr.nivel = (i + 1);
 
     id = arr[i]['id']
+    nome_aluno = arr[i]['nome_aluno']  
     nome = arr[i]['nome']
-    id_usuario = arr[i]['id_usuario']  
     nivel = arr[i]['nivel']
 
     td_id.innerText = data[i]['id']
+    td_nome_aluno.innerText = data[i]['nome_aluno']
     td_nome.innerText = data[i]['nome']
-    td_id_usuario.innerText = data[i]['id_usuario']
     td_nivel.innerText = data[i]['nivel']
   
     td_id.classList.add('text-center')
+    td_nivel.classList.add('text-center')
+    td_nome_aluno.classList.add('text-capitalize')
 
   }
   $('#numeracao').text((pagina + 1));
